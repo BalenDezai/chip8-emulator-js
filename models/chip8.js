@@ -96,6 +96,40 @@ class Chip8 {
   operationCode8(instruction) {
     switch (instruction.getSubCatagory()) {
       case 0x0: this.v[instruction.getX()] = this.v[instruction.getY()]; break;
+      case 0x1: this.v[instruction.getX()] |= this.v[instruction.getY()]; break;
+      case 0x2: this.v[instruction.getX()] &= this.v[instruction.getY()]; break;
+      case 0x3: this.v[instruction.getX()] ^= this.v[instruction.getY()]; break;
+      case 0x4: {
+        const result = this.v[instruction.getX()] + this.v[instruction.getY()];
+        if (result > 255) {
+          this.v[0xF] = 1;
+        } else {
+          this.v[0xF] = 0;
+        }
+        this.v[instruction.getX()] = instruction.getKK();
+      } break;
+      case 0x5: 
+        if (this.v[instruction.getX()] > this.v[instruction.getY()]) {
+          this.v[0xF] = 1;
+        } else {
+          this.v[0xF] = 0;
+        }
+        this.v[instruction.getX()] -= this.v[instruction.getY()];
+        break;
+      case 0x6:
+        this.v[0xF] = this.v[instruction.getX()] & 0x1;
+        // use bitwise shift to divide by 2
+        this.v[instruction.getX()] = this.v[instruction.getX()] >> 1;
+        break;
+      case 0x7:
+        if (this.v[instruction.getY()] > this.v[instruction.getX()]) {
+          this.v[0xF] = 1;
+        } else {
+          this.v[0xF] = 0;
+        }
+        this.v[instruction.getX()] = this.v[instruction.getY()] - this.v[instruction.getX()];
+        break;
+      case 0xE:
       default: break;
     }
   }
