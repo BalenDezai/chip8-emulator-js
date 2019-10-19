@@ -15,6 +15,7 @@ module.exports = {
     ecmaVersion: 2018,
   },
   rules: {
+    "no-multi-assign": 0,
     "no-param-reassign": 0,
     "no-bitwise": 0
   },

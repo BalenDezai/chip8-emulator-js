@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>chip8 emulator in js</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link href="./stylesheet.css" rel="stylesheet" type="text/css">
+  </head>
+  <body>
+    <div class="container"">
+      <div class="row">
+        <canvas height="320" width="640"></canvas>
+      </div>
+      <div class="row">
+        <select id="rom_selection" size="10" multiple="">
+        </select>
+      </div>
+      <div class="row">
+      </div>
+    </div>
+    <div class="container">
+        <h2>Keys</h2>
+    </div>
+    <div class="container">
+        <table class="keys">
+          <tr>
+            <td>1</td>
+            <td>2</td>
+            <td>3</td>
+            <td>4</td>
+            <td>q</td>
+            <td>w</td>
+            <td>e</td>
+            <td>r</td>
+            <td>a</td>
+            <td>s</td>
+            <td>d</td>
+            <td>f</td>
+            <td>z</td>
+            <td>x</td>
+            <td>c</td>
+            <td>v</td>
+          </tr>
+        </table>
+    </div>
+      
+    <script src="lib/animation-frame-shim.js"></script>
+    <script src="./bundle.js"></script>
+  </body>
+</html>

@@ -8,6 +8,8 @@ class Screen {
     this.resolution = this.y * this.x;
 
     this.screen = new Array(this.resolution);
+    this.canvas = null;
+    this.scale = null;
   }
 
   clearScreen() {
@@ -43,6 +45,31 @@ class Screen {
     const location = x + (y * this.y);
 
     this.screen[location] ^= location;
+
+    return !this.screen[location];
+  }
+
+  ApplyCanvas(context, scale) {
+    this.scale = scale || 10;
+
+    this.width = context.canvas.width = this.y * this.scale;
+    this.height = context.canvas.width = this.x * this.scale;
+    this.canvas = context;
+  }
+
+  render() {
+    let x;
+    let y;
+    this.canvas.clearRect(0, 0, this.width, this.height);
+
+    for (let i = 0; i < this.resolution; i += 1) {
+      x = (i % this.y) * this.scale;
+      y = Math.floor(i / this.x) * this.scale;
+      if (this.screen[i]) {
+        this.context.fillStyle = '#000';
+        this.context.fillRect(x, y, this.scale, this.scale);
+      }
+    }
   }
 }
 

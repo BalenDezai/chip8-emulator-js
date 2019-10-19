@@ -1,0 +1,29 @@
+body {
+    padding-top: 20px;
+    padding-bottom: 40px;
+    background-color: teal;
+  }
+  .container-narrow {
+    margin: 0 auto;
+    max-width: 960px;
+  }
+  canvas {
+    border: 10px solid;
+    display: block;
+    margin: 0 auto;
+    float: left;
+    margin-right: 30px
+  }
+  .commands {
+    width: 100px;
+  }
+
+  .container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+  }
+  .keys {
+    font-size: 30px;
+  }

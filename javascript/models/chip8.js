@@ -1,8 +1,11 @@
 const Screen = require('./screen');
+const Keyboard = require('./keyboard');
+const Instrunction = require('./instruction');
 
 class Chip8 {
   constructor() {
     this.Screen = new Screen();
+    this.keyboard = new Keyboard();
     this.resetState();
     this.loadFontsIntoState();
   }
@@ -16,7 +19,8 @@ class Chip8 {
     this.stackPointer = 0;
     this.delay = 0;
     this.sound = 0;
-    this.keyState = new Array(16);
+    this.pause = null;
+    this.speed = 10;
   }
 
   loadROM(ROM) {
@@ -25,7 +29,26 @@ class Chip8 {
     }
   }
 
+  emulateCycle() {
+    const instruct = new Instrunction();
+    for (let i = 0; i < this.speed; i += 1) {
+      if (!this.pause) {
+        const firstByte = this.memory[this.programCounter] << 8;
+        const secondByte = this.memory[this.programCounter + 1];
+        instruct.setInstructionCode(firstByte | secondByte);
+        this.performInstruction(instruct);
+      }
+    }
+
+    if (!this.pause) {
+      this.updateTimers();
+    }
+
+    this.Screen.clearScreen();
+  }
+
   performInstruction(instructionCode) {
+    this.programCounter += 2;
     switch (instructionCode.getCatagory()) {
       case 0x0: this.operationCode0(instructionCode); break;
       case 0x1: this.operationCode1(instructionCode); break;
@@ -44,9 +67,7 @@ class Chip8 {
   operationCode0(instruction) {
     switch (instruction.getKK()) {
       case 0xE0: this.Screen.clearScreen(); break;
-      case 0xEE:
-        this.programCounter = this.stack[this.stackPointer];
-        this.programCounter += 2;
+      case 0xEE: this.programCounter = this.stack[this.stackPointer];
         break;
       default: break;
     }
@@ -54,7 +75,6 @@ class Chip8 {
 
   operationCode1(instruction) {
     this.programCounter = instruction.getAddr();
-    this.programCounter += 2;
   }
 
   operationCode2(instruction) {
@@ -67,26 +87,22 @@ class Chip8 {
     if (this.v[instruction.getX()] === instruction.getKK()) {
       this.programCounter += 2;
     }
-    this.programCounter += 2;
   }
 
   operationCode4(instruction) {
     if (this.v[instruction.getX() !== instruction.getKK()]) {
       this.programCounter += 2;
     }
-    this.programCounter += 2;
   }
 
   operationCode5(instruction) {
     if (this.v[instruction.getX()] === this.v[instruction.getY()]) {
       this.programCounter += 2;
     }
-    this.programCounter += 2;
   }
 
   operationCode6(instruction) {
     this.v[instruction.getX()] = instruction.getKK();
-    this.programCounter += 2;
   }
 
   operationCode7(instruction) {
@@ -108,7 +124,7 @@ class Chip8 {
         }
         this.v[instruction.getX()] = instruction.getKK();
       } break;
-      case 0x5: 
+      case 0x5:
         if (this.v[instruction.getX()] > this.v[instruction.getY()]) {
           this.v[0xF] = 1;
         } else {
@@ -130,6 +146,10 @@ class Chip8 {
         this.v[instruction.getX()] = this.v[instruction.getY()] - this.v[instruction.getX()];
         break;
       case 0xE:
+        this.v[0xF] = ((this.v[instruction.getX()] & 0x80) === 0x80);
+        // multiply by 2
+        this.v[instruction.getX()] = this.v[instruction.getX()] << 1;
+        break;
       default: break;
     }
   }
@@ -138,7 +158,129 @@ class Chip8 {
     if (this.v[instruction.getX()] !== this.v[instruction.getY()]) {
       this.programCounter += 2;
     }
-    this.programCounter += 2;
+  }
+
+  operationCodeA(instruction) {
+    this.i = instruction.getAddr();
+  }
+
+  operationCodeB(instruction) {
+    this.programCounter = instruction.getAddr() + this.v[0x0];
+  }
+
+  operationCodeC(instruction) {
+    // generate random number between 0 and 255
+    const val = Math.floor(Math.random() * (255 - 0 + 1)) + 0;
+    // bitwise AND it with KK of the instruction and assign to vX
+    this.v[instruction.getX()] = val & instruction.getKK();
+  }
+
+  operationCodeD(instruction) {
+    let sprite;
+    const width = 8;
+    const height = instruction.getSubCatagory();
+    const xPortion = instruction.getX();
+    const yPortion = instruction.getY();
+    this.v[0xF] = 0;
+    for (let x = 0; x < height; x += 1) {
+      sprite = this.memory[this.i + x];
+
+      for (let y = 0; y < width; y += 1) {
+        if ((sprite & 0x80) > 0) {
+          if (this.Screen.setPixels(this.v[xPortion] + y, this.v[yPortion] + x)) {
+            this.v[0xF] = 1;
+          }
+        }
+        sprite <<= 1;
+      }
+    }
+  }
+
+  operationCodeE(instruction) {
+    switch (instruction.getKK()) {
+      case 0x9E:
+        if (this.keyboard.isKeyPressed(this.v[instruction.getX()])) {
+          this.programCounter += 2;
+        }
+        break;
+      case 0xA1:
+        if (!this.keyboard.isKeyPressed(this.v[instruction.getX()])) {
+          this.programCounter += 2;
+        }
+        break;
+      default: break;
+    }
+  }
+
+  operationCodeF(instruction) {
+    switch (instruction.getKK()) {
+      case 0x07: this.operationCodeF07(instruction); break;
+      case 0x0A: this.operationCodeF0A(instruction); break;
+      case 0x15: this.operationCodeF15(instruction); break;
+      case 0x18: this.operationCodeF18(instruction); break;
+      case 0x1E: this.operationCodeF1E(instruction); break;
+      case 0x29: this.operationCodeF29(instruction); break;
+      case 0x33: this.operationCodeF33(instruction); break;
+      case 0x55: this.operationCodeF55(instruction); break;
+      case 0x65: this.operationCodeF65(instruction); break;
+      default: break;
+    }
+  }
+
+
+  operationCodeF07(instruction) {
+    this.v[instruction.getX()] = this.delay;
+  }
+
+  operationCodeF0A(instruction) {
+    this.pause = true;
+    this.keyboard.onNextKeyPress = function onNextKeyPress(key) {
+      this.v[instruction.getX()] = key;
+      this.pause = false;
+    }.bind(this);
+  }
+
+  operationCodeF15(instruction) {
+    this.delay = this.v[instruction.getX()];
+  }
+
+  operationCodeF18(instruction) {
+    this.sound = this.v[instruction.getX()];
+  }
+
+  operationCodeF1E(instruction) {
+    this.i += this.v[instruction.getX()];
+  }
+
+  operationCodeF29(instruction) {
+    this.i = this.v[instruction.getX()] * 5;
+  }
+
+  operationCodeF33(instruction) {
+    this.memory[this.i] = parseInt(this.v[instruction.getX()] / 100, 16);
+    this.memory[this.i + 1] = parseInt((this.v[instruction.getX()] % 100) / 10, 16);
+    this.memory[this.i + 2] = this.v[instruction.getX()] & 10;
+  }
+
+  operationCodeF55(instruction) {
+    for (let i = 0; i <= instruction.getX(); i += 1) {
+      this.memory[this.i + i] = this.v[i];
+    }
+  }
+
+  operationCodeF65(instruction) {
+    for (let i = 0; i <= instruction.getX(); i += 1) {
+      this.v[i] = this.memory[this.i + i];
+    }
+  }
+
+  updateTimers() {
+    if (this.delay > 0) {
+      this.delay -= 1;
+    }
+    if (this.sound > 0) {
+      this.sound -= 0;
+    }
   }
 
   loadFontsIntoState() {
