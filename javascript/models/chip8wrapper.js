@@ -16,10 +16,10 @@ class Chip8Emulator {
       if (request.response) {
         this.chip8.Screen = window.screen;
         this.chip8.input = window.input;
-        window.stop();
+        this.stop();
         this.chip8.resetState();
         this.chip8.loadROM(new Uint8Array(request.response));
-        window.start();
+        this.start();
       }
     };
     request.open('GET', `roms/${name}`, true);
