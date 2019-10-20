@@ -4,7 +4,6 @@ class Chip8Emulator {
   constructor() {
     this.chip8 = new Chip8();
     this.loop = 0;
-    this.step = 0;
     this.ROMS = [
       'pong',
     ];
