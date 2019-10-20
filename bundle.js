@@ -356,9 +356,10 @@ class Chip8Emulator {
     request.send();
   }
 
-  step() {
-    this.chip8.emulateCycle();
-    this.loop = requestAnimationFrame(this.step);
+  step(chip) {
+    chip = chip || window.emulator;
+    chip.chip8.emulateCycle();
+    chip.loop = requestAnimationFrame(this.step);
   }
 
   start() {
