@@ -39,6 +39,6 @@
   if (typeof module !== 'undefined' && module.exports) {
     module.exports = Chip8Wrapper;
   } else {
-    window.chip8emu = Chip8Wrapper;
+    window.Chip8Wrapper = Chip8Wrapper;
   }
 }());
