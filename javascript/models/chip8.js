@@ -23,7 +23,7 @@
 
     loadROM(ROM) {
       for (let i = 0; i < ROM.length; i += 1) {
-        this.memory[0x200 + 1] = ROM[i];
+        this.memory[0x200 + i] = ROM[i];
       }
     }
 
