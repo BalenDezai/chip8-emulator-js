@@ -20,7 +20,7 @@
       return this.instructionCode & 0xFFF;
     }
 
-    getx() {
+    getX() {
       return (this.instructionCode & 0xF00) >> 8;
     }
 
