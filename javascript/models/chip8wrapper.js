@@ -18,7 +18,7 @@
           self.start();
         }
       };
-      request.open('GET', `roms/${name}`, true);
+      request.open('GET', `https://balend.github.io/chip8-emulator-js/roms/${name}`, true);
       request.responseType = 'arraybuffer';
       request.send();
     };

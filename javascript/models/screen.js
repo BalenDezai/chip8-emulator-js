@@ -45,16 +45,15 @@
 
       const location = x + (y * this.y);
 
-      this.screen[location] ^= location;
+      this.screen[location] = this.screen[location] ^ 1;
 
       return !this.screen[location];
     }
 
-    ApplyCanvas(context, scale) {
+    applyCanvas(context, scale) {
       this.scale = scale || 10;
-
       this.width = context.canvas.width = this.y * this.scale;
-      this.height = context.canvas.width = this.x * this.scale;
+      this.height = context.canvas.height = this.x * this.scale;
       this.canvas = context;
     }
 
@@ -67,8 +66,8 @@
         x = (i % this.y) * this.scale;
         y = Math.floor(i / this.x) * this.scale;
         if (this.screen[i]) {
-          this.context.fillStyle = '#000';
-          this.context.fillRect(x, y, this.scale, this.scale);
+          this.canvas.fillStyle = '#FF0000';
+          this.canvas.fillRect(x, y, this.scale, this.scale);
         }
       }
     }

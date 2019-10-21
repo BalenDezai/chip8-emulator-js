@@ -42,7 +42,7 @@
         this.updateTimers();
       }
 
-      this.screen.clearScreen();
+      this.screen.render();
     }
 
     performInstruction(instructionCode) {
