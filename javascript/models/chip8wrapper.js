@@ -1,10 +1,10 @@
 (function () {
   const Chip8Wrapper = function Chip8Wrapper() {
     let loop = 0;
-    const { chip8 } = window;
+    this.chip8 = window.chip8;
     let step = 0;
     const self = this;
-    const ROMS = [
+    this.ROMS = [
       'pong',
     ];
 
@@ -13,8 +13,8 @@
       request.onload = () => {
         if (request.response) {
           self.stop();
-          chip8.resetState();
-          chip8.loadROM(new Uint8Array(request.response));
+          self.chip8.resetState();
+          self.chip8.loadROM(new Uint8Array(request.response));
           self.start();
         }
       };
@@ -24,7 +24,7 @@
     };
 
     step = () => {
-      chip8.emulateCycle();
+      self.chip8.emulateCycle();
       loop = requestAnimationFrame(step);
     };
 
