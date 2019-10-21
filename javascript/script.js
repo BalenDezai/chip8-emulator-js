@@ -12,7 +12,7 @@
   }
   romSelector.addEventListener('change', (event) => {
     if (event.target.value !== '') {
-      emulator.loadRom(event.target.value);
+      emulator.loadROM(event.target.value);
       canvas.focus();
     }
   }, false);
