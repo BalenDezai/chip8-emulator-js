@@ -1,44 +1,44 @@
-const Chip8 = require('./chip8');
-
-class Chip8Emulator {
-  constructor() {
-    this.chip8 = new Chip8();
-    this.loop = 0;
-    this.ROMS = [
+(function () {
+  const Chip8Wrapper = function Chip8Wrapper() {
+    let loop = 0;
+    const { chip8 } = window;
+    let step = 0;
+    const self = this;
+    const ROMS = [
       'pong',
     ];
-  }
 
-  loadRom(name) {
-    const request = new XMLHttpRequest();
-    request.onload = () => {
-      if (request.response) {
-        this.chip8.Screen = window.screen;
-        this.chip8.input = window.input;
-        this.stop();
-        this.chip8.resetState();
-        this.chip8.loadROM(new Uint8Array(request.response));
-        this.start();
-      }
+    this.loadROM = function (name) {
+      const request = new XMLHttpRequest();
+      request.onload = () => {
+        if (request.response) {
+          self.stop();
+          chip8.resetState();
+          chip8.loadROM(new Uint8Array(request.response));
+          self.start();
+        }
+      };
+      request.open('GET', `roms/${name}`, true);
+      request.responseType = 'arraybuffer';
+      request.send();
     };
-    request.open('GET', `roms/${name}`, true);
-    request.responseType = 'arraybuffer';
-    request.send();
-  }
 
-  step(chip) {
-    chip = chip || window.emulator;
-    chip.chip8.emulateCycle();
-    chip.loop = requestAnimationFrame(this.step);
-  }
+    step = () => {
+      chip8.emulateCycle();
+      loop = requestAnimationFrame(step);
+    };
 
-  start() {
-    this.loop = requestAnimationFrame(this.step);
-  }
+    this.start = () => {
+      loop = requestAnimationFrame(step);
+    };
 
-  stop() {
-    cancelAnimationFrame(this.loop);
+    this.stop = () => {
+      cancelAnimationFrame(loop);
+    };
+  };
+  if (typeof module !== 'undefined' && module.exports) {
+    module.exports = Chip8Wrapper;
+  } else {
+    window.chip8emu = Chip8Wrapper;
   }
-}
-
-module.exports = Chip8Emulator;
+}());
