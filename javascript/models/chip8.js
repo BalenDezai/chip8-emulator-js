@@ -5,20 +5,22 @@
       this.keyboard = keyboard;
       this.instruction = instruction;
       this.resetState();
-      this.loadFontsIntoState();
     }
 
     resetState() {
       this.v = new Uint8Array(16);
       this.memory = new Uint8Array(1024 * 4);
       this.stack = new Array(16);
+      this.screen.clearScreen();
+      this.keyboard.clear();
       this.i = 0;
       this.programCounter = 0x200;
       this.stackPointer = 0;
       this.delay = 0;
       this.sound = 0;
-      this.pause = null;
+      this.pause = false;
       this.speed = 10;
+      this.loadFontsIntoState();
     }
 
     loadROM(ROM) {
@@ -58,6 +60,12 @@
         case 0x7: this.operationCode7(instructionCode); break;
         case 0x8: this.operationCode8(instructionCode); break;
         case 0x9: this.operationCode9(instructionCode); break;
+        case 0xA: this.operationCodeA(instructionCode); break;
+        case 0xB: this.operationCodeB(instructionCode); break;
+        case 0xC: this.operationCodeC(instructionCode); break;
+        case 0xD: this.operationCodeD(instructionCode); break;
+        case 0xE: this.operationCodeE(instructionCode); break;
+        case 0xF: this.operationCodeF(instructionCode); break;
         default: break; // implement
       }
     }
@@ -65,7 +73,7 @@
     operationCode0(instruction) {
       switch (instruction.getKK()) {
         case 0xE0: this.screen.clearScreen(); break;
-        case 0xEE: this.programCounter = this.stack[this.stackPointer];
+        case 0xEE: this.programCounter = this.stack.pop();
           break;
         default: break;
       }
@@ -76,8 +84,7 @@
     }
 
     operationCode2(instruction) {
-      this.stackPointer += 1;
-      this.stack[this.stackPointer] = this.programCounter;
+      this.stack.push(this.programCounter);
       this.programCounter = instruction.getAddr();
     }
 
@@ -88,7 +95,7 @@
     }
 
     operationCode4(instruction) {
-      if (this.v[instruction.getX() !== instruction.getKK()]) {
+      if (this.v[instruction.getX()] !== instruction.getKK()) {
         this.programCounter += 2;
       }
     }
@@ -115,12 +122,12 @@
         case 0x3: this.v[instruction.getX()] ^= this.v[instruction.getY()]; break;
         case 0x4: {
           const result = this.v[instruction.getX()] + this.v[instruction.getY()];
-          if (result > 255) {
+          if (result > 0xFF) {
             this.v[0xF] = 1;
           } else {
             this.v[0xF] = 0;
           }
-          this.v[instruction.getX()] = instruction.getKK();
+          this.v[instruction.getX()] = result;
         } break;
         case 0x5:
           if (this.v[instruction.getX()] > this.v[instruction.getY()]) {
@@ -136,15 +143,15 @@
           this.v[instruction.getX()] = this.v[instruction.getX()] >> 1;
           break;
         case 0x7:
-          if (this.v[instruction.getY()] > this.v[instruction.getX()]) {
-            this.v[0xF] = 1;
-          } else {
+          if (this.v[instruction.getX()] > this.v[instruction.getY()]) {
             this.v[0xF] = 0;
+          } else {
+            this.v[0xF] = 1;
           }
           this.v[instruction.getX()] = this.v[instruction.getY()] - this.v[instruction.getX()];
           break;
         case 0xE:
-          this.v[0xF] = ((this.v[instruction.getX()] & 0x80) === 0x80);
+          this.v[0xF] = this.v[instruction.getX()] & 0x80;
           // multiply by 2
           this.v[instruction.getX()] = this.v[instruction.getX()] << 1;
           break;
@@ -168,7 +175,7 @@
 
     operationCodeC(instruction) {
       // generate random number between 0 and 255
-      const val = Math.floor(Math.random() * (255 - 0 + 1)) + 0;
+      const val = Math.floor(Math.random() * 0xFF);
       // bitwise AND it with KK of the instruction and assign to vX
       this.v[instruction.getX()] = val & instruction.getKK();
     }
@@ -284,7 +291,7 @@
     loadFontsIntoState() {
       const fonts = [
         // 0
-        0xF0, 0x90, 0x90, 0x90, 0xF,
+        0xF0, 0x90, 0x90, 0x90, 0xF0,
         // 1
         0x20, 0x60, 0x20, 0x20, 0x70,
         // 2

@@ -10,7 +10,6 @@
 
       this.screen = new Array(this.resolution);
       this.canvas = null;
-      this.scale = null;
     }
 
     clearScreen() {
@@ -19,27 +18,27 @@
     }
 
     setPixels(x, y) {
-      if (x > (this.x - 1)) {
-        while (x > (this.x - 1)) {
-          x -= this.x;
+      if (x > (this.y - 1)) {
+        while (x > (this.y - 1)) {
+          x -= this.y;
         }
       }
 
       if (x < 0) {
         while (x < 0) {
-          x += this.x;
+          x += this.y;
         }
       }
 
-      if (y > (this.y - 1)) {
-        while (y > (this.y - 1)) {
-          y -= this.y;
+      if (y > (this.x - 1)) {
+        while (y > (this.x - 1)) {
+          y -= this.x;
         }
       }
 
       if (y < 0) {
         while (y < 0) {
-          y += this.y;
+          y += this.x;
         }
       }
 
@@ -64,9 +63,9 @@
 
       for (let i = 0; i < this.resolution; i += 1) {
         x = (i % this.y) * this.scale;
-        y = Math.floor(i / this.x) * this.scale;
+        y = Math.floor(i / this.y) * this.scale;
         if (this.screen[i]) {
-          this.canvas.fillStyle = '#FF0000';
+          this.canvas.fillStyle = '#FFFFFF';
           this.canvas.fillRect(x, y, this.scale, this.scale);
         }
       }
