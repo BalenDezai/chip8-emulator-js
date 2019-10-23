@@ -17,23 +17,23 @@
     }
 
     getAddr() {
-      return this.instructionCode & 0xFFF;
+      return this.instructionCode & 0x0FFF;
     }
 
     getX() {
-      return (this.instructionCode & 0xF00) >> 8;
+      return (this.instructionCode & 0x0F00) >> 8;
     }
 
     getY() {
-      return (this.instructionCode & 0xf0) >> 4;
+      return (this.instructionCode & 0x00f0) >> 4;
     }
 
     getKK() {
-      return this.instructionCode & 0xFF;
+      return this.instructionCode & 0x00FF;
     }
 
     getSubCatagory() {
-      return this.instructionCode & 0xF;
+      return this.instructionCode & 0x000F;
     }
   }
   if (typeof module !== 'undefined' && module.exports) {
