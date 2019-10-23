@@ -1,8 +1,8 @@
-(function () {
+(async function () {
   const emulator = new window.Chip8Wrapper();
   const canvas = document.querySelector('canvas');
   emulator.chip8.screen.applyCanvas(canvas.getContext('2d'));
-  emulator.loadROMNames();
+  await emulator.loadROMNames();
 
   const romSelector = document.getElementById('rom_selection');
   for (let i = 0, romsCount = emulator.ROMS.length; i < romsCount; i += 1) {

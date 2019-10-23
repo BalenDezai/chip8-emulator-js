@@ -18,7 +18,7 @@
       this.delay = 0;
       this.sound = 0;
       this.pause = false;
-      this.speed = 10;
+      this.speed = 5;
       this.loadFontsIntoState();
     }
 

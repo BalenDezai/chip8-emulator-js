@@ -2,21 +2,18 @@
   const Chip8Wrapper = function Chip8Wrapper() {
     let loop = 0;
     this.chip8 = window.chip8;
+    this.ROMS = [];
     let step = 0;
     const self = this;
-    this.ROMS = [];
 
-    this.loadROMNames = function () {
-      fetch('https://balend.github.io/chip8-emulator-js/roms/names.txt')
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error('http request to fail ROM names failed');
-          }
-          response.text().then((names) => {
-            const romNames = names.split('.');
-            romNames.forEach((romName) => self.ROMS.push(romName));
-          });
-        });
+    this.loadROMNames = async function () {
+      const romNames = await fetch('https://balend.github.io/chip8-emulator-js/roms/names.txt');
+      const test = await romNames.text();
+      self.ROMS = test.split('.');
+    };
+
+    this.assignToRom = function (arr) {
+      this.ROMS = arr;
     };
 
     this.loadROM = function (name) {
