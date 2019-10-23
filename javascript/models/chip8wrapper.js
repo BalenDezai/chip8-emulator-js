@@ -4,9 +4,20 @@
     this.chip8 = window.chip8;
     let step = 0;
     const self = this;
-    this.ROMS = [
-      'pong',
-    ];
+    this.ROMS = [];
+
+    this.loadROMNames = function () {
+      fetch('https://balend.github.io/chip8-emulator-js/roms/names.txt')
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('http request to fail ROM names failed');
+          }
+          response.text().then((names) => {
+            const romNames = names.split('.');
+            romNames.forEach((romName) => self.ROMS.push(romName));
+          });
+        });
+    };
 
     this.loadROM = function (name) {
       const request = new XMLHttpRequest();
