@@ -4,13 +4,12 @@
       this.screen = screen;
       this.keyboard = keyboard;
       this.instruction = instruction;
-      this.resetState();
     }
 
     resetState() {
       this.v = new Uint8Array(16);
       this.memory = new Uint8Array(1024 * 4);
-      this.stack = new Array(16);
+      this.stack = [];
       this.screen.clearScreen();
       this.keyboard.clear();
       this.i = 0;
@@ -73,8 +72,7 @@
     operationCode0(instruction) {
       switch (instruction.getKK()) {
         case 0xE0: this.screen.clearScreen(); break;
-        case 0xEE: this.programCounter = this.stack.pop();
-          break;
+        case 0xEE: this.programCounter = this.stack.pop(); break;
         default: break;
       }
     }
@@ -264,7 +262,7 @@
     operationCodeF33(instruction) {
       this.memory[this.i] = parseInt(this.v[instruction.getX()] / 100, 16);
       this.memory[this.i + 1] = parseInt((this.v[instruction.getX()] % 100) / 10, 16);
-      this.memory[this.i + 2] = this.v[instruction.getX()] & 10;
+      this.memory[this.i + 2] = this.v[instruction.getX()] % 10;
     }
 
     operationCodeF55(instruction) {
