@@ -12,23 +12,12 @@
       self.ROMS = test.split('.');
     };
 
-    this.assignToRom = function (arr) {
-      this.ROMS = arr;
-    };
-
-    this.loadROM = function (name) {
-      const request = new XMLHttpRequest();
-      request.onload = () => {
-        if (request.response) {
-          self.stop();
-          self.chip8.resetState();
-          self.chip8.loadROM(new Uint8Array(request.response));
-          self.start();
-        }
-      };
-      request.open('GET', `https://balend.github.io/chip8-emulator-js/roms/${name}`, true);
-      request.responseType = 'arraybuffer';
-      request.send();
+    this.loadROM = async function (name) {
+      const ROMData = await fetch(`https://balend.github.io/chip8-emulator-js/roms/${name}`);
+      self.stop();
+      self.chip8.resetState();
+      self.chip8.loadROM(new Uint8Array(await ROMData.arrayBuffer()));
+      self.start();
     };
 
     step = () => {

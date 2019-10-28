@@ -1,12 +1,10 @@
 (function () {
   class Screen {
     constructor() {
-      // row
-      this.x = 32;
-      // column
-      this.y = 64;
+      this.displayWidth = 64;
+      this.displayHeight = 32;
 
-      this.resolution = this.y * this.x;
+      this.resolution = this.displayHeight * this.displayWidth;
 
       this.screen = new Array(this.resolution);
       this.canvas = null;
@@ -17,32 +15,54 @@
       this.screen = new Array(this.resolution);
     }
 
+    setPixels2(x, y) {
+      if (x > this.displayWidth) {
+        x -= this.displayWidth;
+      }
+
+      if (x < 0) {
+        x += this.displayWidth;
+      }
+
+      if (y > this.displayHeight) {
+        y -= this.displayHeight;
+      }
+
+      if (y < 0) {
+        y += this.displayHeight;
+      }
+
+      const location = x + (y * this.displayWidth);
+      this.screen[location] ^= 1;
+      return !this.screen[location];
+    }
+
     setPixels(x, y) {
-      if (x > (this.y - 1)) {
-        while (x > (this.y - 1)) {
-          x -= this.y;
+      if (x > (this.displayHeight - 1)) {
+        while (x > (this.displayHeight - 1)) {
+          x -= this.displayHeight;
         }
       }
 
       if (x < 0) {
         while (x < 0) {
-          x += this.y;
+          x += this.displayHeight;
         }
       }
 
-      if (y > (this.x - 1)) {
-        while (y > (this.x - 1)) {
-          y -= this.x;
+      if (y > (this.displayWidth - 1)) {
+        while (y > (this.displayWidth - 1)) {
+          y -= this.displayWidth;
         }
       }
 
       if (y < 0) {
         while (y < 0) {
-          y += this.x;
+          y += this.displayWidth;
         }
       }
 
-      const location = x + (y * this.y);
+      const location = x + (y * this.displayHeight);
 
       this.screen[location] = this.screen[location] ^ 1;
 
@@ -51,8 +71,8 @@
 
     applyCanvas(context, scale) {
       this.scale = scale || 10;
-      this.width = context.canvas.width = this.y * this.scale;
-      this.height = context.canvas.height = this.x * this.scale;
+      this.width = context.canvas.width = this.displayWidth * this.scale;
+      this.height = context.canvas.height = this.displayHeight * this.scale;
       this.canvas = context;
     }
 
