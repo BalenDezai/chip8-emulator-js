@@ -18,7 +18,7 @@
       this.delay = 0;
       this.sound = 0;
       this.pause = false;
-      this.speed = 5;
+      this.speed = 10;
       this.loadFontsIntoState();
     }
 
@@ -72,7 +72,10 @@
     operationCode0(instruction) {
       switch (instruction.getKK()) {
         case 0xE0: this.screen.clearScreen(); break;
-        case 0xEE: this.programCounter = this.stack.pop(); break;
+        case 0xEE:
+          this.stackPointer = this.stackPointer -= 1;
+          this.programCounter = this.stack[this.stackPointer];
+          break;
         default: break;
       }
     }
@@ -82,7 +85,8 @@
     }
 
     operationCode2(instruction) {
-      this.stack.push(this.programCounter);
+      this.stack[this.stackPointer] = this.programCounter;
+      this.stackPointer += 1;
       this.programCounter = instruction.getAddr();
     }
 
@@ -108,50 +112,71 @@
       this.v[instruction.getX()] = instruction.getKK();
     }
 
+    // operationCode7(instruction) {
+    //   this.v[instruction.getX()] += instruction.getKK();
+    // }
+
     operationCode7(instruction) {
-      this.v[instruction.getX()] += instruction.getKK();
+      let val = instruction.getKK() + this.v[instruction.getX()];
+      if (val > 255) {
+        val -= 256;
+      }
+      this.v[instruction.getX()] = val;
     }
 
     operationCode8(instruction) {
+      const x = instruction.getX();
+      const y = instruction.getY();
       switch (instruction.getSubCatagory()) {
-        case 0x0: this.v[instruction.getX()] = this.v[instruction.getY()]; break;
-        case 0x1: this.v[instruction.getX()] |= this.v[instruction.getY()]; break;
-        case 0x2: this.v[instruction.getX()] &= this.v[instruction.getY()]; break;
-        case 0x3: this.v[instruction.getX()] ^= this.v[instruction.getY()]; break;
-        case 0x4: {
-          const result = this.v[instruction.getX()] + this.v[instruction.getY()];
-          if (result > 0xFF) {
+        case 0x0: this.v[x] = this.v[y]; break;
+        case 0x1: this.v[x] |= this.v[y]; break;
+        case 0x2: this.v[x] &= this.v[y]; break;
+        case 0x3: this.v[x] ^= this.v[y]; break;
+        case 0x4:
+          this.v[x] += this.v[y];
+          if (this.v[x] > 0xFF) {
             this.v[0xF] = 1;
           } else {
             this.v[0xF] = 0;
           }
-          this.v[instruction.getX()] = result;
-        } break;
+          if (this.v[x] > 255) {
+            this.v[x] -= 256;
+          }
+          break;
         case 0x5:
-          if (this.v[instruction.getX()] > this.v[instruction.getY()]) {
+          if (this.v[x] > this.v[y]) {
             this.v[0xF] = 1;
           } else {
             this.v[0xF] = 0;
           }
-          this.v[instruction.getX()] -= this.v[instruction.getY()];
+          this.v[x] -= this.v[y];
+          if (this.v[x] < 0) {
+            this.v[x] += 256;
+          }
           break;
         case 0x6:
-          this.v[0xF] = this.v[instruction.getX()] & 0x1;
+          this.v[0xF] = this.v[x] & 0x1;
           // use bitwise shift to divide by 2
-          this.v[instruction.getX()] = this.v[instruction.getX()] >> 1;
+          this.v[x] >>= 1;
           break;
         case 0x7:
-          if (this.v[instruction.getX()] > this.v[instruction.getY()]) {
+          if (this.v[x] > this.v[y]) {
             this.v[0xF] = 0;
           } else {
             this.v[0xF] = 1;
           }
-          this.v[instruction.getX()] = this.v[instruction.getY()] - this.v[instruction.getX()];
+          this.v[x] = this.v[y] - this.v[x];
+          if (this.v[x] < 0) {
+            this.v[x] += 256;
+          }
           break;
         case 0xE:
-          this.v[0xF] = this.v[instruction.getX()] & 0x80;
+          this.v[0xF] = +(this.v[x] & 0x80);
           // multiply by 2
-          this.v[instruction.getX()] = this.v[instruction.getX()] << 1;
+          this.v[x] = this.v[x] << 1;
+          if (this.v[x] > 255) {
+            this.v[x] -= 256;
+          }
           break;
         default: break;
       }
