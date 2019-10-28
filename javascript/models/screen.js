@@ -62,7 +62,7 @@
         }
       }
 
-      const location = x + (y * this.displayHeight);
+      const location = x + (y * this.displayWidth);
 
       this.screen[location] = this.screen[location] ^ 1;
 
@@ -82,8 +82,8 @@
       this.canvas.clearRect(0, 0, this.width, this.height);
 
       for (let i = 0; i < this.resolution; i += 1) {
-        x = (i % this.y) * this.scale;
-        y = Math.floor(i / this.y) * this.scale;
+        x = (i % this.displayWidth) * this.scale;
+        y = Math.floor(i / this.displayWidth) * this.scale;
         if (this.screen[i]) {
           this.canvas.fillStyle = '#FFFFFF';
           this.canvas.fillRect(x, y, this.scale, this.scale);

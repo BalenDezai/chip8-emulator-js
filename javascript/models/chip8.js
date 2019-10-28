@@ -18,7 +18,7 @@
       this.delay = 0;
       this.sound = 0;
       this.pause = false;
-      this.speed = 10;
+      this.speed = 5;
       this.loadFontsIntoState();
     }
 
@@ -215,7 +215,7 @@
 
         for (let y = 0; y < width; y += 1) {
           if ((sprite & 0x80) > 0) {
-            if (this.screen.setPixels(this.v[xPortion] + y, this.v[yPortion] + x)) {
+            if (this.screen.setPixels2(this.v[xPortion] + y, this.v[yPortion] + x)) {
               this.v[0xF] = 1;
             }
           }
@@ -285,9 +285,14 @@
     }
 
     operationCodeF33(instruction) {
-      this.memory[this.i] = parseInt(this.v[instruction.getX()] / 100, 16);
-      this.memory[this.i + 1] = parseInt((this.v[instruction.getX()] % 100) / 10, 16);
-      this.memory[this.i + 2] = this.v[instruction.getX()] % 10;
+      // this.memory[this.i] = parseInt(this.v[instruction.getX()] / 100, 16);
+      // this.memory[this.i + 1] = parseInt((this.v[instruction.getX()] % 100) / 10, 16);
+      // this.memory[this.i + 2] = this.v[instruction.getX()] % 10;
+      let number = this.v[instruction.getX()];
+      for (let i = 3; i > 0; i -= 1) {
+        this.memory[this.i + i - 1] = parseInt(number % 10, 16);
+        number /= 10;
+      }
     }
 
     operationCodeF55(instruction) {
