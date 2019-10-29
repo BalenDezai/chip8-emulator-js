@@ -27,3 +27,10 @@ body {
   .keys {
     font-size: 30px;
   }
+  
+  .opCodeDebugger {
+    max-height: 200px;
+    overflow: auto;
+    display:inline-block;
+    text-align: left;
+  }
