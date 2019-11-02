@@ -1,5 +1,7 @@
+import Chip8Wrapper from './models/chip8wrapper.js';
+
 (async function () {
-  const emulator = new window.Chip8Wrapper();
+  const emulator = new Chip8Wrapper();
   const canvas = document.querySelector('canvas');
   emulator.chip8.screen.applyCanvas(canvas.getContext('2d'));
   await emulator.loadROMNames();
@@ -17,4 +19,7 @@
       canvas.focus();
     }
   }, false);
+
+  window.addEventListener('keydown', emulator.chip8.keyboard.keyDown, false);
+  window.addEventListener('keyup', emulator.chip8.keyboard.keyUp, false);
 }());

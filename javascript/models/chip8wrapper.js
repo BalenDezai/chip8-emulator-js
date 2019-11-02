@@ -1,41 +1,37 @@
-(function () {
-  const Chip8Wrapper = function Chip8Wrapper() {
-    let loop = 0;
-    this.chip8 = window.chip8;
+import Chip8 from './chip8.js';
+import Keyboard from './keyboard.js';
+import Screen from './screen.js';
+
+export default class Chip8Wrapper {
+  constructor() {
+    this.loop = 0;
+    this.chip8 = new Chip8(new Screen(), new Keyboard());
     this.ROMS = [];
-    let step = 0;
-    const self = this;
-
-    this.loadROMNames = async function () {
-      const romNames = await fetch('https://balend.github.io/chip8-emulator-js/roms/names.txt');
-      const test = await romNames.text();
-      self.ROMS = test.split('.');
+    this.step = 0;
+    this.step = () => {
+      this.chip8.emulateCycle();
+      this.loop = requestAnimationFrame(this.step);
     };
-
-    this.loadROM = async function (name) {
-      const ROMData = await fetch(`https://balend.github.io/chip8-emulator-js/roms/${name}`);
-      self.stop();
-      self.chip8.resetState();
-      self.chip8.loadROM(new Uint8Array(await ROMData.arrayBuffer()));
-      self.start();
-    };
-
-    step = () => {
-      self.chip8.emulateCycle();
-      loop = requestAnimationFrame(step);
-    };
-
+    //this.step.bind(this);
     this.start = () => {
-      loop = requestAnimationFrame(step);
+      this.loop = requestAnimationFrame(this.step);
     };
-
     this.stop = () => {
-      cancelAnimationFrame(loop);
+      cancelAnimationFrame(this.loop);
     };
-  };
-  if (typeof module !== 'undefined' && module.exports) {
-    module.exports = Chip8Wrapper;
-  } else {
-    window.Chip8Wrapper = Chip8Wrapper;
   }
-}());
+
+  async loadROMNames() {
+    const romNames = await fetch('https://balend.github.io/chip8-emulator-js/roms/names.txt');
+    const test = await romNames.text();
+    this.ROMS = test.split('.');
+  }
+
+  async loadROM(name) {
+    const ROMData = await fetch(`https://balend.github.io/chip8-emulator-js/roms/${name}`);
+    this.stop();
+    this.chip8.resetState();
+    this.chip8.loadROM(new Uint8Array(await ROMData.arrayBuffer()));
+    this.start();
+  }
+}

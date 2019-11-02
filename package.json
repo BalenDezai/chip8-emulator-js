@@ -6,6 +6,7 @@
   "scripts": {
     "lint": "./node_modules/.bin/eslint ./",
     "test": "echo \"Error: no test specified\" && exit 1",
+    "start-server": "./node_modules/.bin/http-server ./",
     "rom-name-script": "node ./gameRomNames.js"
   },
   "keywords": [],
@@ -14,6 +15,7 @@
   "devDependencies": {
     "eslint": "^6.5.1",
     "eslint-config-airbnb-base": "^14.0.0",
-    "eslint-plugin-import": "^2.18.2"
+    "eslint-plugin-import": "^2.18.2",
+    "http-server": "^0.11.1"
   }
 }

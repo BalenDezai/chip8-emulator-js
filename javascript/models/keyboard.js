@@ -1,7 +1,9 @@
-(function () {
-  const Keyboard = function () {
-    let keysPressed = [];
-    const keyMapping = {
+
+export default class Keyboard {
+  constructor() {
+    this.keysPressed = [];
+    this.onNextKeyPress = function () {};
+    this.keyMapping = {
       0x0: 'X',
       0x1: '1',
       0x2: '2',
@@ -19,41 +21,27 @@
       0xE: 'F',
       0xF: 'V',
     };
-    this.onNextKeyPress = function () {};
-
-    this.clear = () => {
-      keysPressed = [];
+    this.keyUp = (event) => {
+      const key = String.fromCharCode(event.which);
+      this.keysPressed[key] = false;
     };
-
     this.isKeyPressed = (keyCode) => {
-      const keyPressed = keyMapping[keyCode];
-      return !!keysPressed[keyPressed];
+      const keyPressed = this.keyMapping[keyCode];
+      return !!this.keysPressed[keyPressed];
     };
-
     this.keyDown = (event) => {
       const key = String.fromCharCode(event.which);
-      keysPressed[key] = true;
-      Object.entries(keyMapping).forEach(([oKey, oVal]) => {
-        const keyCode = keyMapping[oVal];
-
+      this.keysPressed[key] = true;
+      Object.entries(this.keyMapping).forEach(([oKey, oVal]) => {
+        const keyCode = this.keyMapping[oVal];
         if (keyCode === key) {
           this.onNextKeyPress(parseInt(oKey, 16));
         }
       });
     };
-
-    this.keyUp = (event) => {
-      const key = String.fromCharCode(event.which);
-      keysPressed[key] = false;
-    };
-
-    window.addEventListener('keydown', this.keyDown, false);
-    window.addEventListener('keyup', this.keyUp, false);
-  };
-
-  if (typeof module !== 'undefined' && module.exports) {
-    module.exports = Keyboard;
-  } else {
-    window.Chip8Keyboard = Keyboard;
   }
-}());
+
+  clear() {
+    this.keysPressed = [];
+  }
+}
