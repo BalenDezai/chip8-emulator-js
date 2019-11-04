@@ -28,9 +28,12 @@ body {
     font-size: 30px;
   }
   
-  .opCodeDebugger {
+  .instructionDebugger {
     max-height: 200px;
     overflow: auto;
     display:inline-block;
     text-align: left;
+  }
+  .opCodeDebugger {
+    display: block;
   }

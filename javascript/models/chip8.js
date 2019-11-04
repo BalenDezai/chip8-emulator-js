@@ -1,8 +1,9 @@
 import Instruction from './instruction.js';
 
 export default class Chip8 {
-  constructor(screen, keyboard) {
+  constructor(screen, keyboard, debug) {
     this.screen = screen;
+    this.debugger = debug;
     this.keyboard = keyboard;
     this.instruction = new Instruction();
   }
@@ -19,7 +20,7 @@ export default class Chip8 {
     this.delay = 0;
     this.sound = 0;
     this.pause = false;
-    this.speed = 5;
+    this.speed = 10;
     this.loadFontsIntoState();
   }
 
@@ -37,6 +38,7 @@ export default class Chip8 {
         const secondByte = this.memory[this.programCounter + 1];
         instruct.setInstructionCode(firstByte | secondByte);
         this.performInstruction(instruct);
+        this.debugger.WriteToElement(instruct);
       }
     }
 

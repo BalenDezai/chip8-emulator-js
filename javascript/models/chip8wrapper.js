@@ -1,6 +1,7 @@
 import Chip8 from './chip8.js';
 import Keyboard from './keyboard.js';
 import Screen from './screen.js';
+import Disassembler from './disassembler.js';
 
 export default class Chip8Wrapper {
   constructor() {
@@ -19,6 +20,10 @@ export default class Chip8Wrapper {
     this.stop = () => {
       cancelAnimationFrame(this.loop);
     };
+  }
+
+  AssignDebugEle(ele) {
+    this.chip8.debugger = new Disassembler(ele);
   }
 
   async loadROMNames() {

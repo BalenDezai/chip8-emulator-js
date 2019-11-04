@@ -7,6 +7,8 @@ import Chip8Wrapper from './models/chip8wrapper.js';
   await emulator.loadROMNames();
 
   const romSelector = document.getElementById('rom_selection');
+  const debug = document.getElementById('opCodeDebugger');
+  emulator.AssignDebugEle(debug);
   for (let i = 0, romsCount = emulator.ROMS.length; i < romsCount; i += 1) {
     const option = document.createElement('option');
     const rom = emulator.ROMS[i];
