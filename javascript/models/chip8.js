@@ -38,7 +38,7 @@ export default class Chip8 {
         const secondByte = this.memory[this.programCounter + 1];
         instruct.setInstructionCode(firstByte | secondByte);
         this.performInstruction(instruct);
-        this.debugger.WriteToElement(instruct);
+        // this.debugger.WriteToElement(instruct);
       }
     }
 
@@ -293,7 +293,7 @@ export default class Chip8 {
     // this.memory[this.i + 2] = this.v[instruction.getX()] % 10;
     let number = this.v[instruction.getX()];
     for (let i = 3; i > 0; i -= 1) {
-      this.memory[this.i + i - 1] = parseInt(number % 10, 16);
+      this.memory[this.i + i - 1] = parseInt(number % 10, 10);
       number /= 10;
     }
   }
