@@ -1,18 +1,24 @@
 body {
-    padding-top: 20px;
-    padding-bottom: 40px;
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    margin: 0;
     background-color: teal;
   }
-  .container-narrow {
-    margin: 0 auto;
-    max-width: 960px;
+  header, footer {
+    background: #242222;
+    height: 10vh;
+  }
+  header{
+    padding: 1em;
   }
   canvas {
     border: 10px solid;
     display: block;
     margin: 0 auto;
     float: left;
-    margin-right: 30px
+    height: 520px;
+    width: 840px;
   }
   .commands {
     width: 100px;
@@ -20,8 +26,7 @@ body {
 
   .container {
     display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
+    margin: 20px;
     justify-content: center;
   }
   .keys {
@@ -36,4 +41,42 @@ body {
   }
   .opCodeDebugger {
     display: block;
+  }
+  .selection-and-key-area {
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+  .emulator-area {
+    margin: 10px;
+  }
+  .selection-area {
+    display: flex;
+    flex-direction: row;;
+  }
+  .button-area {
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .flex-header {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+  }
+
+  .header-txt {
+    margin: 10px;
+    color: white;
+  }
+
+  .header-icons {
+    margin: 10px;
+  }
+
+  .header-area {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: row;
   }

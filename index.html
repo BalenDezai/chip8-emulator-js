@@ -1,54 +1,89 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>chip8 emulator in js</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link href="./stylesheet.css" rel="stylesheet" type="text/css">
-  </head>
-  <body>
-    <div class="container"">
-      <div class="row">
-        <span class="instructionDebugger">
-          <div id="opCodeDebugger" class="opCodeDebugger">
 
+<head>
+  <title>chip8 emulator in js</title>
+  <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+  <link href="https://unpkg.com/nes.css/css/nes.css" rel="stylesheet" />
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <link href="./stylesheet.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+  <header>
+    <div class="flex-header">
+        <div class="header-area">
+            <i class="nes-icon is-medium heart header-icons"></i>
+            <h1 class="header-txt">Made By <a class="header-txt" href="https://github.com/BalenD" >BalenD<i class="nes-icon github is-medium"></i></a></h1>
+        </div>
+        <div class="right-side-header">
+            <h1 class="header-txt"><a class="header-txt" href="https://github.com/BalenD/chip8-emulator-js">Source Code<i class="nes-icon coin is-medium"></i></a></h1>
           </div>
-        </span>
-      </div>
-      <div class="row">
-        <canvas height="320" width="640"></canvas>
-      </div>
-      <div class="row">
-        <select id="rom_selection" size="10" multiple="">
-        </select>
-      </div>
-      <div class="row">
-      </div>
     </div>
-    <div class="container">
-        <h2>Keys</h2>
-    </div>
-    <div class="container">
-        <table class="keys">
-          <tr>
-            <td>1</td>
-            <td>2</td>
-            <td>3</td>
-            <td>4</td>
-            <td>q</td>
-            <td>w</td>
-            <td>e</td>
-            <td>r</td>
-            <td>a</td>
-            <td>s</td>
-            <td>d</td>
-            <td>f</td>
-            <td>z</td>
-            <td>x</td>
-            <td>c</td>
-            <td>v</td>
-          </tr>
-        </table>
-    </div>
-    <script type="module" src="./javascript/script.js"></script>
-  </body>
+  </header>
+  <div id="main">
+      <div class="container">
+          <div class="debugger-area">
+            <span class="instructionDebugger">
+              <div id="opCodeDebugger" class="opCodeDebugger">
+      
+              </div>
+            </span>
+          </div>
+          <div class="button-area">
+            <button class="nes-btn">START</button>
+            <button class="nes-btn">PAUSE</button>
+            <button class="nes-btn">STEP</button>
+            <button class="nes-btn">RESET</button>
+          </div>
+          <div class="emulator-area">
+            <canvas></canvas>
+          </div>
+          <div class="selection-and-key-area">
+            <h5>GAME:</h5>
+            <div class="nes-select">
+              <select id="rom_selection">
+              </select>
+            </div>
+            <h5>CYCLE SPEED</h5>
+            <div class="nes-select">
+              <select id='default_select'>
+                <option value="1">1</option>
+                <option value="5">5</option>
+                <option value="10">10</option>
+              </select>
+            </div>
+            <h5>KEYS</h5>
+            <table class="keys">
+              <tr>
+                <td><button class="nes-btn">1</button></td>
+                <td><button class="nes-btn">2</button></td>
+                <td><button class="nes-btn">3</button></td>
+                <td><button class="nes-btn">4</button></td>
+              </tr>
+              <tr>
+                <td><button class="nes-btn">Q</button></td>
+                <td><button class="nes-btn">W</button></td>
+                <td><button class="nes-btn">E</button></td>
+                <td><button class="nes-btn">R</button></td>
+              </tr>
+              <tr>
+                <td><button class="nes-btn">A</button></td>
+                <td><button class="nes-btn">S</button></td>
+                <td><button class="nes-btn">D</button></td>
+                <td><button class="nes-btn">F</button></td>
+              </tr>
+              <tr>
+                <td><button class="nes-btn">Z</button></td>
+                <td><button class="nes-btn">X</button></td>
+                <td><button class="nes-btn">C</button></td>
+                <td><button class="nes-btn">V</button></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+  </div>
+  <script type="module" src="./javascript/script.js"></script>
+</body>
+
 </html>
