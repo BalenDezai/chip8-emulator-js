@@ -35,7 +35,7 @@ export default class Keyboard {
       Object.entries(this.keyMapping).forEach(([oKey, oVal]) => {
         const keyCode = this.keyMapping[oVal];
         if (keyCode === key) {
-          this.onNextKeyPress(parseInt(oKey, 16));
+          this.onNextKeyPress(parseInt(oKey, 10));
         }
       });
     };

@@ -8,12 +8,10 @@ export default class Chip8Wrapper {
     this.loop = 0;
     this.chip8 = new Chip8(new Screen(), new Keyboard());
     this.ROMS = [];
-    this.step = 0;
     this.step = () => {
       this.chip8.emulateCycle();
       this.loop = requestAnimationFrame(this.step);
     };
-    //this.step.bind(this);
     this.start = () => {
       this.loop = requestAnimationFrame(this.step);
     };

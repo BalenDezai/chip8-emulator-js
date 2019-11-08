@@ -7,6 +7,18 @@ export default class Screen {
 
     this.screen = new Array(this.resolution);
     this.canvas = null;
+
+    this.vfFrame = 0;
+    this.skipped = 0;
+  }
+
+  blinkReduction() {
+    if (this.vfFrame) {
+      this.skipped += 1;
+      return true;
+    } 
+    this.skipped = 0;
+    return false;
   }
 
   clearScreen() {
@@ -76,6 +88,7 @@ export default class Screen {
   }
 
   render() {
+    if (this.blinkReduction()) return;
     let x;
     let y;
     this.canvas.clearRect(0, 0, this.width, this.height);

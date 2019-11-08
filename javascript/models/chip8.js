@@ -6,6 +6,16 @@ export default class Chip8 {
     this.debugger = debug;
     this.keyboard = keyboard;
     this.instruction = new Instruction();
+    this.pauseEmu = () => {
+      if (this.pause === false) {
+        this.pause = true;
+      } else {
+        this.pause = false;
+      }
+    };
+    this.setSpeed = (speed) => {
+      this.speed = speed;
+    }
   }
 
   resetState() {
@@ -20,7 +30,8 @@ export default class Chip8 {
     this.delay = 0;
     this.sound = 0;
     this.pause = false;
-    this.speed = 10;
+    this.stop = false;
+    this.speed = 15;
     this.loadFontsIntoState();
   }
 
@@ -114,10 +125,6 @@ export default class Chip8 {
   operationCode6(instruction) {
     this.v[instruction.getX()] = instruction.getKK();
   }
-
-  // operationCode7(instruction) {
-  //   this.v[instruction.getX()] += instruction.getKK();
-  // }
 
   operationCode7(instruction) {
     let val = instruction.getKK() + this.v[instruction.getX()];
@@ -224,6 +231,7 @@ export default class Chip8 {
         }
         sprite <<= 1;
       }
+      this.screen.vfFrame = this.v[0xF];
     }
   }
 
