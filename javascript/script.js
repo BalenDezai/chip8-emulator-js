@@ -9,9 +9,11 @@ import Chip8Wrapper from './models/chip8wrapper.js';
   const debug = document.getElementById('opCodeDebugger');
   const romSelector = document.getElementById('rom_selection');
   const speedSelector = document.getElementById('speed_select');
+  const blinkSelector = document.getElementById('blink_select');
   const btnStart = document.getElementById('btn-start');
   const btnPause = document.getElementById('btn-pause');
   const btnStep = document.getElementById('btn-step');
+  const btnKeys = document.querySelectorAll('#keyBtn');
 
   romSelector.addEventListener('change', () => {
     if (btnStart.textContent !== 'START') {
@@ -29,6 +31,9 @@ import Chip8Wrapper from './models/chip8wrapper.js';
   }
 
 
+  blinkSelector.addEventListener('change', (event) => {
+    emulator.chip8.screen.setBlinkLevel(event.target.value);
+  });
   speedSelector.addEventListener('change', (event) => {
     emulator.chip8.setSpeed(event.target.value);
   });
@@ -42,6 +47,11 @@ import Chip8Wrapper from './models/chip8wrapper.js';
     canvas.focus();
     if (btnStart.textContent === 'START') {
       btnStart.textContent = 'RESTART';
+    }
+    if (btnPause.textContent === 'RESUME') {
+      btnPause.classList.remove('is-primary');
+      btnPause.textContent = 'PAUSE';
+      btnStep.classList.add('is-disabled');
     }
   }, false);
 
@@ -57,4 +67,13 @@ import Chip8Wrapper from './models/chip8wrapper.js';
     }
     emulator.chip8.pauseEmu();
   }, false);
+
+  btnKeys.forEach((keyBtn) => {
+    keyBtn.addEventListener('mousedown', () => {
+      emulator.chip8.keyboard.keyDown({ which: keyBtn.value.charCodeAt(0) });
+    });
+    keyBtn.addEventListener('mouseup', () => {
+      emulator.chip8.keyboard.keyUp({ which: keyBtn.value.charCodeAt(0) });
+    });
+  });
 }());

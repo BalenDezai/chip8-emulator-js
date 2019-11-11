@@ -6,6 +6,7 @@ export default class Chip8 {
     this.debugger = debug;
     this.keyboard = keyboard;
     this.instruction = new Instruction();
+    this.speed = 10;
     this.pauseEmu = () => {
       if (this.pause === false) {
         this.pause = true;
@@ -14,8 +15,8 @@ export default class Chip8 {
       }
     };
     this.setSpeed = (speed) => {
-      this.speed = speed;
-    }
+      this.speed = parseInt(speed, 10);
+    };
   }
 
   resetState() {
@@ -31,7 +32,6 @@ export default class Chip8 {
     this.sound = 0;
     this.pause = false;
     this.stop = false;
-    this.speed = 15;
     this.loadFontsIntoState();
   }
 

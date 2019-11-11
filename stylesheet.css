@@ -109,7 +109,9 @@ body {
   .tooltip .tooltiptext {
     visibility: hidden;
     position: absolute;
+    width: fit-content;
     z-index: 1;
+    background: white;
   }
 
   .tooltip:hover .tooltiptext {

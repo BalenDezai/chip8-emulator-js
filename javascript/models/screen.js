@@ -7,17 +7,26 @@ export default class Screen {
 
     this.screen = new Array(this.resolution);
     this.canvas = null;
-
+    this.blinkLevel = 0;
     this.vfFrame = 0;
     this.skipped = 0;
+    this.setBlinkLevel = (blinkLevel) => {
+      this.blinkLevel = parseInt(blinkLevel, 10);
+    };
   }
 
   blinkReduction() {
-    if (this.vfFrame) {
-      this.skipped += 1;
-      return true;
-    } 
-    this.skipped = 0;
+    if (this.blinkLevel !== 0) {
+      if (this.blinkLevel === 2 && this.skipped > 1 && !this.vfFrame) {
+        this.skipped = this.skipped === 2 ? 0 : this.skipped - 1;
+        return true;
+      }
+      if (this.vfFrame) {
+        this.skipped += 1; 
+        return true;
+      }
+      this.skipped = 0;
+    }
     return false;
   }
 

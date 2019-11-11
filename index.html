@@ -41,61 +41,77 @@
         <canvas></canvas>
       </div>
       <div class="selection-and-key-area">
-        <h5>GAME:</h5>
+        <h5>
+          <div class="tooltip">
+            <i class="nes-icon coin is-small"></i>
+            <div class="tooltiptext nes-container is-rounded">
+              <p>Select which game to play</p>
+            </div>
+          </div>
+          GAME
+        </h5>
         <div class="nes-select">
           <select id="rom_selection">
           </select>
         </div>
         <h5>
-          CYCLE SPEED
           <div class="tooltip">
             <i class="nes-icon coin is-small"></i>
-            <div class="tooltiptext nes-container with-title is-centered">
-              <p class="title">TEST</p>
-              <p>ereklrelreklr</p>
+            <div class="tooltiptext nes-container is-rounded">
+              <p>The speed which the emulator runs a cycle. This might help if its too fast or slow in your browser</p>
             </div>
           </div>
+          CYCLE SPEED
         </h5>
         <div class="nes-select">
           <select id='speed_select'>
-            <option value="10">10</option>
             <option value="1">1</option>
             <option value="5">5</option>
+            <option value="10">10</option>
           </select>
         </div>
         <h5>KEYS</h5>
         <table class="keys">
           <tr>
-            <td><button class="nes-btn">1</button></td>
-            <td><button class="nes-btn">2</button></td>
-            <td><button class="nes-btn">3</button></td>
-            <td><button class="nes-btn">4</button></td>
+            <td><button id="keyBtn" value="1" class="nes-btn">1</button></td>
+            <td><button id="keyBtn" value="2" class="nes-btn">2</button></td>
+            <td><button id="keyBtn" value="3" class="nes-btn">3</button></td>
+            <td><button id="keyBtn" value="4" class="nes-btn">4</button></td>
           </tr>
           <tr>
-            <td><button class="nes-btn">Q</button></td>
-            <td><button class="nes-btn">W</button></td>
-            <td><button class="nes-btn">E</button></td>
-            <td><button class="nes-btn">R</button></td>
+            <td><button id="keyBtn" value="Q" class="nes-btn">Q</button></td>
+            <td><button id="keyBtn" value="W" class="nes-btn">W</button></td>
+            <td><button id="keyBtn" value="E" class="nes-btn">E</button></td>
+            <td><button id="keyBtn" value="R" class="nes-btn">R</button></td>
           </tr>
           <tr>
-            <td><button class="nes-btn">A</button></td>
-            <td><button class="nes-btn">S</button></td>
-            <td><button class="nes-btn">D</button></td>
-            <td><button class="nes-btn">F</button></td>
+            <td><button id="keyBtn" value="A" class="nes-btn">A</button></td>
+            <td><button id="keyBtn" value="S" class="nes-btn">S</button></td>
+            <td><button id="keyBtn" value="D" class="nes-btn">D</button></td>
+            <td><button id="keyBtn" value="F" class="nes-btn">F</button></td>
           </tr>
           <tr>
-            <td><button class="nes-btn">Z</button></td>
-            <td><button class="nes-btn">X</button></td>
-            <td><button class="nes-btn">C</button></td>
-            <td><button class="nes-btn">V</button></td>
+            <td><button id="keyBtn" value="Z" class="nes-btn">Z</button></td>
+            <td><button id="keyBtn" value="X" class="nes-btn">X</button></td>
+            <td><button id="keyBtn" value="C" class="nes-btn">C</button></td>
+            <td><button id="keyBtn" value="V" class="nes-btn">V</button></td>
           </tr>
         </table>
-        <h5>BLINKING:</h5>
+        <h5>
+          <div class="tooltip">
+            <i class="nes-icon coin is-small"></i>
+            <div class="tooltiptext nes-container is-rounded">
+              <p>Reduce blinking by vF frameskipping, this might cause lag/slow down for certain games. None is
+                recommended</p>
+            </div>
+          </div>
+          BLINKING
+        </h5>
         <div class="nes-select">
           <select id='blink_select'>
             <option value="0">NONE</option>
             <option value="1">VFFRAME</option>
-            <option value="5">VFFRAME++</option>
+            <option value="2">VFFRAME++</option>
           </select>
         </div>
       </div>
