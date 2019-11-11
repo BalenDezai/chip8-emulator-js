@@ -56,8 +56,6 @@ export default class Chip8 {
     if (!this.pause) {
       this.updateTimers();
     }
-
-    this.screen.render();
   }
 
   performInstruction(instructionCode) {
@@ -232,6 +230,7 @@ export default class Chip8 {
         sprite <<= 1;
       }
       this.screen.vfFrame = this.v[0xF];
+      this.screen.render();
     }
   }
 

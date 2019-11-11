@@ -16,13 +16,13 @@ export default class Screen {
   }
 
   blinkReduction() {
-    if (this.blinkLevel !== 0) {
+    if (this.blinkLevel) {
       if (this.blinkLevel === 2 && this.skipped > 1 && !this.vfFrame) {
         this.skipped = this.skipped === 2 ? 0 : this.skipped - 1;
         return true;
       }
       if (this.vfFrame) {
-        this.skipped += 1; 
+        this.skipped += 1;
         return true;
       }
       this.skipped = 0;
