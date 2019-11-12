@@ -27,11 +27,12 @@ export default class Chip8Wrapper {
   async loadROMNames() {
     const romNames = await fetch('https://balend.github.io/chip8-emulator-js/roms/names.txt');
     const test = await romNames.text();
-    this.ROMS = test.split('.');
+    const names = test.split('.').map((name) => name.trim().toUpperCase()).filter((name) => name !== 'names' && name !== 'txt' && name !== '');
+    this.ROMS = names;
   }
 
   async loadROM(name) {
-    const ROMData = await fetch(`https://balend.github.io/chip8-emulator-js/roms/${name}`);
+    const ROMData = await fetch(`https://balend.github.io/chip8-emulator-js/roms/${name.toLowerCase()}`);
     this.stop();
     this.chip8.resetState();
     this.chip8.loadROM(new Uint8Array(await ROMData.arrayBuffer()));

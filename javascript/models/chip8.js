@@ -21,6 +21,13 @@ export default class Chip8 {
 
   resetState() {
     this.v = new Uint8Array(16);
+    // for (let i = 0; i < this.v; i += 1) {
+    //   this.v[i] = 0;
+    // }
+
+    // for (let i = 0; i < this.memory; i += 1) {
+    //   this.memory[i] = 0;
+    // }
     this.memory = new Uint8Array(1024 * 4);
     this.stack = [];
     this.screen.clearScreen();
@@ -31,7 +38,6 @@ export default class Chip8 {
     this.delay = 0;
     this.sound = 0;
     this.pause = false;
-    this.stop = false;
     this.loadFontsIntoState();
   }
 

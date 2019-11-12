@@ -31,8 +31,9 @@ export default class Screen {
   }
 
   clearScreen() {
-    //  instead of assigning a new array, could also set all values to using a for loop
-    this.screen = new Array(this.resolution);
+    for (let i = 0; i < this.screen.length; i += 1) {
+      this.screen[i] = 0;
+    }
   }
 
   setPixels2(x, y) {
