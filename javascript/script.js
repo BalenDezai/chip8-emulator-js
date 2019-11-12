@@ -7,13 +7,14 @@ import Chip8Wrapper from './models/chip8wrapper.js';
   await emulator.loadROMNames();
 
   const debug = document.getElementById('opCodeDebugger');
-  const romSelector = document.getElementById('rom_selection');
-  const speedSelector = document.getElementById('speed_select');
-  const blinkSelector = document.getElementById('blink_select');
+  const romSelector = document.getElementById('rom_selector');
+  const speedSelector = document.getElementById('speed_selector');
+  const blinkSelector = document.getElementById('blink_selector');
   const btnStart = document.getElementById('btn-start');
   const btnPause = document.getElementById('btn-pause');
   const btnStep = document.getElementById('btn-step');
   const btnKeys = document.querySelectorAll('#keyBtn');
+  const txtElements = document.querySelectorAll('p, h5, select, button, h1');
 
   romSelector.addEventListener('change', () => {
     if (btnStart.textContent !== 'START') {
@@ -68,6 +69,12 @@ import Chip8Wrapper from './models/chip8wrapper.js';
     emulator.chip8.pauseEmu();
   }, false);
 
+  btnStep.addEventListener('click', () => {
+    emulator.chip8.pause = false;
+    emulator.chip8.emulateCycle();
+    emulator.chip8.pause = true;
+  });
+
   btnKeys.forEach((keyBtn) => {
     keyBtn.addEventListener('mousedown', () => {
       emulator.chip8.keyboard.keyDown({ which: keyBtn.value.charCodeAt(0) });
@@ -76,4 +83,14 @@ import Chip8Wrapper from './models/chip8wrapper.js';
       emulator.chip8.keyboard.keyUp({ which: keyBtn.value.charCodeAt(0) });
     });
   });
+
+  txtElements.forEach((element) => {
+    if (element.tagName === 'SELECT') {
+      for (let i = 0; i < element.children.length; i += 1) {
+        element.children[i].classList.add('uppercase');
+      }
+    }
+    element.classList.add('uppercase');
+  });
+
 }());

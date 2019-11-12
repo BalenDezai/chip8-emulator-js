@@ -35,8 +35,3 @@ export default class Instruction {
     return this.instructionCode & 0x000F;
   }
 }
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = Instruction;
-} else {
-  window.Chip8Instruction = Instruction;
-}

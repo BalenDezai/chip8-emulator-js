@@ -1,119 +1,143 @@
 body {
-    display: flex;
-    min-height: 100vh;
-    flex-direction: column;
-    margin: 0;
-    background-color: teal;
-  }
-  header, footer {
-    background: #242222;
-    height: 10vh;
-  }
-  header{
-    padding: 1em;
-  }
-  canvas {
-    border: 10px solid;
-    display: block;
-    margin: 0 auto;
-    float: left;
-    height: 520px;
-    width: 840px;
-  }
-  .commands {
-    width: 100px;
-  }
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  margin: 0;
+  background-color: teal;
+}
 
-  .container {
-    display: flex;
-    margin: 20px;
-    justify-content: center;
-  }
-  .keys {
-    font-size: 30px;
-  }
+header, footer {
+  background: #242222;
+  height: 10vh;
+}
+
+header{
+  padding: 1em;
+}
+
+canvas {
+  border: 10px solid;
+  display: block;
+  margin: 0 auto;
+  float: left;
+  height: 520px;
+  width: 840px;
+}
+
+a:hover {
+  color: white;
+  text-decoration: none;
+}
+
+.commands {
+  width: 100px;
+}
+
+.container {
+  display: flex;
+  margin: 20px;
+  justify-content: center;
+}
+.keys {
+  font-size: 30px;
+}
   
-  .instructionDebugger {
-    max-height: 200px;
-    overflow: auto;
-    display:inline-block;
-    text-align: left;
-  }
-  .opCodeDebugger {
-    display: block;
-  }
-  .selection-and-key-area {
-    height: 542px;
-    padding-top: 10px;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-  }
-  .selection-and-key-area>* {
-    margin: 5px;
-  }
+.instructionDebugger {
+  max-height: 200px;
+  overflow: auto;
+  display:inline-block;
+  text-align: left;
+}
 
-  .selection-and-key-area-2 {
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-  }
-  .emulator-area {
-    margin: 10px;
-  }
-  .selection-area {
-    display: flex;
-    flex-direction: row;;
-  }
-  .button-area {
-    padding-top: 20px;
-    display: flex;
-    flex-direction: column;
-  }
+.opCodeDebugger {
+  display: block;
+}
 
-  .flex-header {
-    display: flex;
-    justify-content: space-between;
-    flex-direction: row;
-  }
+.selection-and-key-area {
+  height: 542px;
+  padding-top: 10px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
 
-  .header-txt {
-    margin: 10px;
-    color: white;
-  }
+.selection-and-key-area>* {
+  margin: 5px;
+}
 
-  .header-icons {
-    margin: 10px;
-  }
+.selection-and-key-area-2 {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
 
-  .header-area {
-    display: flex;
-    justify-content: flex-start;
-    flex-direction: row;
-  }
+.emulator-area {
+  margin: 10px;
+}
 
-  .popup {
-    visibility: hidden;
-  }
+.selection-area {
+  display: flex;
+  flex-direction: row;;
+}
 
-  .popup:hover{
-    visibility: visible;
-  }
+.button-area {
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+}
 
-  .tooltip {
-    position: relative;
-    display: inline-block;
-    border-bottom: 1px dotted black;
-  }
+.flex-header {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+}
 
-  .tooltip .tooltiptext {
-    visibility: hidden;
-    position: absolute;
-    width: fit-content;
-    z-index: 1;
-    background: white;
-  }
+.header-txt {
+  margin: 10px;
+  color: white;
+}
 
-  .tooltip:hover .tooltiptext {
-    visibility: visible;
-  }
+.header-icons {
+  margin: 10px;
+}
+
+.header-area {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row;
+}
+
+.popup {
+  visibility: hidden;
+}
+
+.popup:hover{
+  visibility: visible;
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  position: absolute;
+  width: fit-content;
+  z-index: 1;
+  background: white;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.registers {
+  display: flex;
+  flex-direction: column;
+}

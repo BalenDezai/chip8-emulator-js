@@ -33,9 +33,9 @@
         </span>
       </div>
       <div class="button-area">
-        <button id="btn-start" class="nes-btn">START</button>
-        <button id="btn-pause" class="nes-btn">PAUSE</button>
-        <button id="btn-step" class="nes-btn is-disabled">STEP</button>
+        <button id="btn-start" class="nes-btn">start</button>
+        <button id="btn-pause" class="nes-btn">pause</button>
+        <button id="btn-step" class="nes-btn is-disabled">step</button>
       </div>
       <div class="emulator-area">
         <canvas></canvas>
@@ -45,36 +45,36 @@
           <div class="tooltip">
             <i class="nes-icon coin is-small"></i>
             <div class="tooltiptext nes-container is-rounded">
-              <p>Select which game to play</p>
+              <p>select which game to play</p>
             </div>
           </div>
-          GAME
+          game
         </h5>
         <div class="nes-select">
-          <select id="rom_selection">
+          <select id="rom_selector">
           </select>
         </div>
         <h5>
           <div class="tooltip">
             <i class="nes-icon coin is-small"></i>
             <div class="tooltiptext nes-container is-rounded">
-              <p>The speed which the emulator runs a cycle. This might help if its too fast or slow in your browser</p>
+              <p>the speed which the emulator runs a cycle. This might help if its too fast or slow in your browser</p>
             </div>
           </div>
-          CYCLE SPEED
+          cycle speed
         </h5>
         <div class="nes-select">
-          <select id='speed_select'>
+          <select id='speed_selector'>
             <option value="1">1</option>
             <option value="5">5</option>
-            <option selected="selected"  value="10">10</option>
+            <option selected="selected" value="10">10</option>
             <option value="16">16</option>
             <option value="30">30</option>
             <option value="60">60</option>
             <option value="144">144</option>
           </select>
         </div>
-        <h5>KEYS</h5>
+        <h5>keys</h5>
         <table class="keys">
           <tr>
             <td><button id="keyBtn" value="1" class="nes-btn">1</button></td>
@@ -83,42 +83,111 @@
             <td><button id="keyBtn" value="4" class="nes-btn">4</button></td>
           </tr>
           <tr>
-            <td><button id="keyBtn" value="Q" class="nes-btn">Q</button></td>
-            <td><button id="keyBtn" value="W" class="nes-btn">W</button></td>
-            <td><button id="keyBtn" value="E" class="nes-btn">E</button></td>
-            <td><button id="keyBtn" value="R" class="nes-btn">R</button></td>
+            <td><button id="keyBtn" value="Q" class="nes-btn">q</button></td>
+            <td><button id="keyBtn" value="W" class="nes-btn">w</button></td>
+            <td><button id="keyBtn" value="E" class="nes-btn">e</button></td>
+            <td><button id="keyBtn" value="R" class="nes-btn">r</button></td>
           </tr>
           <tr>
-            <td><button id="keyBtn" value="A" class="nes-btn">A</button></td>
-            <td><button id="keyBtn" value="S" class="nes-btn">S</button></td>
-            <td><button id="keyBtn" value="D" class="nes-btn">D</button></td>
-            <td><button id="keyBtn" value="F" class="nes-btn">F</button></td>
+            <td><button id="keyBtn" value="A" class="nes-btn">a</button></td>
+            <td><button id="keyBtn" value="S" class="nes-btn">s</button></td>
+            <td><button id="keyBtn" value="D" class="nes-btn">d</button></td>
+            <td><button id="keyBtn" value="F" class="nes-btn">f</button></td>
           </tr>
           <tr>
-            <td><button id="keyBtn" value="Z" class="nes-btn">Z</button></td>
-            <td><button id="keyBtn" value="X" class="nes-btn">X</button></td>
-            <td><button id="keyBtn" value="C" class="nes-btn">C</button></td>
-            <td><button id="keyBtn" value="V" class="nes-btn">V</button></td>
+            <td><button id="keyBtn" value="Z" class="nes-btn">z</button></td>
+            <td><button id="keyBtn" value="X" class="nes-btn">x</button></td>
+            <td><button id="keyBtn" value="C" class="nes-btn">c</button></td>
+            <td><button id="keyBtn" value="V" class="nes-btn">v</button></td>
           </tr>
         </table>
         <h5>
           <div class="tooltip">
             <i class="nes-icon coin is-small"></i>
             <div class="tooltiptext nes-container is-rounded">
-              <p>Reduce blinking by vF frameskipping, this might cause lag/slow down for certain games. None is
+              <p>reduce blinking by vF frameskipping, this might cause lag/slow down for certain games. None is
                 recommended</p>
             </div>
           </div>
-          BLINKING
+          blinking
         </h5>
         <div class="nes-select">
-          <select id='blink_select'>
+          <select id='blink_selector'>
             <option selected="selected" value="0">NONE</option>
             <option value="1">VFFRAME</option>
             <option value="2">VFFRAME++</option>
           </select>
         </div>
+        <h5>
+          <div class="tooltip">
+            <i class="nes-icon coin is-small"></i>
+            <div class="tooltiptext nes-container is-rounded">
+              <p>select which debugging information to display</p>
+            </div>
+          </div>
+          Debugging
+        </h5>
+        <div class="nes-select">
+          <select id='debug_selector'>
+            <option selected="selected" value="0">NONE</option>
+            <option value="1">REGISTERS</option>
+            <option value="2">INSTRUCTIONS</option>
+            <option value="3">BOTH</option>
+          </select>
+        </div>
       </div>
+    </div>
+    <div>
+    </div>
+    <div class="registers">
+        <div>
+            <h5>registers</h5>
+        </div>
+        <div>
+            <table class="nes-table is-bordered is-centered">
+                <thead>
+                  <tr>
+                    <th>V0</th>
+                    <th>V1</th>
+                    <th>V2</th>
+                    <th>V3</th>
+                    <th>V4</th>
+                    <th>V5</th>
+                    <th>V6</th>
+                    <th>V7</th>
+                    <th>V8</th>
+                    <th>v9</th>
+                    <th>vA</th>
+                    <th>VB</th>
+                    <th>VC</th>
+                    <th>VD</th>
+                    <th>vE</th>
+                    <th>vf</th>
+                  </tr>
+                </thead>
+          
+                <body>
+                  <tr>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                  </tr>
+                </body>
+              </table>
+        </div>
     </div>
   </div>
   <script type="module" src="./javascript/script.js"></script>
