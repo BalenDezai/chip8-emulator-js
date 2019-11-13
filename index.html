@@ -146,7 +146,7 @@
           sound
         </h5>
         <div class="nes-select">
-          <select id='debug_selector'>
+          <select id='sound_selector'>
             <option selected="selected" value="0">OFF</option>
             <option value="1">ON</option>
           </select>
@@ -164,9 +164,10 @@
           <div class="nes-select">
             <select id='debug_extra_selector'>
               <option selected="selected" value="0">NONE</option>
-              <option value="1">REGISTERS</option>
-              <option value="2">INSTRUCTIONS</option>
-              <option value="3">BOTH</option>
+              <option value="1">STACKPOINTER</option>
+              <option value="2">PROG COUNTER</option>
+              <option value="2">MEMORY ADDR</option>
+              <option value="3">ALL</option>
             </select>
           </div>
           <h5>
@@ -180,8 +181,8 @@
           </h5>
           <div class="nes-select">
             <select id='numBase_selector'>
-              <option selected="selected" value="0">Hex</option>
-              <option value="1">decimal</option>
+              <option selected="selected" value="16">Hex</option>
+              <option value="10">decimal</option>
             </select>
           </div>
           <div class="stars">
@@ -203,50 +204,45 @@
       </div>
     </div>
     <div class="container">
-      <div id="register-table" class="registers hidden">
+      <div id="register-debug-table" class="registers hidden">
         <h5>registers</h5>
-        <table class="nes-table is-bordered is-centered">
-          <thead>
-            <tr>
-              <th>v[0]</th>
-              <th>v[1]</th>
-              <th>v[2]</th>
-              <th>v[3]</th>
-              <th>v[4]</th>
-              <th>v[5]</th>
-              <th>v[6]</th>
-              <th>v[7]</th>
-              <th>v[8]</th>
-              <th>v[9]</th>
-              <th>v[a]</th>
-              <th>v[b]</th>
-              <th>v[c]</th>
-              <th>v[d]</th>
-              <th>v[e]</th>
-              <th>v[f]</th>
-            </tr>
-          </thead>
-
-          <body>
-            <tr>
-              <td>0x<span></span></td>
-              <td>0x<span></span></td>
-              <td>0x<span></span></td>
-              <td>0x<span></span></td>
-              <td>0x<span></span></td>
-              <td>0x<span></span></td>
-              <td>0x<span></span></td>
-              <td>0x<span></span></td>
-              <td>0x<span></span></td>
-              <td>0x<span></span></td>
-              <td>0x<span></span></td>
-              <td>0x<span></span></td>
-              <td>0x<span></span></td>
-              <td>0x<span></span></td>
-              <td>0x<span></span></td>
-              <td>0x<span></span></td>
-            </tr>
-          </body>
+        <table id="register-table" class="nes-table is-bordered is-centered">
+          <tr>
+            <th>v[0]</th>
+            <th>v[1]</th>
+            <th>v[2]</th>
+            <th>v[3]</th>
+            <th>v[4]</th>
+            <th>v[5]</th>
+            <th>v[6]</th>
+            <th>v[7]</th>
+            <th>v[8]</th>
+            <th>v[9]</th>
+            <th>v[a]</th>
+            <th>v[b]</th>
+            <th>v[c]</th>
+            <th>v[d]</th>
+            <th>v[e]</th>
+            <th>v[f]</th>
+          </tr>
+          <tr>
+            <td>0x</td>
+            <td>0x</td>
+            <td>0x</td>
+            <td>0x</td>
+            <td>0x</td>
+            <td>0x</td>
+            <td>0x</td>
+            <td>0x</td>
+            <td>0x</td>
+            <td>0x</td>
+            <td>0x</td>
+            <td>0x</td>
+            <td>0x</td>
+            <td>0x</td>
+            <td>0x</td>
+            <td>0x</td>
+          </tr>
         </table>
       </div>
     </div>

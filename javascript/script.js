@@ -1,4 +1,4 @@
-import Chip8Wrapper from './models/chip8wrapper.js';
+import Chip8Wrapper from './chip8wrapper.js';
 
 (async function () {
   const emulator = new Chip8Wrapper();
@@ -11,21 +11,34 @@ import Chip8Wrapper from './models/chip8wrapper.js';
   const speedSelector = document.getElementById('speed_selector');
   const blinkSelector = document.getElementById('blink_selector');
   const debugSelector = document.getElementById('debug_selector');
+  const numBaseSelector = document.getElementById('numBase_selector');
   const btnStart = document.getElementById('btn-start');
   const btnPause = document.getElementById('btn-pause');
   const btnStep = document.getElementById('btn-step');
   const btnKeys = document.querySelectorAll('#keyBtn');
   const txtElements = document.querySelectorAll('p, h5, select, button, h1, th');
-  const registerTable = document.getElementById('register-table');
+  const registerDebugTable = document.getElementById('register-debug-table');
+  const registerTable = document.getElementById('register-table').getElementsByTagName('tr')[1].getElementsByTagName('td');
   const debugExtras = document.getElementById('debug-extra');
+  let debugNumBase = 0;
 
   debugSelector.addEventListener('change', (event) => {
     const val = parseInt(event.target.value, 10);
-    if (val !== 0) {
-      registerTable.classList.remove('hidden');
+    if (val === 1) {
+      registerDebugTable.classList.remove('hidden');
       debugExtras.classList.remove('hidden');
+      emulator.setDebugCallback((state, numBase) => {
+        for (let i = 0; i < registerTable.length; i += 1) {
+          registerTable[i].innerHTML = `0x${state.v[i].toString(numBase)}`;
+        }
+      });
     }
   });
+
+  numBaseSelector.addEventListener('change', (event) => {
+    emulator.setDebugNumBase(parseInt(event.target.value, 10));
+  });
+
   romSelector.addEventListener('change', () => {
     if (btnStart.textContent !== 'START') {
       btnPause.click();
@@ -34,6 +47,7 @@ import Chip8Wrapper from './models/chip8wrapper.js';
   });
 
   emulator.AssignDebugEle(debug);
+
   for (let i = 0, romsCount = emulator.ROMS.length; i < romsCount; i += 1) {
     const option = document.createElement('option');
     const rom = emulator.ROMS[i];

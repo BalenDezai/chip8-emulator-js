@@ -1,15 +1,17 @@
-import Chip8 from './chip8.js';
-import Keyboard from './keyboard.js';
-import Screen from './screen.js';
-import Disassembler from './disassembler.js';
+import Chip8 from './models/chip8.js';
+import Keyboard from './models/keyboard.js';
+import Screen from './models/screen.js';
+import Disassembler from './models/disassembler.js';
 
 export default class Chip8Wrapper {
-  constructor() {
+  constructor(debugCallback) {
+    this.debugCallback = debugCallback || function () {};
     this.loop = 0;
     this.chip8 = new Chip8(new Screen(), new Keyboard());
     this.ROMS = [];
     this.step = () => {
       this.chip8.emulateCycle();
+      this.debugCallback(this.chip8, this.debugNumBase);
       this.loop = requestAnimationFrame(this.step);
     };
     this.start = () => {
@@ -22,6 +24,14 @@ export default class Chip8Wrapper {
 
   AssignDebugEle(ele) {
     this.chip8.debugger = new Disassembler(ele);
+  }
+
+  setDebugNumBase(numBase) {
+    this.debugNumBase = numBase;
+  }
+
+  setDebugCallback(cb) {
+    this.debugCallback = cb;
   }
 
   async loadROMNames() {
