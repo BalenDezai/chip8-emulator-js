@@ -37,6 +37,8 @@ a:hover {
   display: flex;
   margin: 20px;
   justify-content: center;
+  /* flex-flow: row;
+  flex-wrap: wrap; */
 }
 .keys {
   font-size: 30px;
@@ -139,5 +141,14 @@ a:hover {
 
 .registers {
   display: flex;
-  flex-direction: column;
+  flex-flow: column;
+}
+
+.stars {
+  display: flex;
+  justify-content: center;
+}
+
+.hidden {
+  visibility: hidden;
 }

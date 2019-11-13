@@ -25,13 +25,6 @@
   </header>
   <div id="main">
     <div class="container">
-      <div class="debugger-area">
-        <span class="instructionDebugger">
-          <div id="opCodeDebugger" class="opCodeDebugger">
-
-          </div>
-        </span>
-      </div>
       <div class="button-area">
         <button id="btn-start" class="nes-btn">start</button>
         <button id="btn-pause" class="nes-btn">pause</button>
@@ -74,7 +67,15 @@
             <option value="144">144</option>
           </select>
         </div>
-        <h5>keys</h5>
+        <h5>
+          <div class="tooltip">
+            <i class="nes-icon coin is-small"></i>
+            <div class="tooltiptext nes-container is-rounded">
+              <p>Use these keys to play instead of the keyboard if you want to</p>
+            </div>
+          </div>
+          keys
+        </h5>
         <table class="keys">
           <tr>
             <td><button id="keyBtn" value="1" class="nes-btn">1</button></td>
@@ -135,59 +136,119 @@
             <option value="3">BOTH</option>
           </select>
         </div>
+        <h5>
+          <div class="tooltip">
+            <i class="nes-icon coin is-small"></i>
+            <div class="tooltiptext nes-container is-rounded">
+              <p>disable or enable soundy</p>
+            </div>
+          </div>
+          sound
+        </h5>
+        <div class="nes-select">
+          <select id='debug_selector'>
+            <option selected="selected" value="0">OFF</option>
+            <option value="1">ON</option>
+          </select>
+        </div>
+        <div id="debug-extra" class="hidden">
+          <h5>
+            <div class="tooltip">
+              <i class="nes-icon coin is-small"></i>
+              <div class="tooltiptext nes-container is-rounded">
+                <p>select extra debugging information like the stack pointer, program pointer, etc</p>
+              </div>
+            </div>
+            extra debugging
+          </h5>
+          <div class="nes-select">
+            <select id='debug_extra_selector'>
+              <option selected="selected" value="0">NONE</option>
+              <option value="1">REGISTERS</option>
+              <option value="2">INSTRUCTIONS</option>
+              <option value="3">BOTH</option>
+            </select>
+          </div>
+          <h5>
+            <div class="tooltip">
+              <i class="nes-icon coin is-small"></i>
+              <div class="tooltiptext nes-container is-rounded">
+                <p>select to see number in hexadecimal or decimal</p>
+              </div>
+            </div>
+            number base
+          </h5>
+          <div class="nes-select">
+            <select id='numBase_selector'>
+              <option selected="selected" value="0">Hex</option>
+              <option value="1">decimal</option>
+            </select>
+          </div>
+          <div class="stars">
+            <i class="nes-icon is-medium star"></i>
+            <i class="nes-icon is-medium star"></i>
+            <i class="nes-icon is-medium star"></i>
+            <i class="nes-icon is-medium star"></i>
+            <i class="nes-icon is-medium star"></i>
+            <div class="test2">
+              <div>
+                <i class="nes-icon is-small star"></i>
+              </div>
+              <div>
+                <i class="nes-icon is-small star"></i>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    <div>
-    </div>
-    <div class="registers">
-        <div>
-            <h5>registers</h5>
-        </div>
-        <div>
-            <table class="nes-table is-bordered is-centered">
-                <thead>
-                  <tr>
-                    <th>V0</th>
-                    <th>V1</th>
-                    <th>V2</th>
-                    <th>V3</th>
-                    <th>V4</th>
-                    <th>V5</th>
-                    <th>V6</th>
-                    <th>V7</th>
-                    <th>V8</th>
-                    <th>v9</th>
-                    <th>vA</th>
-                    <th>VB</th>
-                    <th>VC</th>
-                    <th>VD</th>
-                    <th>vE</th>
-                    <th>vf</th>
-                  </tr>
-                </thead>
-          
-                <body>
-                  <tr>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>0</td>
-                  </tr>
-                </body>
-              </table>
-        </div>
+    <div class="container">
+      <div id="register-table" class="registers hidden">
+        <h5>registers</h5>
+        <table class="nes-table is-bordered is-centered">
+          <thead>
+            <tr>
+              <th>v[0]</th>
+              <th>v[1]</th>
+              <th>v[2]</th>
+              <th>v[3]</th>
+              <th>v[4]</th>
+              <th>v[5]</th>
+              <th>v[6]</th>
+              <th>v[7]</th>
+              <th>v[8]</th>
+              <th>v[9]</th>
+              <th>v[a]</th>
+              <th>v[b]</th>
+              <th>v[c]</th>
+              <th>v[d]</th>
+              <th>v[e]</th>
+              <th>v[f]</th>
+            </tr>
+          </thead>
+
+          <body>
+            <tr>
+              <td>0x<span></span></td>
+              <td>0x<span></span></td>
+              <td>0x<span></span></td>
+              <td>0x<span></span></td>
+              <td>0x<span></span></td>
+              <td>0x<span></span></td>
+              <td>0x<span></span></td>
+              <td>0x<span></span></td>
+              <td>0x<span></span></td>
+              <td>0x<span></span></td>
+              <td>0x<span></span></td>
+              <td>0x<span></span></td>
+              <td>0x<span></span></td>
+              <td>0x<span></span></td>
+              <td>0x<span></span></td>
+              <td>0x<span></span></td>
+            </tr>
+          </body>
+        </table>
+      </div>
     </div>
   </div>
   <script type="module" src="./javascript/script.js"></script>

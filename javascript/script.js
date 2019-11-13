@@ -10,12 +10,22 @@ import Chip8Wrapper from './models/chip8wrapper.js';
   const romSelector = document.getElementById('rom_selector');
   const speedSelector = document.getElementById('speed_selector');
   const blinkSelector = document.getElementById('blink_selector');
+  const debugSelector = document.getElementById('debug_selector');
   const btnStart = document.getElementById('btn-start');
   const btnPause = document.getElementById('btn-pause');
   const btnStep = document.getElementById('btn-step');
   const btnKeys = document.querySelectorAll('#keyBtn');
-  const txtElements = document.querySelectorAll('p, h5, select, button, h1');
+  const txtElements = document.querySelectorAll('p, h5, select, button, h1, th');
+  const registerTable = document.getElementById('register-table');
+  const debugExtras = document.getElementById('debug-extra');
 
+  debugSelector.addEventListener('change', (event) => {
+    const val = parseInt(event.target.value, 10);
+    if (val !== 0) {
+      registerTable.classList.remove('hidden');
+      debugExtras.classList.remove('hidden');
+    }
+  });
   romSelector.addEventListener('change', () => {
     if (btnStart.textContent !== 'START') {
       btnPause.click();
