@@ -12,15 +12,16 @@ import Chip8Wrapper from './chip8wrapper.js';
   const blinkSelector = document.getElementById('blink_selector');
   const debugSelector = document.getElementById('debug_selector');
   const numBaseSelector = document.getElementById('numBase_selector');
+  // const debugExtraSelector = document.getElementById('debug_extra_selector');
   const btnStart = document.getElementById('btn-start');
   const btnPause = document.getElementById('btn-pause');
   const btnStep = document.getElementById('btn-step');
   const btnKeys = document.querySelectorAll('#keyBtn');
   const txtElements = document.querySelectorAll('p, h5, select, button, h1, th');
   const registerDebugTable = document.getElementById('register-debug-table');
-  const registerTable = document.getElementById('register-table').getElementsByTagName('tr')[1].getElementsByTagName('td');
+  const registerTable = document.getElementById('register-table');
+  const registerTableData = registerTable.getElementsByTagName('tr')[1].getElementsByTagName('td');
   const debugExtras = document.getElementById('debug-extra');
-  let debugNumBase = 0;
 
   debugSelector.addEventListener('change', (event) => {
     const val = parseInt(event.target.value, 10);
@@ -28,12 +29,31 @@ import Chip8Wrapper from './chip8wrapper.js';
       registerDebugTable.classList.remove('hidden');
       debugExtras.classList.remove('hidden');
       emulator.setDebugCallback((state, numBase) => {
-        for (let i = 0; i < registerTable.length; i += 1) {
-          registerTable[i].innerHTML = `0x${state.v[i].toString(numBase)}`;
+        for (let i = 0; i < registerTableData.length; i += 1) {
+          registerTableData[i].innerHTML = `0x${state.v[i].toString(numBase)}`;
         }
       });
     }
   });
+
+  // debugExtraSelector.addEventListener('change', (event) => {
+  //   const val = parseInt(event.target.value, 10);
+  //   const tr = registerTable.getElementsByTagName('tr');
+  //   const headerNames = ['SP', 'PC', 'I'];
+  //   if (val) {
+  //     for (let i = 0; i < 3; i += 1) {
+  //       const headerCell = tr[0].insertCell(i);
+  //       const dataCell = tr[1].insertCell(i);
+  //       headerCell.innerHTML = headerNames[i];
+  //       dataCell.innerHTML = '0x';
+  //     }
+  //   } else {
+  //     for (let i = 0; i < 3; i += 1) {
+  //       tr[0].deleteCell(i);
+  //       tr[1].deleteCell(i);
+  //     }
+  //   }
+  // });
 
   numBaseSelector.addEventListener('change', (event) => {
     emulator.setDebugNumBase(parseInt(event.target.value, 10));
@@ -116,5 +136,4 @@ import Chip8Wrapper from './chip8wrapper.js';
     }
     element.classList.add('uppercase');
   });
-
 }());

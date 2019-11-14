@@ -106,7 +106,7 @@
           <div class="tooltip">
             <i class="nes-icon coin is-small"></i>
             <div class="tooltiptext nes-container is-rounded">
-              <p>reduce blinking by vF frameskipping, this might cause lag/slow down for certain games. None is
+              <p>reduce blinking by vF frame skipping, this might cause lag/slow down for certain games. None is
                 recommended</p>
             </div>
           </div>
@@ -140,7 +140,7 @@
           <div class="tooltip">
             <i class="nes-icon coin is-small"></i>
             <div class="tooltiptext nes-container is-rounded">
-              <p>disable or enable soundy</p>
+              <p>disable or enable sound</p>
             </div>
           </div>
           sound
@@ -156,19 +156,30 @@
             <div class="tooltip">
               <i class="nes-icon coin is-small"></i>
               <div class="tooltiptext nes-container is-rounded">
-                <p>select extra debugging information like the stack pointer, program pointer, etc</p>
+                <p>extra debugging information like the stack pointer, program pointer, etc</p>
               </div>
             </div>
             extra debugging
           </h5>
-          <div class="nes-select">
+          <!-- <div>
             <select id='debug_extra_selector'>
-              <option selected="selected" value="0">NONE</option>
-              <option value="1">STACKPOINTER</option>
-              <option value="2">PROG COUNTER</option>
-              <option value="2">MEMORY ADDR</option>
-              <option value="3">ALL</option>
+              <option selected="selected" value="0">OFF</option>
+              <option value="1">ON</option>
             </select>
+          </div> -->
+          <div>
+            <label>
+              <input type="checkbox" class="nes-checkbox" checked />
+              <span>PC</span>
+            </label>
+            <label>
+              <input type="checkbox" class="nes-checkbox" checked />
+              <span>SP</span>
+            </label>
+            <label>
+              <input type="checkbox" class="nes-checkbox" checked />
+              <span>I</span>
+            </label>
           </div>
           <h5>
             <div class="tooltip">
@@ -185,7 +196,7 @@
               <option value="10">decimal</option>
             </select>
           </div>
-          <div class="stars">
+          <div id="stars-area" class="stars">
             <i class="nes-icon is-medium star"></i>
             <i class="nes-icon is-medium star"></i>
             <i class="nes-icon is-medium star"></i>
@@ -207,7 +218,7 @@
       <div id="register-debug-table" class="registers hidden">
         <h5>registers</h5>
         <table id="register-table" class="nes-table is-bordered is-centered">
-          <tr>
+          <tr id="header">
             <th>v[0]</th>
             <th>v[1]</th>
             <th>v[2]</th>
@@ -225,7 +236,7 @@
             <th>v[e]</th>
             <th>v[f]</th>
           </tr>
-          <tr>
+          <tr id="data">
             <td>0x</td>
             <td>0x</td>
             <td>0x</td>
