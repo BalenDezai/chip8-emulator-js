@@ -43,7 +43,7 @@
           </div>
           game
         </h5>
-        <div class="nes-select">
+        <div class="nes-select setWidth">
           <select id="rom_selector">
           </select>
         </div>
@@ -56,7 +56,7 @@
           </div>
           cycle speed
         </h5>
-        <div class="nes-select">
+        <div class="nes-select setWidth">
           <select id='speed_selector'>
             <option value="1">1</option>
             <option value="5">5</option>
@@ -128,13 +128,32 @@
           </div>
           Debugging
         </h5>
-        <div class="nes-select">
-          <select id='debug_selector'>
-            <option selected="selected" value="0">NONE</option>
-            <option value="1">REGISTERS</option>
-            <option value="2">INSTRUCTIONS</option>
-            <option value="3">BOTH</option>
-          </select>
+        <div class="flexColumn">
+          <label>
+            <input id="debug-reg-checkbox" type="checkbox" class="nes-checkbox" />
+            <span>
+              <div class="tooltip">
+                <i class="nes-icon coin is-small"></i>
+                <div class="tooltiptext nes-container is-rounded">
+                  <p>display whats inside of the the 16 8-bit general purpose registers</p>
+                </div>
+              </div>
+              registers
+            </span>
+          </label>
+
+          <label>
+            <input id="debug-inst-checkbox" type="checkbox" class="nes-checkbox" />
+            <span>
+              <div class="tooltip">
+                <i class="nes-icon coin is-small"></i>
+                <div class="tooltiptext nes-container is-rounded">
+                  <p>display the instruction that just ran</p>
+                </div>
+              </div>
+              instructions
+            </span>
+          </label>
         </div>
         <h5>
           <div class="tooltip">
@@ -145,11 +164,16 @@
           </div>
           sound
         </h5>
-        <div class="nes-select">
-          <select id='sound_selector'>
-            <option selected="selected" value="0">OFF</option>
-            <option value="1">ON</option>
-          </select>
+        <div class="flexRow">
+          <label>
+            <input type="radio" class="nes-radio" name="answer" checked />
+            <span>off</span>
+          </label>
+
+          <label>
+            <input type="radio" class="nes-radio" name="answer" />
+            <span>on</span>
+          </label>
         </div>
         <div id="debug-extra" class="hidden">
           <h5>
@@ -161,23 +185,17 @@
             </div>
             extra debugging
           </h5>
-          <!-- <div>
-            <select id='debug_extra_selector'>
-              <option selected="selected" value="0">OFF</option>
-              <option value="1">ON</option>
-            </select>
-          </div> -->
           <div>
             <label>
-              <input id="pc-checkbox" type="checkbox" class="nes-checkbox"/>
+              <input id="pc-checkbox" type="checkbox" class="nes-checkbox" />
               <span>PC</span>
             </label>
             <label>
-              <input id="sp-checkbox" type="checkbox" class="nes-checkbox"/>
+              <input id="sp-checkbox" type="checkbox" class="nes-checkbox" />
               <span>SP</span>
             </label>
             <label>
-              <input id="i-checkbox" type="checkbox" class="nes-checkbox"/>
+              <input id="i-checkbox" type="checkbox" class="nes-checkbox" />
               <span>I</span>
             </label>
           </div>
@@ -211,11 +229,26 @@
               </div>
             </div>
           </div>
+           <div id="stars-area" class="stars">
+            <i class="nes-icon is-medium star"></i>
+            <i class="nes-icon is-medium star"></i>
+            <i class="nes-icon is-medium star"></i>
+            <i class="nes-icon is-medium star"></i>
+            <i class="nes-icon is-medium star"></i>
+            <div class="test2">
+              <div>
+                <i class="nes-icon is-small star"></i>
+              </div>
+              <div>
+                <i class="nes-icon is-small star"></i>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
     <div class="container">
-      <div id="register-debug-table" class="registers hidden test">
+      <div id="register-debug-table" class="registers hidden wideTable">
         <h5>registers</h5>
         <table id="register-table" class="nes-table is-bordered is-centered">
           <tr id="header">

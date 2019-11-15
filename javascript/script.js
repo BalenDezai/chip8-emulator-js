@@ -10,8 +10,8 @@ import Chip8Wrapper from './chip8wrapper.js';
   const romSelector = document.getElementById('rom_selector');
   const speedSelector = document.getElementById('speed_selector');
   const blinkSelector = document.getElementById('blink_selector');
-  const debugSelector = document.getElementById('debug_selector');
   const numBaseSelector = document.getElementById('numBase_selector');
+  const debugRegCheckbox = document.getElementById('debug-reg-checkbox');
   const pcCheckbox = document.getElementById('pc-checkbox');
   const spCheckbox = document.getElementById('sp-checkbox');
   const iCheckbox = document.getElementById('i-checkbox');
@@ -19,7 +19,7 @@ import Chip8Wrapper from './chip8wrapper.js';
   const btnPause = document.getElementById('btn-pause');
   const btnStep = document.getElementById('btn-step');
   const btnKeys = document.querySelectorAll('#keyBtn');
-  const txtElements = document.querySelectorAll('p, h5, select, button, h1, th');
+  const txtElements = document.querySelectorAll('p, h5, select, button, h1, th, span');
   const registerDebugTable = document.getElementById('register-debug-table');
   const registerTable = document.getElementById('register-table');
   const registerTableTableRow = registerTable.getElementsByTagName('tr');
@@ -49,9 +49,8 @@ import Chip8Wrapper from './chip8wrapper.js';
     }
   };
 
-  debugSelector.addEventListener('change', (event) => {
-    const val = parseInt(event.target.value, 10);
-    if (val === 1) {
+  debugRegCheckbox.addEventListener('change', (event) => {
+    if (event.target.checked) {
       registerDebugTable.classList.remove('hidden');
       debugExtras.classList.remove('hidden');
       emulator.setDebugCallback((state, numBase) => {
@@ -73,6 +72,10 @@ import Chip8Wrapper from './chip8wrapper.js';
           MemAddr.innerHTML = `${MemAddr.innerHTML}${state.i.toString(numBase)}`;
         }
       });
+    } else {
+      registerDebugTable.classList.add('hidden');
+      debugExtras.classList.add('hidden');
+      emulator.setDebugCallback(() => {});
     }
   });
 

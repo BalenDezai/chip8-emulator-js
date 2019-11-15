@@ -154,6 +154,20 @@ a:hover {
   visibility: hidden;
 }
 
-.test>td, th {
+.wideTable>td, th {
   width: 100px;
+}
+
+.flexColumn {
+  display: flex;
+  flex-flow: column;
+}
+
+.flexRow {
+  display: flex;
+  flex-flow: row;
+}
+
+.setWidth {
+  width: 250px;
 }
