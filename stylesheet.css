@@ -29,6 +29,7 @@ a:hover {
   text-decoration: none;
 }
 
+
 .commands {
   width: 100px;
 }
@@ -151,4 +152,8 @@ a:hover {
 
 .hidden {
   visibility: hidden;
+}
+
+.test>td, th {
+  width: 100px;
 }

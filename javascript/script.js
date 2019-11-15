@@ -12,7 +12,9 @@ import Chip8Wrapper from './chip8wrapper.js';
   const blinkSelector = document.getElementById('blink_selector');
   const debugSelector = document.getElementById('debug_selector');
   const numBaseSelector = document.getElementById('numBase_selector');
-  // const debugExtraSelector = document.getElementById('debug_extra_selector');
+  const pcCheckbox = document.getElementById('pc-checkbox');
+  const spCheckbox = document.getElementById('sp-checkbox');
+  const iCheckbox = document.getElementById('i-checkbox');
   const btnStart = document.getElementById('btn-start');
   const btnPause = document.getElementById('btn-pause');
   const btnStep = document.getElementById('btn-step');
@@ -20,8 +22,32 @@ import Chip8Wrapper from './chip8wrapper.js';
   const txtElements = document.querySelectorAll('p, h5, select, button, h1, th');
   const registerDebugTable = document.getElementById('register-debug-table');
   const registerTable = document.getElementById('register-table');
+  const registerTableTableRow = registerTable.getElementsByTagName('tr');
   const registerTableData = registerTable.getElementsByTagName('tr')[1].getElementsByTagName('td');
   const debugExtras = document.getElementById('debug-extra');
+
+  const extraDebugCheckbox = function (id, event, cellWidth, creationNumBase) {
+    if (event.target.checked) {
+      const headerCell = registerTableTableRow[0].insertCell();
+      headerCell.id = `${id}-th`;
+      headerCell.classList.add('uppercase');
+      headerCell.width = cellWidth;
+      headerCell.innerHTML = id;
+      const dataCell = registerTableTableRow[1].insertCell();
+      dataCell.width = cellWidth;
+      dataCell.id = `${id}-td`;
+      if (creationNumBase === 16) {
+        dataCell.innerHTML = '0x';
+      } else {
+        dataCell.innerHTML = '0';
+      }
+    } else {
+      const Th = document.getElementById(`${id}-th`);
+      const Td = document.getElementById(`${id}-td`);
+      Th.remove();
+      Td.remove();
+    }
+  };
 
   debugSelector.addEventListener('change', (event) => {
     const val = parseInt(event.target.value, 10);
@@ -29,34 +55,51 @@ import Chip8Wrapper from './chip8wrapper.js';
       registerDebugTable.classList.remove('hidden');
       debugExtras.classList.remove('hidden');
       emulator.setDebugCallback((state, numBase) => {
-        for (let i = 0; i < registerTableData.length; i += 1) {
-          registerTableData[i].innerHTML = `0x${state.v[i].toString(numBase)}`;
+        for (let i = 0; i < 15; i += 1) {
+          registerTableData[i].innerHTML = `${registerTableData[i].innerHTML}${state.v[i].toString(numBase)}`;
+        }
+        const sp = document.getElementById('sp-td');
+        if (sp) {
+          sp.innerHTML = `${sp.innerHTML}${state.stackPointer.toString(numBase)}`;
+        }
+
+        const pc = document.getElementById('pc-td');
+        if (pc) {
+          pc.innerHTML = `${pc.innerHTML}${state.programCounter.toString(numBase)}`;
+        }
+
+        const MemAddr = document.getElementById('i-td');
+        if (sp) {
+          MemAddr.innerHTML = `${MemAddr.innerHTML}${state.i.toString(numBase)}`;
         }
       });
     }
   });
 
-  // debugExtraSelector.addEventListener('change', (event) => {
-  //   const val = parseInt(event.target.value, 10);
-  //   const tr = registerTable.getElementsByTagName('tr');
-  //   const headerNames = ['SP', 'PC', 'I'];
-  //   if (val) {
-  //     for (let i = 0; i < 3; i += 1) {
-  //       const headerCell = tr[0].insertCell(i);
-  //       const dataCell = tr[1].insertCell(i);
-  //       headerCell.innerHTML = headerNames[i];
-  //       dataCell.innerHTML = '0x';
-  //     }
-  //   } else {
-  //     for (let i = 0; i < 3; i += 1) {
-  //       tr[0].deleteCell(i);
-  //       tr[1].deleteCell(i);
-  //     }
-  //   }
-  // });
+  pcCheckbox.addEventListener('change', (event) => {
+    extraDebugCheckbox('pc', event, '100px', emulator.debugNumBase);
+  });
+
+  spCheckbox.addEventListener('change', (event) => {
+    extraDebugCheckbox('sp', event, '100px', emulator.debugNumBase);
+  });
+
+  iCheckbox.addEventListener('change', (event) => {
+    extraDebugCheckbox('i', event, '100px', emulator.debugNumBase);
+  });
 
   numBaseSelector.addEventListener('change', (event) => {
-    emulator.setDebugNumBase(parseInt(event.target.value, 10));
+    const numBase = parseInt(event.target.value, 10);
+    if (numBase === 10) {
+      for (let i = 0; i < registerTableData.length; i += 1) {
+        registerTableData[i].innerHTML = '0';
+      }
+    } else if (numBase === 16) {
+      for (let i = 0; i < registerTableData.length; i += 1) {
+        registerTableData[i].innerHTML = '0x';
+      }
+    }
+    emulator.setDebugNumBase(numBase);
   });
 
   romSelector.addEventListener('change', () => {
