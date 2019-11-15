@@ -36,8 +36,8 @@ a:hover {
 
 .container {
   display: flex;
-  margin: 20px;
-  justify-content: center;
+  margin: 0px;
+  justify-content: left;
   /* flex-flow: row;
   flex-wrap: wrap; */
 }
@@ -87,6 +87,7 @@ a:hover {
   padding-top: 20px;
   display: flex;
   flex-direction: column;
+  max-width: 150px;
 }
 
 .flex-header {
@@ -141,8 +142,8 @@ a:hover {
 }
 
 .registers {
-  display: flex;
-  flex-flow: column;
+  padding-top: 20px;
+
 }
 
 .stars {
@@ -170,4 +171,12 @@ a:hover {
 
 .setWidth {
   width: 250px;
+}
+
+.tableTextSize>td, th {
+  font-size: 10px;
+}
+
+.test {
+  align-self: flex-start;
 }

@@ -1,6 +1,7 @@
 import Chip8 from './models/chip8.js';
 import Keyboard from './models/keyboard.js';
 import Screen from './models/screen.js';
+import Sound from './models/sound.js';
 import Disassembler from './models/disassembler.js';
 
 export default class Chip8Wrapper {
@@ -32,6 +33,10 @@ export default class Chip8Wrapper {
 
   setDebugCallback(cb) {
     this.debugCallback = cb;
+  }
+
+  setSound(context) {
+    this.chip8.sound = new Sound(context);
   }
 
   async loadROMNames() {

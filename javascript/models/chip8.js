@@ -1,12 +1,14 @@
 import Instruction from './instruction.js';
 
 export default class Chip8 {
-  constructor(screen, keyboard, debug) {
+  constructor(screen, keyboard, sound, debug) {
     this.screen = screen;
     this.debugger = debug;
     this.keyboard = keyboard;
+    this.sound = sound;
     this.instruction = new Instruction();
     this.speed = 10;
+    this.soundOff = true;
     this.pauseEmu = () => {
       if (this.pause === false) {
         this.pause = true;
@@ -28,8 +30,8 @@ export default class Chip8 {
     this.i = 0;
     this.programCounter = 0x200;
     this.stackPointer = 0;
-    this.delay = 0;
-    this.sound = 0;
+    this.delayTimer = 0;
+    this.soundTimer = 0;
     this.pause = false;
     this.loadFontsIntoState();
   }
@@ -266,7 +268,7 @@ export default class Chip8 {
 
 
   operationCodeF07(instruction) {
-    this.v[instruction.getX()] = this.delay;
+    this.v[instruction.getX()] = this.delayTimer;
   }
 
   operationCodeF0A(instruction) {
@@ -278,11 +280,11 @@ export default class Chip8 {
   }
 
   operationCodeF15(instruction) {
-    this.delay = this.v[instruction.getX()];
+    this.delayTimer = this.v[instruction.getX()];
   }
 
   operationCodeF18(instruction) {
-    this.sound = this.v[instruction.getX()];
+    this.soundTimer = this.v[instruction.getX()];
   }
 
   operationCodeF1E(instruction) {
@@ -317,11 +319,16 @@ export default class Chip8 {
   }
 
   updateTimers() {
-    if (this.delay > 0) {
-      this.delay -= 1;
+    if (this.delayTimer > 0) {
+      this.delayTimer -= 1;
     }
-    if (this.sound > 0) {
-      this.sound -= 0;
+    if (this.soundTimer > 0) {
+      if (this.soundTimer === 1) {
+        if (!this.soundOff) {
+          this.sound.start();
+        }
+      }
+      this.soundTimer -= 1;
     }
   }
 

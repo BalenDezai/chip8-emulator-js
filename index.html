@@ -25,10 +25,123 @@
   </header>
   <div id="main">
     <div class="container">
-      <div class="button-area">
-        <button id="btn-start" class="nes-btn">start</button>
-        <button id="btn-pause" class="nes-btn">pause</button>
-        <button id="btn-step" class="nes-btn is-disabled">step</button>
+      <div class="flexRow">
+            <div id="register-debug-table" class=" registers hidden wideTable flexColumn">
+                <table id="register-table" class="nes-table is-bordered is-centered">
+                    <tr>
+                      <th>v[0]</th>
+                      <th>v[1]</th>
+                      <th>v[2]</th>
+                    </tr>
+                    <tr>
+                      <td>0x</td>
+                      <td>0x</td>
+                      <td>0x</td>
+                    </tr>
+                    <tr>
+                      <th>v[3]</th>
+                      <th>v[4]</th>
+                      <th>v[5]</th>
+                    </tr>
+                    <tr>
+                      <td>0x</td>
+                      <td>0x</td>
+                      <td>0x</td>
+                    </tr>
+                    <tr>
+                      <th>v[7]</th>
+                      <th>v[8]</th>
+                      <th>v[9]</th>
+                    </tr>
+                    <tr>
+                      <td>0x</td>
+                      <td>0x</td>
+                      <td>0x</td>
+                    </tr>
+                    <tr>
+                      <th>v[a]</th>
+                      <th>v[b]</th>
+                      <th>v[c]</th>
+                    </tr>
+                    <tr>
+                      <td>0x</td>
+                      <td>0x</td>
+                      <td>0x</td>
+                    </tr>
+                    <tr>
+                        <th>v[d]</th>
+                        <th>v[e]</th>
+                        <th>v[f]</th>
+                    </tr>
+                    <tr>
+                        <td>0x</td>
+                        <td>0x</td>
+                        <td>0x</td>
+                    </tr>
+                    </tr>
+                  </table>
+                  <table id="extra-register-table" class="nes-table is-bordered is-centered">
+                    <tr id="extra-debug-th-tr"></tr>
+                    <tr id="extra-debug-td-tr"></tr>
+                  </table>
+            </div>
+        <div class="button-area">
+          <button id="btn-start" class="nes-btn">start</button>
+          <button id="btn-pause" class="nes-btn">pause</button>
+          <button id="btn-step" class="nes-btn is-disabled">step</button>
+        </div>
+        <div id="register-debug-table" class="registers wideTable hidden">
+          <!-- <table id="register-table" class="nes-table is-bordered is-centered">
+            <tr>
+              <th>v[0]</th>
+              <th>v[1]</th>
+              <th>v[2]</th>
+              <th>v[3]</th>
+            </tr>
+            <tr>
+              <td>0x</td>
+              <td>0x</td>
+              <td>0x</td>
+              <td>0x</td>
+            </tr>
+            <tr>
+              <th>v[4]</th>
+              <th>v[5]</th>
+              <th>v[6]</th>
+              <th>v[7]</th>
+            </tr>
+            <tr>
+              <td>0x</td>
+              <td>0x</td>
+              <td>0x</td>
+              <td>0x</td>
+            </tr>
+            <tr>
+              <th>v[8]</th>
+              <th>v[9]</th>
+              <th>v[a]</th>
+              <th>v[b]</th>
+            </tr>
+            <tr>
+              <td>0x</td>
+              <td>0x</td>
+              <td>0x</td>
+              <td>0x</td>
+            </tr>
+            <tr>
+              <th>v[c]</th>
+              <th>v[d]</th>
+              <th>v[e]</th>
+              <th>v[f]</th>
+            </tr>
+            <tr>
+              <td>0x</td>
+              <td>0x</td>
+              <td>0x</td>
+              <td>0x</td>
+            </tr>
+          </table> -->
+        </div>
       </div>
       <div class="emulator-area">
         <canvas></canvas>
@@ -166,13 +279,13 @@
         </h5>
         <div class="flexRow">
           <label>
-            <input type="radio" class="nes-radio" name="answer" checked />
+            <input id="sound-off-checkbox" type="radio" class="nes-radio" name="answer" checked />
             <span>off</span>
           </label>
 
           <label>
-            <input type="radio" class="nes-radio" name="answer" />
-            <span>on</span>
+            <input id="sound-on-checkbox" type="radio" class="nes-radio" name="answer" />
+            <span class="nes-text is-error">on</span>
           </label>
         </div>
         <div id="debug-extra" class="hidden">
@@ -220,7 +333,7 @@
             <i class="nes-icon is-medium star"></i>
             <i class="nes-icon is-medium star"></i>
             <i class="nes-icon is-medium star"></i>
-            <div class="test2">
+            <div class="flexColumn">
               <div>
                 <i class="nes-icon is-small star"></i>
               </div>
@@ -229,13 +342,13 @@
               </div>
             </div>
           </div>
-           <div id="stars-area" class="stars">
+          <div id="stars-area" class="stars">
             <i class="nes-icon is-medium star"></i>
             <i class="nes-icon is-medium star"></i>
             <i class="nes-icon is-medium star"></i>
             <i class="nes-icon is-medium star"></i>
             <i class="nes-icon is-medium star"></i>
-            <div class="test2">
+            <div class="flexColumn">
               <div>
                 <i class="nes-icon is-small star"></i>
               </div>
@@ -248,7 +361,7 @@
       </div>
     </div>
     <div class="container">
-      <div id="register-debug-table" class="registers hidden wideTable">
+      <!-- <div id="register-debug-table" class="registers hidden wideTable">
         <h5>registers</h5>
         <table id="register-table" class="nes-table is-bordered is-centered">
           <tr id="header">
@@ -288,7 +401,7 @@
             <td>0x</td>
           </tr>
         </table>
-      </div>
+      </div> -->
     </div>
   </div>
   <script type="module" src="./javascript/script.js"></script>
