@@ -15,17 +15,18 @@ import Chip8Wrapper from './chip8wrapper.js';
   const pcCheckbox = document.getElementById('pc-checkbox');
   const spCheckbox = document.getElementById('sp-checkbox');
   const iCheckbox = document.getElementById('i-checkbox');
-  const soundOffcheckbox = document.getElementById('sound-off-checkbox');
+  const soundOffCheckbox = document.getElementById('sound-off-checkbox');
   const soundOnCheckbox = document.getElementById('sound-on-checkbox');
   const btnStart = document.getElementById('btn-start');
   const btnPause = document.getElementById('btn-pause');
   const btnStep = document.getElementById('btn-step');
   const btnKeys = document.querySelectorAll('#keyBtn');
   const txtElements = document.querySelectorAll('p, h5, select, button, h1, th, span');
-  const registerDebugTable = document.getElementById('register-debug-table');
+  const debugRegisterTable = document.getElementById('register-debug-table');
   const registerTable = document.getElementById('register-table');
   const registerTableData = registerTable.getElementsByTagName('td');
   const debugExtras = document.getElementById('debug-extra');
+  let rowCounter = 0;
 
   const extraDebugCheckbox = function (id, event, cellWidth, creationNumBase) {
     if (event.target.checked) {
@@ -44,17 +45,25 @@ import Chip8Wrapper from './chip8wrapper.js';
       } else {
         dataCell.innerHTML = '0x';
       }
+      rowCounter += 1;
     } else {
       const Th = document.getElementById(`${id}-th`);
       const Td = document.getElementById(`${id}-td`);
       Th.remove();
       Td.remove();
+      rowCounter -= 1;
+    }
+    const extraDebugResterTable = document.getElementById('extra-register-table');
+    if (rowCounter === 0) {
+      extraDebugResterTable.classList.add('hidden');
+    } else if (rowCounter > 0) {
+      extraDebugResterTable.classList.remove('hidden');
     }
   };
 
   debugRegCheckbox.addEventListener('change', (event) => {
     if (event.target.checked) {
-      registerDebugTable.classList.remove('hidden');
+      debugRegisterTable.classList.remove('hidden');
       debugExtras.classList.remove('hidden');
       emulator.setDebugCallback((state, numBase) => {
         let prefix = '';
@@ -81,17 +90,18 @@ import Chip8Wrapper from './chip8wrapper.js';
         }
       });
     } else {
-      registerDebugTable.classList.add('hidden');
+      debugRegisterTable.classList.add('hidden');
       debugExtras.classList.add('hidden');
       emulator.setDebugCallback(() => {});
     }
   });
 
-  soundOffcheckbox.addEventListener('change', (event) => {
+  soundOffCheckbox.addEventListener('change', (event) => {
     if (event.target.checked) {
       emulator.chip8.soundOff = true;
     }
   });
+
 
   soundOnCheckbox.addEventListener('change', (event) => {
     if (event.target.checked) {
