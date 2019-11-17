@@ -1,12 +1,12 @@
 import Instruction from './instruction.js';
 
 export default class Chip8 {
-  constructor(screen, keyboard, sound, debug) {
+  constructor(screen, keyboard, sound, disassembler) {
     this.screen = screen;
-    this.debugger = debug;
     this.keyboard = keyboard;
     this.sound = sound;
     this.instruction = new Instruction();
+    this.disassembler = disassembler || function () {};
     this.speed = 10;
     this.soundOff = true;
     this.pauseEmu = () => {
@@ -43,14 +43,13 @@ export default class Chip8 {
   }
 
   emulateCycle() {
-    const instruct = this.instruction;
     for (let i = 0; i < this.speed; i += 1) {
       if (!this.pause) {
         const firstByte = this.memory[this.programCounter] << 8;
         const secondByte = this.memory[this.programCounter + 1];
-        instruct.setInstructionCode(firstByte | secondByte);
-        this.performInstruction(instruct);
-        // this.debugger.WriteToElement(instruct);
+        this.instruction.setInstructionCode(firstByte | secondByte);
+        this.performInstruction(this.instruction);
+        this.disassembler(this.instruction);
       }
     }
 

@@ -1,4 +1,5 @@
 import Chip8Wrapper from './chip8wrapper.js';
+import disassemble from './models/disassembler.js'
 
 (async function () {
   const emulator = new Chip8Wrapper();
@@ -6,7 +7,6 @@ import Chip8Wrapper from './chip8wrapper.js';
   emulator.chip8.screen.applyCanvas(canvas.getContext('2d'));
   await emulator.loadROMNames();
 
-  const debug = document.getElementById('opCodeDebugger');
   const romSelector = document.getElementById('rom_selector');
   const speedSelector = document.getElementById('speed_selector');
   const blinkSelector = document.getElementById('blink_selector');
@@ -22,9 +22,9 @@ import Chip8Wrapper from './chip8wrapper.js';
   const btnStep = document.getElementById('btn-step');
   const btnKeys = document.querySelectorAll('#keyBtn');
   const txtElements = document.querySelectorAll('p, h5, select, button, h1, th, span');
-  const debugRegisterTable = document.getElementById('register-debug-table');
   const registerTable = document.getElementById('register-table');
   const registerTableData = registerTable.getElementsByTagName('td');
+  const instructionTable = document.getElementById('instruction-table');
   const debugExtras = document.getElementById('debug-extra');
   let rowCounter = 0;
 
@@ -63,7 +63,7 @@ import Chip8Wrapper from './chip8wrapper.js';
 
   debugRegCheckbox.addEventListener('change', (event) => {
     if (event.target.checked) {
-      debugRegisterTable.classList.remove('hidden');
+      registerTable.classList.remove('hidden');
       debugExtras.classList.remove('hidden');
       emulator.setDebugCallback((state, numBase) => {
         let prefix = '';
@@ -90,7 +90,7 @@ import Chip8Wrapper from './chip8wrapper.js';
         }
       });
     } else {
-      debugRegisterTable.classList.add('hidden');
+      registerTable.classList.add('hidden');
       debugExtras.classList.add('hidden');
       emulator.setDebugCallback(() => {});
     }
@@ -149,12 +149,22 @@ import Chip8Wrapper from './chip8wrapper.js';
     }
   });
 
-  emulator.AssignDebugEle(debug);
+  emulator.AssignDebugEle(document.getElementById('instructionDebug'));
   emulator.setSound(window.AudioContext
     || window.webkitAudioContext
     || window.mozAudioContext
     || window.oAudioContext
     || window.msAudioContext);
+  emulator.setDisassemblerCallBack((instruction) => {
+    const opCode = disassemble(instruction);
+    if (opCode) {
+      const row = instructionTable.insertRow(0);
+      for (let i = 0; i < 3; i += 1) {
+        const cel = row.insertCell(i);
+        cel.innerHTML = opCode[i];
+      }
+    }
+  });
 
   for (let i = 0, romsCount = emulator.ROMS.length; i < romsCount; i += 1) {
     const option = document.createElement('option');

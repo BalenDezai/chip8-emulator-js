@@ -10,97 +10,100 @@
 </head>
 
 <body>
+
   <header>
-    <div class="flex-header">
-      <div class="header-area">
-        <i class="nes-icon is-medium heart header-icons"></i>
+    <div class="flex-row space-between">
+
+      <di class="flex-row">
+        <i class="nes-icon is-medium heart header-icon-margin"></i>
         <h1 class="header-txt">Made By <a class="header-txt" href="https://github.com/BalenD">BalenD<i
               class="nes-icon github is-medium"></i></a></h1>
-      </div>
-      <div class="right-side-header">
+      </di>
+
+      <div>
         <h1 class="header-txt"><a class="header-txt" href="https://github.com/BalenD/chip8-emulator-js">Source Code<i
               class="nes-icon coin is-medium"></i></a></h1>
       </div>
+
     </div>
   </header>
-  <div id="main">
+
+  <div class="flex-column">
     <div class="container">
-      <div class="flexRow">
-            <div id="register-debug-table" class=" registers hidden wideTable flexColumn">
-                <table id="register-table" class="nes-table is-bordered is-centered">
-                    <tr>
-                      <th>v[0]</th>
-                      <th>v[1]</th>
-                      <th>v[2]</th>
-                    </tr>
-                    <tr>
-                      <td>0x</td>
-                      <td>0x</td>
-                      <td>0x</td>
-                    </tr>
-                    <tr>
-                      <th>v[3]</th>
-                      <th>v[4]</th>
-                      <th>v[5]</th>
-                    </tr>
-                    <tr>
-                      <td>0x</td>
-                      <td>0x</td>
-                      <td>0x</td>
-                    </tr>
-                    <tr>
-                      <th>v[7]</th>
-                      <th>v[8]</th>
-                      <th>v[9]</th>
-                    </tr>
-                    <tr>
-                      <td>0x</td>
-                      <td>0x</td>
-                      <td>0x</td>
-                    </tr>
-                    <tr>
-                      <th>v[a]</th>
-                      <th>v[b]</th>
-                      <th>v[c]</th>
-                    </tr>
-                    <tr>
-                      <td>0x</td>
-                      <td>0x</td>
-                      <td>0x</td>
-                    </tr>
-                    <tr>
-                        <th>v[d]</th>
-                        <th>v[e]</th>
-                        <th>v[f]</th>
-                    </tr>
-                    <tr>
-                        <td>0x</td>
-                        <td>0x</td>
-                        <td>0x</td>
-                    </tr>
-                    </tr>
-                  </table>
-                  <table id="extra-register-table" class="nes-table is-bordered is-centered hidden">
-                    <tr id="extra-debug-th-tr"></tr>
-                    <tr id="extra-debug-td-tr"></tr>
-                  </table>
-            </div>
-        <div class="button-area">
+      <div class="flex-row pad-top">
+        <div>
+          <table id="register-table" class="hidden nes-table is-bordered is-centered">
+            <tr>
+              <th>v[0]</th>
+              <th>v[1]</th>
+              <th>v[2]</th>
+            </tr>
+            <tr>
+              <td>0x</td>
+              <td>0x</td>
+              <td>0x</td>
+            </tr>
+            <tr>
+              <th>v[3]</th>
+              <th>v[4]</th>
+              <th>v[5]</th>
+            </tr>
+            <tr>
+              <td>0x</td>
+              <td>0x</td>
+              <td>0x</td>
+            </tr>
+            <tr>
+              <th>v[7]</th>
+              <th>v[8]</th>
+              <th>v[9]</th>
+            </tr>
+            <tr>
+              <td>0x</td>
+              <td>0x</td>
+              <td>0x</td>
+            </tr>
+            <tr>
+              <th>v[a]</th>
+              <th>v[b]</th>
+              <th>v[c]</th>
+            </tr>
+            <tr>
+              <td>0x</td>
+              <td>0x</td>
+              <td>0x</td>
+            </tr>
+            <tr>
+              <th>v[d]</th>
+              <th>v[e]</th>
+              <th>v[f]</th>
+            </tr>
+            <tr>
+              <td>0x</td>
+              <td>0x</td>
+              <td>0x</td>
+            </tr>
+            </tr>
+          </table>
+          <table id="extra-register-table" class="hidden nes-table is-bordered is-centered">
+            <tr id="extra-debug-th-tr"></tr>
+            <tr id="extra-debug-td-tr"></tr>
+          </table>
+        </div>
+        <div class="flex-column wide-button">
           <button id="btn-start" class="nes-btn">start</button>
           <button id="btn-pause" class="nes-btn">pause</button>
           <button id="btn-step" class="nes-btn is-disabled">step</button>
         </div>
-        <div id="register-debug-table" class="registers wideTable hidden">
-        </div>
       </div>
-      <div class="emulator-area">
+      <div class="header-icon-margin">
         <canvas></canvas>
       </div>
-      <div class="selection-and-key-area">
+      <div class="flex-column selection-and-key-area">
         <h5>
           <div class="tooltip">
             <i class="nes-icon coin is-small"></i>
-            <div class="tooltiptext nes-container is-rounded">
+            <div class="tooltip-text nes-container is-rounded">
               <p>select which game to play</p>
             </div>
           </div>
@@ -113,7 +116,7 @@
         <h5>
           <div class="tooltip">
             <i class="nes-icon coin is-small"></i>
-            <div class="tooltiptext nes-container is-rounded">
+            <div class="tooltip-text nes-container is-rounded">
               <p>the speed which the emulator runs a cycle. This might help if its too fast or slow in your browser</p>
             </div>
           </div>
@@ -133,13 +136,13 @@
         <h5>
           <div class="tooltip">
             <i class="nes-icon coin is-small"></i>
-            <div class="tooltiptext nes-container is-rounded">
+            <div class="tooltip-text nes-container is-rounded">
               <p>Use these keys to play instead of the keyboard if you want to</p>
             </div>
           </div>
           keys
         </h5>
-        <table class="keys">
+        <table style="font-size: 30px;">
           <tr>
             <td><button id="keyBtn" value="1" class="nes-btn">1</button></td>
             <td><button id="keyBtn" value="2" class="nes-btn">2</button></td>
@@ -168,14 +171,14 @@
         <h5>
           <div class="tooltip">
             <i class="nes-icon coin is-small"></i>
-            <div class="tooltiptext nes-container is-rounded">
+            <div class="tooltip-text nes-container is-rounded">
               <p>reduce blinking by vF frame skipping, this might cause lag/slow down for certain games. None is
                 recommended</p>
             </div>
           </div>
           blinking
         </h5>
-        <div class="nes-select">
+        <div class="nes-select setWidth">
           <select id='blink_selector'>
             <option selected="selected" value="0">NONE</option>
             <option value="1">VFFRAME</option>
@@ -185,19 +188,19 @@
         <h5>
           <div class="tooltip">
             <i class="nes-icon coin is-small"></i>
-            <div class="tooltiptext nes-container is-rounded">
+            <div class="tooltip-text nes-container is-rounded">
               <p>select which debugging information to display</p>
             </div>
           </div>
           Debugging
         </h5>
-        <div class="flexColumn">
+        <div class="flex-column">
           <label>
             <input id="debug-reg-checkbox" type="checkbox" class="nes-checkbox" />
             <span>
               <div class="tooltip">
                 <i class="nes-icon coin is-small"></i>
-                <div class="tooltiptext nes-container is-rounded">
+                <div class="tooltip-text nes-container is-rounded">
                   <p>display whats inside of the the 16 8-bit general purpose registers</p>
                 </div>
               </div>
@@ -210,24 +213,24 @@
             <span>
               <div class="tooltip">
                 <i class="nes-icon coin is-small"></i>
-                <div class="tooltiptext nes-container is-rounded">
+                <div class="tooltip-text nes-container is-rounded">
                   <p>display the instruction that just ran</p>
                 </div>
               </div>
-              instructions
+              <span class="nes-text is-error">instructions</span>
             </span>
           </label>
         </div>
         <h5>
           <div class="tooltip">
             <i class="nes-icon coin is-small"></i>
-            <div class="tooltiptext nes-container is-rounded">
+            <div class="tooltip-text nes-container is-rounded">
               <p>disable or enable sound</p>
             </div>
           </div>
           sound
         </h5>
-        <div class="flexRow">
+        <div class="flex-row">
           <label>
             <input id="sound-off-checkbox" type="radio" class="nes-radio" name="answer" checked />
             <span>off</span>
@@ -242,7 +245,7 @@
           <h5>
             <div class="tooltip">
               <i class="nes-icon coin is-small"></i>
-              <div class="tooltiptext nes-container is-rounded">
+              <div class="tooltip-text nes-container is-rounded">
                 <p>extra debugging information like the stack pointer, program pointer, etc</p>
               </div>
             </div>
@@ -265,25 +268,25 @@
           <h5>
             <div class="tooltip">
               <i class="nes-icon coin is-small"></i>
-              <div class="tooltiptext nes-container is-rounded">
+              <div class="tooltip-text nes-container is-rounded">
                 <p>select to see number in hexadecimal or decimal</p>
               </div>
             </div>
             number base
           </h5>
-          <div class="nes-select">
+          <div class="nes-select setWidth">
             <select id='numBase_selector'>
               <option selected="selected" value="16">Hex</option>
               <option value="10">decimal</option>
             </select>
           </div>
-          <div id="stars-area" class="stars">
+          <div id="stars-area" style="display: flex;">
             <i class="nes-icon is-medium star"></i>
             <i class="nes-icon is-medium star"></i>
             <i class="nes-icon is-medium star"></i>
             <i class="nes-icon is-medium star"></i>
             <i class="nes-icon is-medium star"></i>
-            <div class="flexColumn">
+            <div class="flex-column">
               <div>
                 <i class="nes-icon is-small star"></i>
               </div>
@@ -292,13 +295,13 @@
               </div>
             </div>
           </div>
-          <div id="stars-area" class="stars">
+          <div id="stars-area" style="display: flex;">
             <i class="nes-icon is-medium star"></i>
             <i class="nes-icon is-medium star"></i>
             <i class="nes-icon is-medium star"></i>
             <i class="nes-icon is-medium star"></i>
             <i class="nes-icon is-medium star"></i>
-            <div class="flexColumn">
+            <div class="flex-column">
               <div>
                 <i class="nes-icon is-small star"></i>
               </div>
@@ -310,48 +313,18 @@
         </div>
       </div>
     </div>
-    <div class="container">
-      <!-- <div id="register-debug-table" class="registers hidden wideTable">
-        <h5>registers</h5>
-        <table id="register-table" class="nes-table is-bordered is-centered">
-          <tr id="header">
-            <th>v[0]</th>
-            <th>v[1]</th>
-            <th>v[2]</th>
-            <th>v[3]</th>
-            <th>v[4]</th>
-            <th>v[5]</th>
-            <th>v[6]</th>
-            <th>v[7]</th>
-            <th>v[8]</th>
-            <th>v[9]</th>
-            <th>v[a]</th>
-            <th>v[b]</th>
-            <th>v[c]</th>
-            <th>v[d]</th>
-            <th>v[e]</th>
-            <th>v[f]</th>
-          </tr>
-          <tr id="data">
-            <td>0x</td>
-            <td>0x</td>
-            <td>0x</td>
-            <td>0x</td>
-            <td>0x</td>
-            <td>0x</td>
-            <td>0x</td>
-            <td>0x</td>
-            <td>0x</td>
-            <td>0x</td>
-            <td>0x</td>
-            <td>0x</td>
-            <td>0x</td>
-            <td>0x</td>
-            <td>0x</td>
-            <td>0x</td>
-          </tr>
-        </table>
-      </div> -->
+    <div class="container flex-center">
+      <table class="nes-table is-bordered is-centered wide-center-table">
+        <tr>
+          <th>op code</th>
+          <th>type</th>
+          <th>action</th>
+        </tr>
+      </table>
+    </div>
+    <div class="container flex-center test">
+        <table id="instruction-table" class="nes-table is-bordered is-centered wide-center-table">
+          </table>
     </div>
   </div>
   <script type="module" src="./javascript/script.js"></script>

@@ -2,7 +2,7 @@ import Chip8 from './models/chip8.js';
 import Keyboard from './models/keyboard.js';
 import Screen from './models/screen.js';
 import Sound from './models/sound.js';
-import Disassembler from './models/disassembler.js';
+
 
 export default class Chip8Wrapper {
   constructor(debugCallback) {
@@ -24,11 +24,15 @@ export default class Chip8Wrapper {
   }
 
   AssignDebugEle(ele) {
-    this.chip8.debugger = new Disassembler(ele);
+    //this.chip8.debugger = new Disassembler(ele);
   }
 
   setDebugNumBase(numBase) {
     this.debugNumBase = numBase;
+  }
+
+  setDisassemblerCallBack(cb) {
+    this.chip8.disassembler = cb;
   }
 
   setDebugCallback(cb) {
