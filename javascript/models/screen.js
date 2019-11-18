@@ -87,7 +87,7 @@ export default class Screen {
     return !this.screen[location];
   }
 
-  applyCanvas(context, scale) {
+  setCanvas(context, scale) {
     this.scale = scale || 10;
     this.width = context.canvas.width = this.displayWidth * this.scale;
     this.height = context.canvas.height = this.displayHeight * this.scale;

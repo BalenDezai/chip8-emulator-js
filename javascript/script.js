@@ -1,11 +1,7 @@
 import Chip8Wrapper from './chip8wrapper.js';
 
 (async function () {
-  const emulator = new Chip8Wrapper();
   const canvas = document.querySelector('canvas');
-  emulator.chip8.screen.applyCanvas(canvas.getContext('2d'));
-  await emulator.loadROMNames();
-
   const romSelector = document.getElementById('rom_selector');
   const speedSelector = document.getElementById('speed_selector');
   const blinkSelector = document.getElementById('blink_selector');
@@ -25,6 +21,15 @@ import Chip8Wrapper from './chip8wrapper.js';
   const registerTableData = registerTable.getElementsByTagName('td');
   const debugExtras = document.getElementById('debug-extra');
   let rowCounter = 0;
+
+  const emulator = new Chip8Wrapper();
+  emulator.setEmuCanvasCtx(canvas.getContext('2d'));
+  await emulator.loadROMNames();
+  emulator.setEmuSound(window.AudioContext
+    || window.webkitAudioContext
+    || window.mozAudioContext
+    || window.oAudioContext
+    || window.msAudioContext);
 
   const extraDebugCheckbox = function (id, event, cellWidth, creationNumBase) {
     if (event.target.checked) {
@@ -63,7 +68,7 @@ import Chip8Wrapper from './chip8wrapper.js';
     if (event.target.checked) {
       registerTable.classList.remove('hidden');
       debugExtras.classList.remove('hidden');
-      emulator.setDebugCallback((state, numBase) => {
+      emulator.setEmuDebugCallback((state, numBase) => {
         let prefix = '';
         if (numBase === 16) {
           prefix = '0x';
@@ -90,7 +95,7 @@ import Chip8Wrapper from './chip8wrapper.js';
     } else {
       registerTable.classList.add('hidden');
       debugExtras.classList.add('hidden');
-      emulator.setDebugCallback(() => {});
+      emulator.setEmuDebugCallback(() => {});
     }
   });
 
@@ -137,7 +142,7 @@ import Chip8Wrapper from './chip8wrapper.js';
         extraDebugTable[i].innerHTML = '0x';
       }
     }
-    emulator.setDebugNumBase(numBase);
+    emulator.setEmuDebugNumBase(numBase);
   });
 
   romSelector.addEventListener('change', () => {
@@ -146,12 +151,6 @@ import Chip8Wrapper from './chip8wrapper.js';
       btnStart.textContent = 'START';
     }
   });
-
-  emulator.setEmuSound(window.AudioContext
-    || window.webkitAudioContext
-    || window.mozAudioContext
-    || window.oAudioContext
-    || window.msAudioContext);
 
   for (let i = 0, romsCount = emulator.ROMS.length; i < romsCount; i += 1) {
     const option = document.createElement('option');
@@ -168,8 +167,8 @@ import Chip8Wrapper from './chip8wrapper.js';
     emulator.setEmuSpeed(event.target.value);
   });
 
-  window.addEventListener('keydown', emulator.chip8.keyboard.keyDown, false);
-  window.addEventListener('keyup', emulator.chip8.keyboard.keyUp, false);
+  window.addEventListener('keydown', emulator.keyDownEvent, false);
+  window.addEventListener('keyup', emulator.keyUpEvent, false);
 
   btnStart.addEventListener('click', () => {
     const name = romSelector.options[romSelector.selectedIndex].text;
@@ -206,10 +205,10 @@ import Chip8Wrapper from './chip8wrapper.js';
 
   btnKeys.forEach((keyBtn) => {
     keyBtn.addEventListener('mousedown', () => {
-      emulator.chip8.keyboard.keyDown({ which: keyBtn.value.charCodeAt(0) });
+      emulator.emuKeyDown(keyBtn.value.charCodeAt(0));
     });
     keyBtn.addEventListener('mouseup', () => {
-      emulator.chip8.keyboard.keyUp({ which: keyBtn.value.charCodeAt(0) });
+      emulator.emuKeyUp(keyBtn.value.charCodeAt(0));
     });
   });
 

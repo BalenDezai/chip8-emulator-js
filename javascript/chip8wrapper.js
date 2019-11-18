@@ -12,6 +12,9 @@ export default class Chip8Wrapper {
     this.loop = 0;
     this.chip8 = new Chip8(new Screen(), new Keyboard());
     this.ROMS = [];
+    this.keyDownEvent = this.chip8.keyboard.keyDown;
+    this.keyUpEvent = this.chip8.keyboard.keyUp;
+    this.debugNumBase = 16;
   }
 
   step() {
@@ -62,6 +65,18 @@ export default class Chip8Wrapper {
 
   setEmuSound(context) {
     this.chip8.sound = new Sound(context);
+  }
+
+  emuKeyUp(charCode) {
+    this.chip8.keyboard.keyUp({ which: charCode });
+  }
+
+  emuKeyDown(charCode) {
+    this.chip8.keyboard.keyDown({ which: charCode });
+  }
+
+  setEmuCanvasCtx(canvas) {
+    this.chip8.screen.setCanvas(canvas);
   }
 
   async loadROMNames() {
