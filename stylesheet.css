@@ -106,42 +106,6 @@ a:hover {
   visibility: hidden;
 }
 
-.wideTable>td, th {
-  width: 100px;
-}
-
 .setWidth {
   width: 250px;
-}
-
-.wide-button {
-  width: 145px;
-}
-
-.tableTextSize>td, th {
-  font-size: 10px;
-}
-
-.wide-center-table {
-  width: 1108px;
-  text-align: center;
-}
-
-.wide-center-table>td, th {
-  font-size: 20px;
-}
-
-.flex-center {
-  display: flex;
-  justify-content: center;
-  flex-flow: column;
-  align-items: center;
-  margin-left: 160px;
-  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-}
-
-.test {
-  overflow: hidden;
-  overflow-y: scroll;
-  max-height: 250px;
 }

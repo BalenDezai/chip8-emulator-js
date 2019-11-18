@@ -1,24 +1,13 @@
 import Instruction from './instruction.js';
 
 export default class Chip8 {
-  constructor(screen, keyboard, sound, disassembler) {
+  constructor(screen, keyboard, sound) {
     this.screen = screen;
     this.keyboard = keyboard;
     this.sound = sound;
     this.instruction = new Instruction();
-    this.disassembler = disassembler || function () {};
     this.speed = 10;
     this.soundOff = true;
-    this.pauseEmu = () => {
-      if (this.pause === false) {
-        this.pause = true;
-      } else {
-        this.pause = false;
-      }
-    };
-    this.setSpeed = (speed) => {
-      this.speed = parseInt(speed, 10);
-    };
   }
 
   resetState() {
@@ -49,7 +38,6 @@ export default class Chip8 {
         const secondByte = this.memory[this.programCounter + 1];
         this.instruction.setInstructionCode(firstByte | secondByte);
         this.performInstruction(this.instruction);
-        this.disassembler(this.instruction);
       }
     }
 

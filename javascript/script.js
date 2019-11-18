@@ -1,5 +1,4 @@
 import Chip8Wrapper from './chip8wrapper.js';
-import disassemble from './models/disassembler.js'
 
 (async function () {
   const emulator = new Chip8Wrapper();
@@ -11,7 +10,7 @@ import disassemble from './models/disassembler.js'
   const speedSelector = document.getElementById('speed_selector');
   const blinkSelector = document.getElementById('blink_selector');
   const numBaseSelector = document.getElementById('numBase_selector');
-  const debugRegCheckbox = document.getElementById('debug-reg-checkbox');
+  const debugRegCheckbox = document.getElementById('register-debug-checkbox');
   const pcCheckbox = document.getElementById('pc-checkbox');
   const spCheckbox = document.getElementById('sp-checkbox');
   const iCheckbox = document.getElementById('i-checkbox');
@@ -24,7 +23,6 @@ import disassemble from './models/disassembler.js'
   const txtElements = document.querySelectorAll('p, h5, select, button, h1, th, span');
   const registerTable = document.getElementById('register-table');
   const registerTableData = registerTable.getElementsByTagName('td');
-  const instructionTable = document.getElementById('instruction-table');
   const debugExtras = document.getElementById('debug-extra');
   let rowCounter = 0;
 
@@ -98,14 +96,14 @@ import disassemble from './models/disassembler.js'
 
   soundOffCheckbox.addEventListener('change', (event) => {
     if (event.target.checked) {
-      emulator.chip8.soundOff = true;
+      emulator.setEmuSoundVolume(true);
     }
   });
 
 
   soundOnCheckbox.addEventListener('change', (event) => {
     if (event.target.checked) {
-      emulator.chip8.soundOff = false;
+      emulator.setEmuSoundVolume(false);
     }
   });
 
@@ -149,22 +147,11 @@ import disassemble from './models/disassembler.js'
     }
   });
 
-  emulator.AssignDebugEle(document.getElementById('instructionDebug'));
-  emulator.setSound(window.AudioContext
+  emulator.setEmuSound(window.AudioContext
     || window.webkitAudioContext
     || window.mozAudioContext
     || window.oAudioContext
     || window.msAudioContext);
-  emulator.setDisassemblerCallBack((instruction) => {
-    const opCode = disassemble(instruction);
-    if (opCode) {
-      const row = instructionTable.insertRow(0);
-      for (let i = 0; i < 3; i += 1) {
-        const cel = row.insertCell(i);
-        cel.innerHTML = opCode[i];
-      }
-    }
-  });
 
   for (let i = 0, romsCount = emulator.ROMS.length; i < romsCount; i += 1) {
     const option = document.createElement('option');
@@ -175,10 +162,10 @@ import disassemble from './models/disassembler.js'
 
 
   blinkSelector.addEventListener('change', (event) => {
-    emulator.chip8.screen.setBlinkLevel(event.target.value);
+    emulator.setEmuScreenBlinkLevel(event.target.value);
   });
   speedSelector.addEventListener('change', (event) => {
-    emulator.chip8.setSpeed(event.target.value);
+    emulator.setEmuSpeed(event.target.value);
   });
 
   window.addEventListener('keydown', emulator.chip8.keyboard.keyDown, false);
@@ -208,13 +195,13 @@ import disassemble from './models/disassembler.js'
       btnPause.textContent = 'PAUSE';
       btnStep.classList.add('is-disabled');
     }
-    emulator.chip8.pauseEmu();
+    emulator.pauseEmu();
   }, false);
 
   btnStep.addEventListener('click', () => {
-    emulator.chip8.pause = false;
-    emulator.chip8.emulateCycle();
-    emulator.chip8.pause = true;
+    emulator.pauseEmu();
+    emulator.emulateEmuCycle();
+    emulator.pauseEmu();
   });
 
   btnKeys.forEach((keyBtn) => {

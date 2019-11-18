@@ -1,5 +1,8 @@
+import autoBind from './../utils/autobinder.js';
+
 export default class Sound {
   constructor(ctxClass, frequency) {
+    autoBind(this);
     this.CtxClass = ctxClass;
     this.frequency = frequency;
     if (ctxClass) {
@@ -7,10 +10,11 @@ export default class Sound {
       this.gain = this.context.createGain();
       this.gain.connect(this.context.destination);
     }
-    this.stop = () => {
-      this.oscillator.stop();
-      this.oscillator.disconnect();
-    }
+  }
+
+  stop() {
+    this.oscillator.stop();
+    this.oscillator.disconnect();
   }
 
   start() {

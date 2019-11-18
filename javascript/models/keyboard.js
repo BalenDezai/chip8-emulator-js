@@ -1,6 +1,8 @@
+import autoBind from './../utils/autobinder.js';
 
 export default class Keyboard {
   constructor() {
+    autoBind(this);
     this.keysPressed = [];
     this.onNextKeyPress = function () {};
     this.keyMapping = {
@@ -21,24 +23,27 @@ export default class Keyboard {
       0xE: 'F',
       0xF: 'V',
     };
-    this.keyUp = (event) => {
-      const key = String.fromCharCode(event.which);
-      this.keysPressed[key] = false;
-    };
-    this.isKeyPressed = (keyCode) => {
-      const keyPressed = this.keyMapping[keyCode];
-      return !!this.keysPressed[keyPressed];
-    };
-    this.keyDown = (event) => {
-      const key = String.fromCharCode(event.which);
-      this.keysPressed[key] = true;
-      Object.entries(this.keyMapping).forEach(([oKey, oVal]) => {
-        const keyCode = this.keyMapping[oVal];
-        if (keyCode === key) {
-          this.onNextKeyPress(parseInt(oKey, 10));
-        }
-      });
-    };
+  }
+
+  keyDown(event) {
+    const key = String.fromCharCode(event.which);
+    this.keysPressed[key] = true;
+    Object.entries(this.keyMapping).forEach(([oKey, oVal]) => {
+      const keyCode = this.keyMapping[oVal];
+      if (keyCode === key) {
+        this.onNextKeyPress(parseInt(oKey, 10));
+      }
+    });
+  }
+
+  keyUp(event) {
+    const key = String.fromCharCode(event.which);
+    this.keysPressed[key] = false;
+  }
+
+  isKeyPressed(keyCode) {
+    const keyPressed = this.keyMapping[keyCode];
+    return !!this.keysPressed[keyPressed];
   }
 
   clear() {

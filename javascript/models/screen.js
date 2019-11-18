@@ -10,9 +10,6 @@ export default class Screen {
     this.blinkLevel = 0;
     this.vfFrame = 0;
     this.skipped = 0;
-    this.setBlinkLevel = (blinkLevel) => {
-      this.blinkLevel = parseInt(blinkLevel, 10);
-    };
   }
 
   blinkReduction() {

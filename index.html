@@ -28,303 +28,288 @@
     </div>
   </header>
 
-  <div class="flex-column">
-    <div class="container">
-      <div class="flex-row pad-top">
-        <div>
-          <table id="register-table" class="hidden nes-table is-bordered is-centered">
-            <tr>
-              <th>v[0]</th>
-              <th>v[1]</th>
-              <th>v[2]</th>
-            </tr>
-            <tr>
-              <td>0x</td>
-              <td>0x</td>
-              <td>0x</td>
-            </tr>
-            <tr>
-              <th>v[3]</th>
-              <th>v[4]</th>
-              <th>v[5]</th>
-            </tr>
-            <tr>
-              <td>0x</td>
-              <td>0x</td>
-              <td>0x</td>
-            </tr>
-            <tr>
-              <th>v[7]</th>
-              <th>v[8]</th>
-              <th>v[9]</th>
-            </tr>
-            <tr>
-              <td>0x</td>
-              <td>0x</td>
-              <td>0x</td>
-            </tr>
-            <tr>
-              <th>v[a]</th>
-              <th>v[b]</th>
-              <th>v[c]</th>
-            </tr>
-            <tr>
-              <td>0x</td>
-              <td>0x</td>
-              <td>0x</td>
-            </tr>
-            <tr>
-              <th>v[d]</th>
-              <th>v[e]</th>
-              <th>v[f]</th>
-            </tr>
-            <tr>
-              <td>0x</td>
-              <td>0x</td>
-              <td>0x</td>
-            </tr>
-            </tr>
-          </table>
-          <table id="extra-register-table" class="hidden nes-table is-bordered is-centered">
-            <tr id="extra-debug-th-tr"></tr>
-            <tr id="extra-debug-td-tr"></tr>
-          </table>
-        </div>
-        <div class="flex-column wide-button">
-          <button id="btn-start" class="nes-btn">start</button>
-          <button id="btn-pause" class="nes-btn">pause</button>
-          <button id="btn-step" class="nes-btn is-disabled">step</button>
-        </div>
-      </div>
-      <div class="header-icon-margin">
-        <canvas></canvas>
-      </div>
-      <div class="flex-column selection-and-key-area">
-        <h5>
-          <div class="tooltip">
-            <i class="nes-icon coin is-small"></i>
-            <div class="tooltip-text nes-container is-rounded">
-              <p>select which game to play</p>
-            </div>
-          </div>
-          game
-        </h5>
-        <div class="nes-select setWidth">
-          <select id="rom_selector">
-          </select>
-        </div>
-        <h5>
-          <div class="tooltip">
-            <i class="nes-icon coin is-small"></i>
-            <div class="tooltip-text nes-container is-rounded">
-              <p>the speed which the emulator runs a cycle. This might help if its too fast or slow in your browser</p>
-            </div>
-          </div>
-          cycle speed
-        </h5>
-        <div class="nes-select setWidth">
-          <select id='speed_selector'>
-            <option value="1">1</option>
-            <option value="5">5</option>
-            <option selected="selected" value="10">10</option>
-            <option value="16">16</option>
-            <option value="30">30</option>
-            <option value="60">60</option>
-            <option value="144">144</option>
-          </select>
-        </div>
-        <h5>
-          <div class="tooltip">
-            <i class="nes-icon coin is-small"></i>
-            <div class="tooltip-text nes-container is-rounded">
-              <p>Use these keys to play instead of the keyboard if you want to</p>
-            </div>
-          </div>
-          keys
-        </h5>
-        <table style="font-size: 30px;">
+  <div class="container">
+    <div class="flex-row pad-top">
+      <div>
+        <table id="register-table" class="hidden nes-table is-bordered is-centered">
           <tr>
-            <td><button id="keyBtn" value="1" class="nes-btn">1</button></td>
-            <td><button id="keyBtn" value="2" class="nes-btn">2</button></td>
-            <td><button id="keyBtn" value="3" class="nes-btn">3</button></td>
-            <td><button id="keyBtn" value="4" class="nes-btn">4</button></td>
+            <th>v[0]</th>
+            <th>v[1]</th>
+            <th>v[2]</th>
           </tr>
           <tr>
-            <td><button id="keyBtn" value="Q" class="nes-btn">q</button></td>
-            <td><button id="keyBtn" value="W" class="nes-btn">w</button></td>
-            <td><button id="keyBtn" value="E" class="nes-btn">e</button></td>
-            <td><button id="keyBtn" value="R" class="nes-btn">r</button></td>
+            <td>0x</td>
+            <td>0x</td>
+            <td>0x</td>
           </tr>
           <tr>
-            <td><button id="keyBtn" value="A" class="nes-btn">a</button></td>
-            <td><button id="keyBtn" value="S" class="nes-btn">s</button></td>
-            <td><button id="keyBtn" value="D" class="nes-btn">d</button></td>
-            <td><button id="keyBtn" value="F" class="nes-btn">f</button></td>
+            <th>v[3]</th>
+            <th>v[4]</th>
+            <th>v[5]</th>
           </tr>
           <tr>
-            <td><button id="keyBtn" value="Z" class="nes-btn">z</button></td>
-            <td><button id="keyBtn" value="X" class="nes-btn">x</button></td>
-            <td><button id="keyBtn" value="C" class="nes-btn">c</button></td>
-            <td><button id="keyBtn" value="V" class="nes-btn">v</button></td>
+            <td>0x</td>
+            <td>0x</td>
+            <td>0x</td>
+          </tr>
+          <tr>
+            <th>v[7]</th>
+            <th>v[8]</th>
+            <th>v[9]</th>
+          </tr>
+          <tr>
+            <td>0x</td>
+            <td>0x</td>
+            <td>0x</td>
+          </tr>
+          <tr>
+            <th>v[a]</th>
+            <th>v[b]</th>
+            <th>v[c]</th>
+          </tr>
+          <tr>
+            <td>0x</td>
+            <td>0x</td>
+            <td>0x</td>
+          </tr>
+          <tr>
+            <th>v[d]</th>
+            <th>v[e]</th>
+            <th>v[f]</th>
+          </tr>
+          <tr>
+            <td>0x</td>
+            <td>0x</td>
+            <td>0x</td>
+          </tr>
           </tr>
         </table>
+        <table id="extra-register-table" class="hidden nes-table is-bordered is-centered">
+          <tr id="extra-debug-th-tr"></tr>
+          <tr id="extra-debug-td-tr"></tr>
+        </table>
+      </div>
+      <div class="flex-column">
+        <button id="btn-start" class="nes-btn">start</button>
+        <button id="btn-pause" class="nes-btn">pause</button>
+        <button id="btn-step" class="nes-btn is-disabled">step</button>
+      </div>
+    </div>
+    <div class="header-icon-margin">
+      <canvas></canvas>
+    </div>
+    <div class="flex-column selection-and-key-area">
+      <h5>
+        <div class="tooltip">
+          <i class="nes-icon coin is-small"></i>
+          <div class="tooltip-text nes-container is-rounded">
+            <p>select which game to play</p>
+          </div>
+        </div>
+        game
+      </h5>
+      <div class="nes-select setWidth">
+        <select id="rom_selector">
+        </select>
+      </div>
+      <h5>
+        <div class="tooltip">
+          <i class="nes-icon coin is-small"></i>
+          <div class="tooltip-text nes-container is-rounded">
+            <p>the speed which the emulator runs a cycle. This might help if its too fast or slow in your browser</p>
+          </div>
+        </div>
+        cycle speed
+      </h5>
+      <div class="nes-select setWidth">
+        <select id='speed_selector'>
+          <option value="1">1</option>
+          <option value="5">5</option>
+          <option selected="selected" value="10">10</option>
+          <option value="16">16</option>
+          <option value="30">30</option>
+          <option value="60">60</option>
+          <option value="144">144</option>
+        </select>
+      </div>
+      <h5>
+        <div class="tooltip">
+          <i class="nes-icon coin is-small"></i>
+          <div class="tooltip-text nes-container is-rounded">
+            <p>Use these keys to play instead of the keyboard if you want to</p>
+          </div>
+        </div>
+        keys
+      </h5>
+      <table style="font-size: 30px;">
+        <tr>
+          <td><button id="keyBtn" value="1" class="nes-btn">1</button></td>
+          <td><button id="keyBtn" value="2" class="nes-btn">2</button></td>
+          <td><button id="keyBtn" value="3" class="nes-btn">3</button></td>
+          <td><button id="keyBtn" value="4" class="nes-btn">4</button></td>
+        </tr>
+        <tr>
+          <td><button id="keyBtn" value="Q" class="nes-btn">q</button></td>
+          <td><button id="keyBtn" value="W" class="nes-btn">w</button></td>
+          <td><button id="keyBtn" value="E" class="nes-btn">e</button></td>
+          <td><button id="keyBtn" value="R" class="nes-btn">r</button></td>
+        </tr>
+        <tr>
+          <td><button id="keyBtn" value="A" class="nes-btn">a</button></td>
+          <td><button id="keyBtn" value="S" class="nes-btn">s</button></td>
+          <td><button id="keyBtn" value="D" class="nes-btn">d</button></td>
+          <td><button id="keyBtn" value="F" class="nes-btn">f</button></td>
+        </tr>
+        <tr>
+          <td><button id="keyBtn" value="Z" class="nes-btn">z</button></td>
+          <td><button id="keyBtn" value="X" class="nes-btn">x</button></td>
+          <td><button id="keyBtn" value="C" class="nes-btn">c</button></td>
+          <td><button id="keyBtn" value="V" class="nes-btn">v</button></td>
+        </tr>
+      </table>
+      <h5>
+        <div class="tooltip">
+          <i class="nes-icon coin is-small"></i>
+          <div class="tooltip-text nes-container is-rounded">
+            <p>reduce blinking by vF frame skipping, this might cause lag/slow down for certain games. None is
+              recommended</p>
+          </div>
+        </div>
+        blinking
+      </h5>
+      <div class="nes-select setWidth">
+        <select id='blink_selector'>
+          <option selected="selected" value="0">NONE</option>
+          <option value="1">VF FRAME</option>
+          <option value="2">VF FRAME++</option>
+        </select>
+      </div>
+      <h5>
+        <div class="tooltip">
+          <i class="nes-icon coin is-small"></i>
+          <div class="tooltip-text nes-container is-rounded">
+            <p>select which debugging information to display</p>
+          </div>
+        </div>
+        Debugging
+      </h5>
+      <div class="flex-column">
+        <label>
+          <input id="register-debug-checkbox" type="checkbox" class="nes-checkbox" />
+          <span>
+            <div class="tooltip">
+              <i class="nes-icon coin is-small"></i>
+              <div class="tooltip-text nes-container is-rounded">
+                <p>display whats inside of the the 16 8-bit general purpose registers</p>
+              </div>
+            </div>
+            registers
+          </span>
+        </label>
+
+        <label>
+          <input id="debug-inst-checkbox" type="checkbox" class="nes-checkbox" />
+          <span>
+            <div class="tooltip">
+              <i class="nes-icon coin is-small"></i>
+              <div class="tooltip-text nes-container is-rounded">
+                <p>[DISABLED] display a history of ran instructions</p>
+              </div>
+            </div>
+            <span class="nes-text is-disabled">instructions</span>
+          </span>
+        </label>
+      </div>
+      <h5>
+        <div class="tooltip">
+          <i class="nes-icon coin is-small"></i>
+          <div class="tooltip-text nes-container is-rounded">
+            <p>disable or enable sound</p>
+          </div>
+        </div>
+        sound
+      </h5>
+      <div class="flex-row">
+        <label>
+          <input id="sound-off-checkbox" type="radio" class="nes-radio" name="answer" checked />
+          <span>off</span>
+        </label>
+
+        <label>
+          <input id="sound-on-checkbox" type="radio" class="nes-radio" name="answer" />
+          <span class="nes-text is-error">on</span>
+        </label>
+      </div>
+      <div id="debug-extra" class="hidden">
         <h5>
           <div class="tooltip">
             <i class="nes-icon coin is-small"></i>
             <div class="tooltip-text nes-container is-rounded">
-              <p>reduce blinking by vF frame skipping, this might cause lag/slow down for certain games. None is
-                recommended</p>
+              <p>extra debugging information like the stack pointer, program pointer, etc</p>
             </div>
           </div>
-          blinking
+          extra debugging
+        </h5>
+        <div>
+          <label>
+            <input id="pc-checkbox" type="checkbox" class="nes-checkbox" />
+            <span>PC</span>
+          </label>
+          <label>
+            <input id="sp-checkbox" type="checkbox" class="nes-checkbox" />
+            <span>SP</span>
+          </label>
+          <label>
+            <input id="i-checkbox" type="checkbox" class="nes-checkbox" />
+            <span>I</span>
+          </label>
+        </div>
+        <h5>
+          <div class="tooltip">
+            <i class="nes-icon coin is-small"></i>
+            <div class="tooltip-text nes-container is-rounded">
+              <p>select to see number in hexadecimal or decimal</p>
+            </div>
+          </div>
+          number base
         </h5>
         <div class="nes-select setWidth">
-          <select id='blink_selector'>
-            <option selected="selected" value="0">NONE</option>
-            <option value="1">VFFRAME</option>
-            <option value="2">VFFRAME++</option>
+          <select id='numBase_selector'>
+            <option selected="selected" value="16">Hex</option>
+            <option value="10">decimal</option>
           </select>
         </div>
-        <h5>
-          <div class="tooltip">
-            <i class="nes-icon coin is-small"></i>
-            <div class="tooltip-text nes-container is-rounded">
-              <p>select which debugging information to display</p>
+        <div id="stars-area" style="display: flex;">
+          <i class="nes-icon is-medium star"></i>
+          <i class="nes-icon is-medium star"></i>
+          <i class="nes-icon is-medium star"></i>
+          <i class="nes-icon is-medium star"></i>
+          <i class="nes-icon is-medium star"></i>
+          <div class="flex-column">
+            <div>
+              <i class="nes-icon is-small star"></i>
+            </div>
+            <div>
+              <i class="nes-icon is-small star"></i>
             </div>
           </div>
-          Debugging
-        </h5>
-        <div class="flex-column">
-          <label>
-            <input id="debug-reg-checkbox" type="checkbox" class="nes-checkbox" />
-            <span>
-              <div class="tooltip">
-                <i class="nes-icon coin is-small"></i>
-                <div class="tooltip-text nes-container is-rounded">
-                  <p>display whats inside of the the 16 8-bit general purpose registers</p>
-                </div>
-              </div>
-              registers
-            </span>
-          </label>
-
-          <label>
-            <input id="debug-inst-checkbox" type="checkbox" class="nes-checkbox" />
-            <span>
-              <div class="tooltip">
-                <i class="nes-icon coin is-small"></i>
-                <div class="tooltip-text nes-container is-rounded">
-                  <p>display the instruction that just ran</p>
-                </div>
-              </div>
-              <span class="nes-text is-error">instructions</span>
-            </span>
-          </label>
         </div>
-        <h5>
-          <div class="tooltip">
-            <i class="nes-icon coin is-small"></i>
-            <div class="tooltip-text nes-container is-rounded">
-              <p>disable or enable sound</p>
+        <div id="stars-area" style="display: flex;">
+          <i class="nes-icon is-medium star"></i>
+          <i class="nes-icon is-medium star"></i>
+          <i class="nes-icon is-medium star"></i>
+          <i class="nes-icon is-medium star"></i>
+          <i class="nes-icon is-medium star"></i>
+          <div class="flex-column">
+            <div>
+              <i class="nes-icon is-small star"></i>
             </div>
-          </div>
-          sound
-        </h5>
-        <div class="flex-row">
-          <label>
-            <input id="sound-off-checkbox" type="radio" class="nes-radio" name="answer" checked />
-            <span>off</span>
-          </label>
-
-          <label>
-            <input id="sound-on-checkbox" type="radio" class="nes-radio" name="answer" />
-            <span class="nes-text is-error">on</span>
-          </label>
-        </div>
-        <div id="debug-extra" class="hidden">
-          <h5>
-            <div class="tooltip">
-              <i class="nes-icon coin is-small"></i>
-              <div class="tooltip-text nes-container is-rounded">
-                <p>extra debugging information like the stack pointer, program pointer, etc</p>
-              </div>
-            </div>
-            extra debugging
-          </h5>
-          <div>
-            <label>
-              <input id="pc-checkbox" type="checkbox" class="nes-checkbox" />
-              <span>PC</span>
-            </label>
-            <label>
-              <input id="sp-checkbox" type="checkbox" class="nes-checkbox" />
-              <span>SP</span>
-            </label>
-            <label>
-              <input id="i-checkbox" type="checkbox" class="nes-checkbox" />
-              <span>I</span>
-            </label>
-          </div>
-          <h5>
-            <div class="tooltip">
-              <i class="nes-icon coin is-small"></i>
-              <div class="tooltip-text nes-container is-rounded">
-                <p>select to see number in hexadecimal or decimal</p>
-              </div>
-            </div>
-            number base
-          </h5>
-          <div class="nes-select setWidth">
-            <select id='numBase_selector'>
-              <option selected="selected" value="16">Hex</option>
-              <option value="10">decimal</option>
-            </select>
-          </div>
-          <div id="stars-area" style="display: flex;">
-            <i class="nes-icon is-medium star"></i>
-            <i class="nes-icon is-medium star"></i>
-            <i class="nes-icon is-medium star"></i>
-            <i class="nes-icon is-medium star"></i>
-            <i class="nes-icon is-medium star"></i>
-            <div class="flex-column">
-              <div>
-                <i class="nes-icon is-small star"></i>
-              </div>
-              <div>
-                <i class="nes-icon is-small star"></i>
-              </div>
-            </div>
-          </div>
-          <div id="stars-area" style="display: flex;">
-            <i class="nes-icon is-medium star"></i>
-            <i class="nes-icon is-medium star"></i>
-            <i class="nes-icon is-medium star"></i>
-            <i class="nes-icon is-medium star"></i>
-            <i class="nes-icon is-medium star"></i>
-            <div class="flex-column">
-              <div>
-                <i class="nes-icon is-small star"></i>
-              </div>
-              <div>
-                <i class="nes-icon is-small star"></i>
-              </div>
+            <div>
+              <i class="nes-icon is-small star"></i>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="container flex-center">
-      <table class="nes-table is-bordered is-centered wide-center-table">
-        <tr>
-          <th>op code</th>
-          <th>type</th>
-          <th>action</th>
-        </tr>
-      </table>
-    </div>
-    <div class="container flex-center test">
-        <table id="instruction-table" class="nes-table is-bordered is-centered wide-center-table">
-          </table>
     </div>
   </div>
   <script type="module" src="./javascript/script.js"></script>
