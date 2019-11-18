@@ -4,9 +4,12 @@ import Screen from './models/screen.js';
 import Sound from './models/sound.js';
 import autoBind  from './utils/autobinder.js';
 
-
+/**
+ * helper class that combines all the chip8 pieces and gives setter/getter access
+ * also the class that runs the loop to keep the emulation loop going
+ */
 export default class Chip8Wrapper {
-  constructor(debugCallback) {
+  constructor() {
     autoBind(this);
     this.debugCallback = debugCallback || function () {};
     this.loop = 0;
