@@ -1,1 +1,1 @@
-blinky.15puzzle.blitz.brix.ibm.guess.connect4.invaders.maze.merlin.missle.names.txt.pong.hidden.puzzle.pong2.tank.tetris.ufo.tictac.verbox.vers.wipeoff.kaleid.syzygy.
+15puzzle,blinky,blitz,brix,connect4,guess,hidden,ibm,invaders,kaleid,merlin,pong,missle,puzzle,pong2,syzygy,tetris,maze,tictac,tank,ufo,verbox,wipeoff,vers,

@@ -68,7 +68,7 @@ import Chip8Wrapper from './chip8wrapper.js';
     if (event.target.checked) {
       registerTable.classList.remove('hidden');
       debugExtras.classList.remove('hidden');
-      emulator.setEmuDebugCallback((state, numBase) => {
+      emulator.setEmuDebugFunc((state, numBase) => {
         let prefix = '';
         if (numBase === 16) {
           prefix = '0x';
@@ -199,7 +199,7 @@ import Chip8Wrapper from './chip8wrapper.js';
 
   btnStep.addEventListener('click', () => {
     emulator.pauseEmu();
-    emulator.emulateEmuCycle();
+    emulator.emulateCycle();
     emulator.pauseEmu();
   });
 

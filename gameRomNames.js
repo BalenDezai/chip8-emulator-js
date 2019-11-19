@@ -9,7 +9,7 @@ fs.readdir(pathToFolder, (error, files) => {
   } else {
     files.forEach(file => {
       if (file !== 'names') {
-        fs.appendFile(pathToFileWithNames, `${file}.`, (err) => {
+        fs.appendFile(pathToFileWithNames, `${file},`, (err) => {
           if (err) {
             console.log(err);
           }
