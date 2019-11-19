@@ -1,23 +1,43 @@
 import Instruction from '../utils/instruction.js';
-
+/**
+ * chip8 cpu. This handles reading and executing instructions from the ROM,
+ * manages what to render  on the screen, what audio to play.
+ * Is the general CPU and memory of the chip8
+ *
+ *
+ * all the instruction handling, memory handling, screen rendering, etc.
+ * are all done after Cowgod's Chip-8 Technical Reference v1.0
+ * http://devernay.free.fr/hacks/chip8/C8TECH10.HTM
+ */
 export default class Chip8 {
+  /**
+   * @param {object} screen handle all drawing/redrawing of sprites
+   * @param {object} keyboard handle all keyboard interaction
+   * @param {object} sound sound context to handle sound on/off
+   */
   constructor(screen, keyboard, sound) {
     this.screen = screen;
     this.keyboard = keyboard;
     this.sound = sound;
     this.instruction = new Instruction();
+    //  cycle execution speed
     this.speed = 10;
     this.soundOff = true;
   }
 
   resetState() {
+    // 16 8-bit registers
     this.v = new Uint8Array(16);
+    // 4096 byte RAM, fisrt 512 bytes are reserved for the interpreter (stuff like font)
+    // program starts at 512
     this.memory = new Uint8Array(1024 * 4);
     this.stack = [];
     this.screen.clearScreen();
     this.keyboard.clear();
+    // memory addr register
     this.i = 0;
     this.programCounter = 0x200;
+    //  points to topmost level of the stack
     this.stackPointer = 0;
     this.delayTimer = 0;
     this.soundTimer = 0;
@@ -25,8 +45,12 @@ export default class Chip8 {
     this.loadFontsIntoState();
   }
 
+  /**
+   * @param {Uint8Array} ROM binary data
+   */
   loadROM(ROM) {
     for (let i = 0, size = ROM.length; i < size; i += 1) {
+      //  start loading ROM in memory from 0x200
       this.memory[0x200 + i] = ROM[i];
     }
   }
@@ -34,8 +58,13 @@ export default class Chip8 {
   emulateCycle() {
     for (let i = 0; i < this.speed; i += 1) {
       if (!this.pause) {
+        // each instruction is 2 bytes (16bit) long
+        // read value in memory of current PC and bitshift to left by 8
         const firstByte = this.memory[this.programCounter] << 8;
+        // read next value (PC++) in memory
         const secondByte = this.memory[this.programCounter + 1];
+        // add both values together by bitwise OR to create a 16bit (2 byte) instruction
+        // this is because the memory of chip8 is only 8 bit (1byte)
         this.instruction.setInstructionCode(firstByte | secondByte);
         this.performInstruction(this.instruction);
       }
@@ -47,6 +76,7 @@ export default class Chip8 {
   }
 
   performInstruction(instructionCode) {
+    // to signal that this instruction executed and move to next
     this.programCounter += 2;
     switch (instructionCode.getCatagory()) {
       case 0x0: this.operationCode0(instructionCode); break;
@@ -65,13 +95,15 @@ export default class Chip8 {
       case 0xD: this.operationCodeD(instructionCode); break;
       case 0xE: this.operationCodeE(instructionCode); break;
       case 0xF: this.operationCodeF(instructionCode); break;
-      default: break; // implement
+      default: throw new Error(`Unknown opcode ${instructionCode.getInstrunctionCode().toString(16)}`);
     }
   }
 
   operationCode0(instruction) {
     switch (instruction.getKK()) {
       case 0xE0: this.screen.clearScreen(); break;
+      // sets program counter to adderss at top of stack
+      //  subtracts 1 from stackpointer
       case 0xEE:
         this.stackPointer = this.stackPointer -= 1;
         this.programCounter = this.stack[this.stackPointer];
@@ -80,22 +112,39 @@ export default class Chip8 {
     }
   }
 
+  /**
+   * interpreter sets adderss to NNN
+   * @param {Object} instruction
+   */
   operationCode1(instruction) {
     this.programCounter = instruction.getAddr();
   }
 
+  /**
+   * calls subroutine at NNN
+   * @param {Object} instruction
+   */
   operationCode2(instruction) {
+    //  put the program counter on the top of the stack
     this.stack[this.stackPointer] = this.programCounter;
     this.stackPointer += 1;
     this.programCounter = instruction.getAddr();
   }
 
+  /**
+   * skip next instruction if Vx = kk
+   * @param {*} instruction
+   */
   operationCode3(instruction) {
     if (this.v[instruction.getX()] === instruction.getKK()) {
       this.programCounter += 2;
     }
   }
 
+  /**
+   * skip next instruction if Vx != KK
+   * @param {*} instruction
+   */
   operationCode4(instruction) {
     if (this.v[instruction.getX()] !== instruction.getKK()) {
       this.programCounter += 2;
