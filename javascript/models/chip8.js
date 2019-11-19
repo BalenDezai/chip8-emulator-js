@@ -28,7 +28,7 @@ export default class Chip8 {
   resetState() {
     // 16 8-bit registers
     this.v = new Uint8Array(16);
-    // 4096 byte RAM, fisrt 512 bytes are reserved for the interpreter (stuff like font)
+    // 4096 byte RAM, first 512 bytes are reserved for the interpreter (stuff like font)
     // program starts at 512
     this.memory = new Uint8Array(1024 * 4);
     this.stack = [];
@@ -78,7 +78,7 @@ export default class Chip8 {
   performInstruction(instructionCode) {
     // to signal that this instruction executed and move to next
     this.programCounter += 2;
-    switch (instructionCode.getCatagory()) {
+    switch (instructionCode.getCategory()) {
       case 0x0: this.operationCode0(instructionCode); break;
       case 0x1: this.operationCode1(instructionCode); break;
       case 0x2: this.operationCode2(instructionCode); break;
@@ -102,10 +102,10 @@ export default class Chip8 {
   operationCode0(instruction) {
     switch (instruction.getKK()) {
       case 0xE0: this.screen.clearScreen(); break;
-      // sets program counter to adderss at top of stack
-      //  subtracts 1 from stackpointer
+      // return from subroutine
       case 0xEE:
         this.stackPointer = this.stackPointer -= 1;
+        // sets program counter to address at top of stack
         this.programCounter = this.stack[this.stackPointer];
         break;
       default: break;
@@ -113,7 +113,7 @@ export default class Chip8 {
   }
 
   /**
-   * interpreter sets adderss to NNN
+   * interpreter sets address to NNN
    * @param {Object} instruction
    */
   operationCode1(instruction) {
@@ -151,16 +151,28 @@ export default class Chip8 {
     }
   }
 
+  /**
+   * skip next instruction if Vx = Vy
+   * @param {*} instruction
+   */
   operationCode5(instruction) {
     if (this.v[instruction.getX()] === this.v[instruction.getY()]) {
       this.programCounter += 2;
     }
   }
 
+  /**
+   * set Vx to KK
+   * @param {*} instruction
+   */
   operationCode6(instruction) {
     this.v[instruction.getX()] = instruction.getKK();
   }
 
+  /**
+   * set Vx = Vx + KK
+   * @param {*} instruction
+   */
   operationCode7(instruction) {
     let val = instruction.getKK() + this.v[instruction.getX()];
     if (val > 255) {
@@ -169,10 +181,14 @@ export default class Chip8 {
     this.v[instruction.getX()] = val;
   }
 
+  /**
+   * perform any of the operations that start with 8
+   * @param {*} instruction
+   */
   operationCode8(instruction) {
     const x = instruction.getX();
     const y = instruction.getY();
-    switch (instruction.getSubCatagory()) {
+    switch (instruction.getSubCategory()) {
       case 0x0: this.v[x] = this.v[y]; break;
       case 0x1: this.v[x] |= this.v[y]; break;
       case 0x2: this.v[x] &= this.v[y]; break;
@@ -200,6 +216,7 @@ export default class Chip8 {
         }
         break;
       case 0x6:
+        // get the last bit of Vx and assign
         this.v[0xF] = this.v[x] & 0x1;
         // use bitwise shift to divide by 2
         this.v[x] >>= 1;
@@ -227,20 +244,38 @@ export default class Chip8 {
     }
   }
 
+  /**
+   * skip next instruction if Vx != Vy
+   * @param {*} instruction
+   */
   operationCode9(instruction) {
     if (this.v[instruction.getX()] !== this.v[instruction.getY()]) {
       this.programCounter += 2;
     }
   }
 
+  /**
+   * set memory address register to NNN
+   * @param {*} instruction
+   */
   operationCodeA(instruction) {
     this.i = instruction.getAddr();
   }
 
+  /**
+   * set programCounter to NNN + V0x0
+   * @param {*} instruction
+   */
   operationCodeB(instruction) {
     this.programCounter = instruction.getAddr() + this.v[0x0];
   }
 
+  /**
+   * Generate random number from 0 to 255
+   * AND with KK,
+   * result is stored in Vc
+   * @param {*} instruction
+   */
   operationCodeC(instruction) {
     // generate random number between 0 and 255
     const val = Math.floor(Math.random() * 0xFF);
@@ -248,10 +283,14 @@ export default class Chip8 {
     this.v[instruction.getX()] = val & instruction.getKK();
   }
 
+  /**
+   * draws n-byte sprite starting at memory[i] at (Vx, Vy)
+   * @param {*} instruction
+   */
   operationCodeD(instruction) {
     let sprite;
     const width = 8;
-    const height = instruction.getSubCatagory();
+    const height = instruction.getSubCategory();
     const xPortion = instruction.getX();
     const yPortion = instruction.getY();
     this.v[0xF] = 0;

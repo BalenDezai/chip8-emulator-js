@@ -11,7 +11,7 @@ export default class Instruction {
     this.instructionCode = instructionCode;
   }
 
-  getCatagory() {
+  getCategory() {
     return (this.instructionCode & 0xF000) >> 12;
   }
 
@@ -31,7 +31,7 @@ export default class Instruction {
     return this.instructionCode & 0x00FF;
   }
 
-  getSubCatagory() {
+  getSubCategory() {
     return this.instructionCode & 0x000F;
   }
 }
