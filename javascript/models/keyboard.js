@@ -1,10 +1,15 @@
-import autoBind from './../utils/autobinder.js';
+import autoBind from "../utils/autobinder.js";
 
+/**
+ * Handles key press and keyboard instructions
+ */
 export default class Keyboard {
   constructor() {
     autoBind(this);
     this.keysPressed = [];
     this.onNextKeyPress = function () {};
+    // custom mapping from key pressed to hex
+    // does not follow the technical reference mapping
     this.keyMapping = {
       0x0: 'X',
       0x1: '1',
@@ -25,17 +30,34 @@ export default class Keyboard {
     };
   }
 
+  /**
+   * event handler for keyDown event
+   * simulates key being pressed
+   * @param {KeyboardEvent} event args passed from event
+   */
   keyDown(event) {
+    // decode from code to string
     const key = String.fromCharCode(event.which);
+    // insert to know which key from the mapping was pressed
     this.keysPressed[key] = true;
     Object.entries(this.keyMapping).forEach(([oKey, oVal]) => {
       const keyCode = this.keyMapping[oVal];
+      // if key pressed exists
       if (keyCode === key) {
-        this.onNextKeyPress(parseInt(oKey, 10));
+        try {
+          this.onNextKeyPress(parseInt(oKey, 10));
+        } finally {
+          this.onNextKeyPress = function () {};
+        }
       }
     });
   }
 
+  /**
+   * event handler for keyUp event
+   * simulates key being unpressed
+   * @param {KeyboardEvent} event args passed from event
+   */
   keyUp(event) {
     const key = String.fromCharCode(event.which);
     this.keysPressed[key] = false;
@@ -43,9 +65,13 @@ export default class Keyboard {
 
   isKeyPressed(keyCode) {
     const keyPressed = this.keyMapping[keyCode];
+    // return the values truthy value
     return !!this.keysPressed[keyPressed];
   }
 
+  /**
+   * clears all keys pressed
+   */
   clear() {
     this.keysPressed = [];
   }

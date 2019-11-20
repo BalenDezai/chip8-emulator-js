@@ -66,7 +66,7 @@ export default class Chip8Wrapper {
    */
   setEmuScreenBlinkLevel(blinkLevel) {
     if (blinkLevel < 0 || blinkLevel > 3) throw new Error('invalid blink level');
-    this.chip8.screen.blinkLevel = blinkLevel;
+    this.chip8.screen.blinkReductionLevel = blinkLevel;
   }
 
   emulateCycle() {

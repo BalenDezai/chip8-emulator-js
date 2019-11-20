@@ -307,7 +307,7 @@ export default class Chip8 {
       for (let x = 0; x < width; x += 1) {
         // if sprite is to be drawn
         if ((sprite & 0x80) > 0) {
-          if (this.screen.setPixels2(this.v[xPortion] + x, this.v[yPortion] + y)) {
+          if (this.screen.setPixels(this.v[xPortion] + x, this.v[yPortion] + y)) {
             this.v[0xF] = 1;
           }
         }
