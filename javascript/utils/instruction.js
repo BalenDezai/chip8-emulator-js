@@ -14,7 +14,7 @@ export default class Instruction {
     this.instructionCode = instructionCode || 0;
   }
 
-  getInstrunctionCode() {
+  getInstructionCode() {
     return this.instructionCode;
   }
 

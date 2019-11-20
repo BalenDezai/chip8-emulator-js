@@ -20,8 +20,10 @@ import Chip8Wrapper from './chip8wrapper.js';
   const registerTable = document.getElementById('register-table');
   const registerTableData = registerTable.getElementsByTagName('td');
   const debugExtras = document.getElementById('debug-extra');
+  // to check if there are exactly 0 or extra debug elements are shown
   let rowCounter = 0;
 
+  // start up the emulator and assign things needed
   const emulator = new Chip8Wrapper();
   emulator.setEmuCanvasCtx(canvas.getContext('2d'));
   await emulator.loadROMNames();
@@ -31,8 +33,15 @@ import Chip8Wrapper from './chip8wrapper.js';
     || window.oAudioContext
     || window.msAudioContext);
 
-  const extraDebugCheckbox = function (id, event, cellWidth, creationNumBase) {
-    if (event.target.checked) {
+  /**
+   * Create or remove table cells
+   * @param {string} id id to assign cell after creation
+   * @param {boolean} checked whether a checkbox is checked or not
+   * @param {number} cellWidth width size of the cell to create
+   * @param {number} creationNumBase to determine what the cell should contain
+   */
+  const extraDebugCheckbox = function (id, checked, cellWidth, creationNumBase) {
+    if (checked) {
       const thTr = document.getElementById('extra-debug-th-tr');
       const tdTr = document.getElementById('extra-debug-td-tr');
       const headerCell = thTr.insertCell();
@@ -66,6 +75,7 @@ import Chip8Wrapper from './chip8wrapper.js';
 
   debugRegCheckbox.addEventListener('change', (event) => {
     if (event.target.checked) {
+      // show the tables
       registerTable.classList.remove('hidden');
       debugExtras.classList.remove('hidden');
       emulator.setEmuDebugFunc((state, numBase) => {
@@ -74,9 +84,12 @@ import Chip8Wrapper from './chip8wrapper.js';
           prefix = '0x';
         }
 
+        // write out each V register from 0 to f to the cells
         for (let i = 0; i < 15; i += 1) {
           registerTableData[i].innerHTML = `${prefix}${state.v[i].toString(numBase)}`;
         }
+
+        // write out the stack pointer, program counter, and i addresses and registers
         const sp = document.getElementById('sp-td');
         if (sp) {
           sp.innerHTML = `${prefix}${state.stackPointer.toString(numBase)}`;

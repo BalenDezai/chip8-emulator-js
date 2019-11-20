@@ -106,7 +106,7 @@ export default class Chip8 {
       case 0xD: this.operationCodeD(instructionCode); break;
       case 0xE: this.operationCodeE(instructionCode); break;
       case 0xF: this.operationCodeF(instructionCode); break;
-      default: throw new Error(`Unknown opcode ${instructionCode.getInstrunctionCode().toString(16)}`);
+      default: throw new Error(`Unknown opcode ${instructionCode.getInstructionCode().toString(16)}`);
     }
   }
 
@@ -251,7 +251,7 @@ export default class Chip8 {
           this.v[x] -= 256;
         }
         break;
-      default: throw new Error(`Unknown opcode ${instruction.getInstrunctionCode().toString(16)}`);
+      default: throw new Error(`Unknown opcode ${instruction.getInstructionCode().toString(16)}`);
     }
   }
 
@@ -343,7 +343,7 @@ export default class Chip8 {
           this.programCounter += 2;
         }
         break;
-      default: throw new Error(`Unknown opcode ${instruction.getInstrunctionCode().toString(16)}`);
+      default: throw new Error(`Unknown opcode ${instruction.getInstructionCode().toString(16)}`);
     }
   }
 
@@ -358,7 +358,7 @@ export default class Chip8 {
       case 0x33: this.operationCodeF33(instruction); break;
       case 0x55: this.operationCodeF55(instruction); break;
       case 0x65: this.operationCodeF65(instruction); break;
-      default: throw new Error(`Unknown opcode ${instruction.getInstrunctionCode().toString(16)}`);
+      default: throw new Error(`Unknown opcode ${instruction.getInstructionCode().toString(16)}`);
     }
   }
 
