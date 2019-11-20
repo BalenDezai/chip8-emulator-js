@@ -20,7 +20,7 @@ export default class Sound {
   }
 
   /**
-   * stops playing audio
+   * Stops playing audio
    */
   stop() {
     this.oscillator.stop();
@@ -28,7 +28,7 @@ export default class Sound {
   }
 
   /**
-   * starts playing audio
+   * Starts playing audio
    */
   start() {
     this.oscillator = this.context.createOscillator();

@@ -30,6 +30,9 @@ export default class Chip8 {
     this.soundOff = true;
   }
 
+  /**
+   * Resets whole cpu state
+   */
   resetState() {
     // 16 8-bit registers
     this.v = new Uint8Array(16);
@@ -60,6 +63,9 @@ export default class Chip8 {
     }
   }
 
+  /**
+   * Emulates cpu cycle
+   */
   emulateCycle() {
     for (let i = 0; i < this.speed; i += 1) {
       if (!this.pause) {
@@ -118,7 +124,7 @@ export default class Chip8 {
   }
 
   /**
-   * interpreter sets address to NNN
+   * Interpreter sets address to NNN
    * @param {Instruction} instruction
    */
   operationCode1(instruction) {
@@ -126,7 +132,7 @@ export default class Chip8 {
   }
 
   /**
-   * calls subroutine at NNN
+   * Calls subroutine at NNN
    * @param {Instruction} instruction
    */
   operationCode2(instruction) {
@@ -137,7 +143,7 @@ export default class Chip8 {
   }
 
   /**
-   * skip next instruction if Vx = kk
+   * Skip next instruction if Vx = kk
    * @param {Instruction} instruction
    */
   operationCode3(instruction) {
@@ -147,7 +153,7 @@ export default class Chip8 {
   }
 
   /**
-   * skip next instruction if Vx != KK
+   * Skip next instruction if Vx != KK
    * @param {Instruction} instruction
    */
   operationCode4(instruction) {
@@ -157,7 +163,7 @@ export default class Chip8 {
   }
 
   /**
-   * skip next instruction if Vx = Vy
+   * Skip next instruction if Vx = Vy
    * @param {Instruction} instruction
    */
   operationCode5(instruction) {
@@ -167,7 +173,7 @@ export default class Chip8 {
   }
 
   /**
-   * set Vx to KK
+   * Set Vx to KK
    * @param {Instruction} instruction
    */
   operationCode6(instruction) {
@@ -175,7 +181,7 @@ export default class Chip8 {
   }
 
   /**
-   * set Vx = Vx + KK
+   * Set Vx = Vx + KK
    * @param {Instruction} instruction
    */
   operationCode7(instruction) {
@@ -187,7 +193,7 @@ export default class Chip8 {
   }
 
   /**
-   * handle any instruction regarding the 16 8-bit registers
+   * Handle any instruction regarding the 16 8-bit registers
    * @param {Instruction} instruction
    */
   operationCode8(instruction) {
@@ -250,7 +256,7 @@ export default class Chip8 {
   }
 
   /**
-   * skip next instruction if Vx != Vy
+   * Skip next instruction if Vx != Vy
    * @param {Instruction} instruction
    */
   operationCode9(instruction) {
@@ -260,7 +266,7 @@ export default class Chip8 {
   }
 
   /**
-   * set memory address register to NNN
+   * Set memory address register to NNN
    * @param {Instruction} instruction
    */
   operationCodeA(instruction) {
@@ -268,7 +274,7 @@ export default class Chip8 {
   }
 
   /**
-   * set programCounter to NNN + V0x0
+   * Set programCounter to NNN + V0x0
    * @param {Instruction} instruction
    */
   operationCodeB(instruction) {
@@ -276,7 +282,7 @@ export default class Chip8 {
   }
 
   /**
-   * set Vx = random byte bitwise AND KK
+   * Set Vx = random byte bitwise AND KK
    * @param {Instruction} instruction
    */
   operationCodeC(instruction) {
@@ -287,7 +293,7 @@ export default class Chip8 {
   }
 
   /**
-   * draws n-byte sprite starting at memory[i] at (Vx, Vy)
+   * Draws n-byte sprite starting at memory[i] at (Vx, Vy)
    * @param {Instruction} instruction
    */
   operationCodeD(instruction) {
@@ -320,9 +326,9 @@ export default class Chip8 {
   }
 
   /**
- * handle all instructions related to key pressing
- * @param {Instruction} instruction
- */
+   * Handle all instructions related to key pressing
+   * @param {Instruction} instruction
+   */
   operationCodeE(instruction) {
     switch (instruction.getKK()) {
       // skip next instruction if key with value Vx is pressed
@@ -358,7 +364,7 @@ export default class Chip8 {
 
 
   /**
-   * set Vx = delay timer
+   * Set Vx = delay timer
    * @param {Instruction} instruction
    */
   operationCodeF07(instruction) {
@@ -366,7 +372,7 @@ export default class Chip8 {
   }
 
   /**
-   * wait for key press. store value of key in Vx
+   * Wait for key press. store value of key in Vx
    * @param {Instruction} instruction
    */
   operationCodeF0A(instruction) {
@@ -378,7 +384,7 @@ export default class Chip8 {
   }
 
   /**
-   * set delay timer = Vx
+   * Set delay timer = Vx
    * @param {Instruction} instruction
    */
   operationCodeF15(instruction) {
@@ -386,7 +392,7 @@ export default class Chip8 {
   }
 
   /**
-   * set sound timer = Vx
+   * Set sound timer = Vx
    * @param {Instruction} instruction
    */
   operationCodeF18(instruction) {
@@ -394,15 +400,15 @@ export default class Chip8 {
   }
 
   /**
- * set i register = i + Vx
- * @param {Instruction} instruction
- */
+   * Set i register = i + Vx
+   * @param {Instruction} instruction
+   */
   operationCodeF1E(instruction) {
     this.i += this.v[instruction.getX()];
   }
 
   /**
-   * set register i = location of sprite for digit Vx
+   * Set register i = location of sprite for digit Vx
    * @param {Instruction} instruction
    */
   operationCodeF29(instruction) {
@@ -410,7 +416,7 @@ export default class Chip8 {
   }
 
   /**
-   * store hundreds, tens and ones of Vx in memory 1, 2 , 3
+   * Store hundreds, tens and ones of Vx in memory 1, 2 , 3
    * @param {Instruction} instruction
    */
   operationCodeF33(instruction) {
@@ -424,7 +430,7 @@ export default class Chip8 {
   }
 
   /**
-   * set registers V0 to Vx in memory starting at location I (register)
+   * Set registers V0 to Vx in memory starting at location I (register)
    * @param {Instruction} instruction
    */
   operationCodeF55(instruction) {
@@ -434,7 +440,7 @@ export default class Chip8 {
   }
 
   /**
-   * read registers V0 to Vx from memory starting at location I (register)
+   * Read registers V0 to Vx from memory starting at location I (register)
    * @param {Instruction} instruction
    */
   operationCodeF65(instruction) {
@@ -444,7 +450,7 @@ export default class Chip8 {
   }
 
   /**
-   * updates delay and sound timers after every cycle
+   * Updates delay and sound timers after every cycle
    */
   updateTimers() {
     if (this.delayTimer > 0) {

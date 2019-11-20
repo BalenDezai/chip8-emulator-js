@@ -1,3 +1,7 @@
+/**
+ * not used
+ * @param {*} instruction 
+ */
 export default function disassemble(instruction) {
   switch (instruction.getCatagory()) {
     case 0x0:

@@ -31,7 +31,7 @@ export default class Keyboard {
   }
 
   /**
-   * event handler for keyDown event
+   * Event handler for keyDown event
    * simulates key being pressed
    * @param {KeyboardEvent} event args passed from event
    */
@@ -54,7 +54,7 @@ export default class Keyboard {
   }
 
   /**
-   * event handler for keyUp event
+   * Event handler for keyUp event
    * simulates key being unpressed
    * @param {KeyboardEvent} event args passed from event
    */
@@ -70,7 +70,7 @@ export default class Keyboard {
   }
 
   /**
-   * clears all keys pressed
+   * Clear pressed keys
    */
   clear() {
     this.keysPressed = [];
