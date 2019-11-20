@@ -25,7 +25,7 @@ import Chip8Wrapper from './chip8wrapper.js';
   const emulator = new Chip8Wrapper();
   emulator.setEmuCanvasCtx(canvas.getContext('2d'));
   await emulator.loadROMNames();
-  emulator.setEmuSound(window.AudioContext
+  emulator.setEmuSoundCtx(window.AudioContext
     || window.webkitAudioContext
     || window.mozAudioContext
     || window.oAudioContext
@@ -101,14 +101,14 @@ import Chip8Wrapper from './chip8wrapper.js';
 
   soundOffCheckbox.addEventListener('change', (event) => {
     if (event.target.checked) {
-      emulator.setEmuSoundVolume(true);
+      emulator.setEmuSoundEnabled(true);
     }
   });
 
 
   soundOnCheckbox.addEventListener('change', (event) => {
     if (event.target.checked) {
-      emulator.setEmuSoundVolume(false);
+      emulator.setEmuSoundEnabled(false);
     }
   });
 
@@ -164,7 +164,7 @@ import Chip8Wrapper from './chip8wrapper.js';
     emulator.setEmuScreenBlinkLevel(event.target.value);
   });
   speedSelector.addEventListener('change', (event) => {
-    emulator.setEmuSpeed(event.target.value);
+    emulator.setEmuSpeed(parseInt(event.target.value, 10));
   });
 
   window.addEventListener('keydown', emulator.keyDownEvent, false);

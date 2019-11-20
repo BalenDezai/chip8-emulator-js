@@ -1,4 +1,7 @@
 import Instruction from '../utils/instruction.js';
+import Screen from './screen.js';
+import Keyboard from './keyboard.js'
+import Sound from './sound.js';
 /**
  * chip8 cpu. This handles reading and executing instructions from the ROM,
  * manages what to render  on the screen, what audio to play.
@@ -7,18 +10,20 @@ import Instruction from '../utils/instruction.js';
  *
  * all the instruction handling, memory handling, screen rendering, etc.
  * are all done after Cowgod's Chip-8 Technical Reference v1.0
+ *
+ *
  * http://devernay.free.fr/hacks/chip8/C8TECH10.HTM
  */
 export default class Chip8 {
   /**
-   * @param {object} screen handle all drawing/redrawing of sprites
-   * @param {object} keyboard handle all keyboard interaction
-   * @param {object} sound sound context to handle sound on/off
+   * @param {Screen} screen handle all drawing/redrawing of sprites
+   * @param {Keyboard} keyboard handle all keyboard interaction
+   * @param {Sound} sound sound context to handle sound on/off
    */
   constructor(screen, keyboard, sound) {
-    this.screen = screen;
-    this.keyboard = keyboard;
-    this.sound = sound;
+    this.screen = screen || new Screen();
+    this.keyboard = keyboard || new Keyboard();
+    this.sound = sound || new Sound();
     this.instruction = new Instruction();
     //  cycle execution speed
     this.speed = 10;
@@ -114,7 +119,7 @@ export default class Chip8 {
 
   /**
    * interpreter sets address to NNN
-   * @param {Object} instruction
+   * @param {Instruction} instruction
    */
   operationCode1(instruction) {
     this.programCounter = instruction.getAddr();
@@ -122,7 +127,7 @@ export default class Chip8 {
 
   /**
    * calls subroutine at NNN
-   * @param {Object} instruction
+   * @param {Instruction} instruction
    */
   operationCode2(instruction) {
     //  put the program counter on the top of the stack
@@ -133,7 +138,7 @@ export default class Chip8 {
 
   /**
    * skip next instruction if Vx = kk
-   * @param {*} instruction
+   * @param {Instruction} instruction
    */
   operationCode3(instruction) {
     if (this.v[instruction.getX()] === instruction.getKK()) {
@@ -143,7 +148,7 @@ export default class Chip8 {
 
   /**
    * skip next instruction if Vx != KK
-   * @param {*} instruction
+   * @param {Instruction} instruction
    */
   operationCode4(instruction) {
     if (this.v[instruction.getX()] !== instruction.getKK()) {
@@ -153,7 +158,7 @@ export default class Chip8 {
 
   /**
    * skip next instruction if Vx = Vy
-   * @param {*} instruction
+   * @param {Instruction} instruction
    */
   operationCode5(instruction) {
     if (this.v[instruction.getX()] === this.v[instruction.getY()]) {
@@ -163,7 +168,7 @@ export default class Chip8 {
 
   /**
    * set Vx to KK
-   * @param {*} instruction
+   * @param {Instruction} instruction
    */
   operationCode6(instruction) {
     this.v[instruction.getX()] = instruction.getKK();
@@ -171,7 +176,7 @@ export default class Chip8 {
 
   /**
    * set Vx = Vx + KK
-   * @param {*} instruction
+   * @param {Instruction} instruction
    */
   operationCode7(instruction) {
     let val = instruction.getKK() + this.v[instruction.getX()];
@@ -182,8 +187,8 @@ export default class Chip8 {
   }
 
   /**
-   * perform any of the operations that start with 8
-   * @param {*} instruction
+   * handle any instruction regarding the 16 8-bit registers
+   * @param {Instruction} instruction
    */
   operationCode8(instruction) {
     const x = instruction.getX();
@@ -240,13 +245,13 @@ export default class Chip8 {
           this.v[x] -= 256;
         }
         break;
-      default: break;
+      default: throw new Error(`Unknown opcode ${instruction.getInstrunctionCode().toString(16)}`);
     }
   }
 
   /**
    * skip next instruction if Vx != Vy
-   * @param {*} instruction
+   * @param {Instruction} instruction
    */
   operationCode9(instruction) {
     if (this.v[instruction.getX()] !== this.v[instruction.getY()]) {
@@ -256,7 +261,7 @@ export default class Chip8 {
 
   /**
    * set memory address register to NNN
-   * @param {*} instruction
+   * @param {Instruction} instruction
    */
   operationCodeA(instruction) {
     this.i = instruction.getAddr();
@@ -264,17 +269,15 @@ export default class Chip8 {
 
   /**
    * set programCounter to NNN + V0x0
-   * @param {*} instruction
+   * @param {Instruction} instruction
    */
   operationCodeB(instruction) {
     this.programCounter = instruction.getAddr() + this.v[0x0];
   }
 
   /**
-   * Generate random number from 0 to 255
-   * AND with KK,
-   * result is stored in Vc
-   * @param {*} instruction
+   * set Vx = random byte bitwise AND KK
+   * @param {Instruction} instruction
    */
   operationCodeC(instruction) {
     // generate random number between 0 and 255
@@ -285,7 +288,7 @@ export default class Chip8 {
 
   /**
    * draws n-byte sprite starting at memory[i] at (Vx, Vy)
-   * @param {*} instruction
+   * @param {Instruction} instruction
    */
   operationCodeD(instruction) {
     let sprite;
@@ -294,35 +297,47 @@ export default class Chip8 {
     const xPortion = instruction.getX();
     const yPortion = instruction.getY();
     this.v[0xF] = 0;
-    for (let x = 0; x < height; x += 1) {
-      sprite = this.memory[this.i + x];
 
-      for (let y = 0; y < width; y += 1) {
+    // read N bytes from memory
+    // to know where to draw vertically along the Y axis
+    for (let y = 0; y < height; y += 1) {
+      sprite = this.memory[this.i + y];
+
+      // draw certain pixels horizontally along the X axis
+      for (let x = 0; x < width; x += 1) {
+        // if sprite is to be drawn
         if ((sprite & 0x80) > 0) {
-          if (this.screen.setPixels2(this.v[xPortion] + y, this.v[yPortion] + x)) {
+          if (this.screen.setPixels2(this.v[xPortion] + x, this.v[yPortion] + y)) {
             this.v[0xF] = 1;
           }
         }
         sprite <<= 1;
       }
+
       this.screen.vfFrame = this.v[0xF];
       this.screen.render();
     }
   }
 
+  /**
+ * handle all instructions related to key pressing
+ * @param {Instruction} instruction
+ */
   operationCodeE(instruction) {
     switch (instruction.getKK()) {
+      // skip next instruction if key with value Vx is pressed
       case 0x9E:
         if (this.keyboard.isKeyPressed(this.v[instruction.getX()])) {
           this.programCounter += 2;
         }
         break;
+      // skip next instruction if key with the value Vx is not pressed
       case 0xA1:
         if (!this.keyboard.isKeyPressed(this.v[instruction.getX()])) {
           this.programCounter += 2;
         }
         break;
-      default: break;
+      default: throw new Error(`Unknown opcode ${instruction.getInstrunctionCode().toString(16)}`);
     }
   }
 
@@ -337,15 +352,23 @@ export default class Chip8 {
       case 0x33: this.operationCodeF33(instruction); break;
       case 0x55: this.operationCodeF55(instruction); break;
       case 0x65: this.operationCodeF65(instruction); break;
-      default: break;
+      default: throw new Error(`Unknown opcode ${instruction.getInstrunctionCode().toString(16)}`);
     }
   }
 
 
+  /**
+   * set Vx = delay timer
+   * @param {Instruction} instruction
+   */
   operationCodeF07(instruction) {
     this.v[instruction.getX()] = this.delayTimer;
   }
 
+  /**
+   * wait for key press. store value of key in Vx
+   * @param {Instruction} instruction
+   */
   operationCodeF0A(instruction) {
     this.pause = true;
     this.keyboard.onNextKeyPress = function onNextKeyPress(key) {
@@ -354,45 +377,75 @@ export default class Chip8 {
     }.bind(this);
   }
 
+  /**
+   * set delay timer = Vx
+   * @param {Instruction} instruction
+   */
   operationCodeF15(instruction) {
     this.delayTimer = this.v[instruction.getX()];
   }
 
+  /**
+   * set sound timer = Vx
+   * @param {Instruction} instruction
+   */
   operationCodeF18(instruction) {
     this.soundTimer = this.v[instruction.getX()];
   }
 
+  /**
+ * set i register = i + Vx
+ * @param {Instruction} instruction
+ */
   operationCodeF1E(instruction) {
     this.i += this.v[instruction.getX()];
   }
 
+  /**
+   * set register i = location of sprite for digit Vx
+   * @param {Instruction} instruction
+   */
   operationCodeF29(instruction) {
     this.i = this.v[instruction.getX()] * 5;
   }
 
+  /**
+   * store hundreds, tens and ones of Vx in memory 1, 2 , 3
+   * @param {Instruction} instruction
+   */
   operationCodeF33(instruction) {
-    // this.memory[this.i] = parseInt(this.v[instruction.getX()] / 100, 16);
-    // this.memory[this.i + 1] = parseInt((this.v[instruction.getX()] % 100) / 10, 16);
-    // this.memory[this.i + 2] = this.v[instruction.getX()] % 10;
     let number = this.v[instruction.getX()];
     for (let i = 3; i > 0; i -= 1) {
+      // parse and assign the first (from right) mnumber
       this.memory[this.i + i - 1] = parseInt(number % 10, 10);
+      // divide by 10 to shave off a decimal
       number /= 10;
     }
   }
 
+  /**
+   * set registers V0 to Vx in memory starting at location I (register)
+   * @param {Instruction} instruction
+   */
   operationCodeF55(instruction) {
     for (let i = 0; i <= instruction.getX(); i += 1) {
       this.memory[this.i + i] = this.v[i];
     }
   }
 
+  /**
+   * read registers V0 to Vx from memory starting at location I (register)
+   * @param {Instruction} instruction
+   */
   operationCodeF65(instruction) {
     for (let i = 0; i <= instruction.getX(); i += 1) {
       this.v[i] = this.memory[this.i + i];
     }
   }
 
+  /**
+   * updates delay and sound timers after every cycle
+   */
   updateTimers() {
     if (this.delayTimer > 0) {
       this.delayTimer -= 1;
@@ -407,6 +460,10 @@ export default class Chip8 {
     }
   }
 
+  /**
+   * loads the hexadecimal values of the FONTS from the technical reference into memory
+   * starting at location 0
+   */
   loadFontsIntoState() {
     const fonts = [
       // 0

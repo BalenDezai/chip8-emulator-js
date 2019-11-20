@@ -1,6 +1,4 @@
 import Chip8 from './models/chip8.js';
-import Keyboard from './models/keyboard.js';
-import Screen from './models/screen.js';
 import Sound from './models/sound.js';
 import autoBind from './utils/autobinder.js';
 
@@ -16,7 +14,7 @@ export default class Chip8Wrapper {
     autoBind(this);
     this.debugFunc = debugFunc || function () {};
     this.loop = 0;
-    this.chip8 = new Chip8(new Screen(), new Keyboard());
+    this.chip8 = new Chip8();
     this.ROMS = [];
     this.keyDownEvent = this.chip8.keyboard.keyDown;
     this.keyUpEvent = this.chip8.keyboard.keyUp;
