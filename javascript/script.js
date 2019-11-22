@@ -126,15 +126,15 @@ import Chip8Wrapper from './chip8wrapper.js';
   });
 
   pcCheckbox.addEventListener('change', (event) => {
-    extraDebugCheckbox('pc', event, '100px', emulator.debugNumBase);
+    extraDebugCheckbox('pc', event.target.checked, '85px', emulator.debugNumBase);
   });
 
   spCheckbox.addEventListener('change', (event) => {
-    extraDebugCheckbox('sp', event, '100px', emulator.debugNumBase);
+    extraDebugCheckbox('sp', event.target.checked, '85px', emulator.debugNumBase);
   });
 
   iCheckbox.addEventListener('change', (event) => {
-    extraDebugCheckbox('i', event, '100px', emulator.debugNumBase);
+    extraDebugCheckbox('i', event.target.checked, '80px', emulator.debugNumBase);
   });
 
   numBaseSelector.addEventListener('change', (event) => {
