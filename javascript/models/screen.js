@@ -75,10 +75,9 @@ export default class Screen {
     }
 
     // on the (x, y) axis, flip the bit
-    // then return the flipped bit
     const location = x + (y * this.displayWidth);
     this.screen[location] ^= 1;
-    return !this.screen[location];
+    return this.screen[location];
   }
 
   /**

@@ -115,9 +115,9 @@ export default class Chip8 {
       case 0xE0: this.screen.clearScreen(); break;
       // return from subroutine
       case 0xEE:
-        this.stackPointer = this.stackPointer -= 1;
         // sets program counter to address at top of stack
         this.programCounter = this.stack[this.stackPointer];
+        this.stackPointer = this.stackPointer -= 1;
         break;
       default: break;
     }
@@ -136,9 +136,9 @@ export default class Chip8 {
    * @param {Instruction} instruction
    */
   operationCode2(instruction) {
+    this.stackPointer += 1;
     //  put the program counter on the top of the stack
     this.stack[this.stackPointer] = this.programCounter;
-    this.stackPointer += 1;
     this.programCounter = instruction.getAddr();
   }
 
@@ -185,10 +185,7 @@ export default class Chip8 {
    * @param {Instruction} instruction
    */
   operationCode7(instruction) {
-    let val = instruction.getKK() + this.v[instruction.getX()];
-    if (val > 255) {
-      val -= 256;
-    }
+    const val = instruction.getKK() + this.v[instruction.getX()];
     this.v[instruction.getX()] = val;
   }
 
@@ -211,9 +208,6 @@ export default class Chip8 {
         } else {
           this.v[0xF] = 0;
         }
-        if (this.v[x] > 255) {
-          this.v[x] -= 256;
-        }
         break;
       case 0x5:
         if (this.v[x] > this.v[y]) {
@@ -222,9 +216,6 @@ export default class Chip8 {
           this.v[0xF] = 0;
         }
         this.v[x] -= this.v[y];
-        if (this.v[x] < 0) {
-          this.v[x] += 256;
-        }
         break;
       case 0x6:
         // get the last bit of Vx and assign
@@ -233,23 +224,17 @@ export default class Chip8 {
         this.v[x] >>= 1;
         break;
       case 0x7:
-        if (this.v[x] > this.v[y]) {
-          this.v[0xF] = 0;
-        } else {
+        if (this.v[y] > this.v[x]) {
           this.v[0xF] = 1;
+        } else {
+          this.v[0xF] = 0;
         }
         this.v[x] = this.v[y] - this.v[x];
-        if (this.v[x] < 0) {
-          this.v[x] += 256;
-        }
         break;
       case 0xE:
         this.v[0xF] = +(this.v[x] & 0x80);
         // multiply by 2
         this.v[x] = this.v[x] << 1;
-        if (this.v[x] > 255) {
-          this.v[x] -= 256;
-        }
         break;
       default: throw new Error(`Unknown opcode ${instruction.getInstructionCode().toString(16)}`);
     }
@@ -313,7 +298,10 @@ export default class Chip8 {
       for (let x = 0; x < width; x += 1) {
         // if sprite is to be drawn
         if ((sprite & 0x80) > 0) {
+          // if no pixel was erased
           if (this.screen.setPixels(this.v[xPortion] + x, this.v[yPortion] + y)) {
+            this.v[0xF] = 0;
+          } else {
             this.v[0xF] = 1;
           }
         }
